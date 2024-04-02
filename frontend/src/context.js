@@ -28,7 +28,7 @@ const SocketProvider = ({ children }) => {
 
   const login = async (data, navigate) => {
     try {
-      const response = await axios.post('http://5.35.90.184:3333/login', data);
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/login`, data);
       if ('error' in response.data) {
         alert(response.data.error);
         setError(response.data.error);
@@ -46,7 +46,7 @@ const SocketProvider = ({ children }) => {
 
   const verify = async (data, navigate) => {
     try {
-      const response = await axios.post('http://5.35.90.184:3333/verify', data);
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/verify`, data);
       if ('error' in response.data) {
         alert(response.data.error);
         setError(response.data.error);
@@ -74,7 +74,7 @@ const SocketProvider = ({ children }) => {
 
   const resendCode = async (data) => {
     try {
-      const response = await axios.post('http://5.35.90.184:3333/resend-code', data);
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/resend-code`, data);
       if ('error' in response.data) {
         alert(response.data.error);
         setError(response.data.error);
@@ -87,7 +87,7 @@ const SocketProvider = ({ children }) => {
 
   const refreshAccessToken = async () => {
     try {
-      const response = await axios.post('http://5.35.90.184:3333/refresh', null, {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/refresh`, null, {
         headers: {
           Authorization: "Bearer " + refreshToken
         }
@@ -121,7 +121,7 @@ const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (!socket) {
-      setSocket(io('ws://5.35.90.184:3333', {
+      setSocket(io(process.env.REACT_APP_SERVER_ENDPOINT.replace("http", "ws"), {
         transportOptions: {
           polling: {
             maxHttpBufferSize: 1e8,
