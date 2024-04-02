@@ -171,3 +171,41 @@
 .send .fixed-button {
   transform: rotate(90deg);
 }
+
+.fixed-message {
+  position: fixed;
+  bottom: 27.5px;
+  right: 95px;
+  
+
+  display: flex;
+  height: 15px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(102, 102, 102, 0.35) 0%, rgba(51, 51, 51, 0.50) 100%);
+
+  transition: transform 0.2s, opacity 0.4s;
+
+  backdrop-filter: blur(5px);
+
+  font-size: 12px;
+  font-weight: 300;
+}
+
+
+.fixed-message > div:nth-child(2) {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  position: absolute;
+  right: -13.5px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: linear-gradient(180deg, rgba(102, 102, 102, 0.35) 0%, rgba(51, 51, 51, 0.50) 100%);
+}

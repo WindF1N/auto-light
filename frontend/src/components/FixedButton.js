@@ -89,10 +89,16 @@ const FixedButton = (props) => {
       <div className={`fixed-button ${isProButtonVisible ? 'visible' : ''}`} onClick={!props.send ? handleDoubleClick : props.onClick}>
         <img src={require("./images/light-logo.svg").default} className="" alt="light logo" />
       </div>
-      {canGoBack &&
-      <div className="fixed-button-back" onClick={goBack}>
-        <img src={require("./images/arrow-right.svg").default} className="" alt="arrow" />
-      </div>}
+      {canGoBack ?
+        <div className="fixed-button-back" onClick={goBack}>
+          <img src={require("./images/arrow-right.svg").default} className="" alt="arrow" />
+        </div>
+      :
+        <div className="fixed-message">
+          <div></div>
+          <div></div>
+          <div>Я тут, если что</div>
+        </div>}
       {(canScrollUp || props.send) &&
       <div className={`fixed-button-up ${isProButtonVisible ? 'visible' : ''}`} onClick={!props.send ? scrollUp : props.onDelete}>
         {!props.send ?

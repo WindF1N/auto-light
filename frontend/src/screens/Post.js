@@ -171,8 +171,8 @@ function Post() {
             }
           ]} navigate={navigate}/>
           <div className={styles.buttons}>
-            <Button text="Написать" />
-            <Button text="Позвонить" />
+            <Button text="Написать" small={true} />
+            <Button text="Позвонить" small={true} />
           </div>
         </div>
       </div>

@@ -219,6 +219,17 @@ function Main() {
           </div>
         </div>
       </div>
+      <div className={styles.block}>
+        <div className={styles.promo}>
+          <div>
+            <img src={require("../components/images/light-logo.svg").default} alt="" />
+          </div>
+          <div>
+            <span>Откройте все приемущества</span>
+            <span>Скачайте или добавьте <br/> приложение на экран "Домой"</span>
+          </div>
+        </div>
+      </div>
       <div className={styles.posts}>
         {posts.map((post, index) => (
           <Post data={post} key={index}/>

@@ -48,7 +48,7 @@ function Post({ data }) {
           </div>
           <div className={styles.information}>
             <span>{data.user?.username}</span>
-            <span>{data.user?.city}</span>
+            {data.user?.city && <span>{data.user?.city}</span>}
           </div>
         </div>
         <div className={styles.like} onClick={handleFavorite}>

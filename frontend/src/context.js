@@ -26,6 +26,8 @@ const SocketProvider = ({ children }) => {
   const [ users, setUsers ] = useState([]);
   const [ userPosts, setUserPosts ] = useState([]);
 
+  const [ select, setSelect ] = useState("transport");
+
   const login = async (data, navigate) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/login`, data);
@@ -244,6 +246,8 @@ const SocketProvider = ({ children }) => {
                                      setUserPosts,
                                      users,
                                      setUsers,
+                                     select, 
+                                     setSelect,
 
                                      login,
                                      verify,

@@ -7,6 +7,7 @@ import SearchInput from '../components/SearchInput';
 import FlexVariables from '../components/FlexVariables';
 import Title from '../components/Title';
 import Grid from '../components/Grid';
+import RandomGrid from '../components/RandomGrid';
 import UserList from '../components/UserList';
 import { useMainContext } from '../context';
 
@@ -14,7 +15,7 @@ function Search() {
 
   const navigate = useNavigate();
 
-  const { account, sendMessage, message, setMessage, posts, users } = useMainContext();
+  const { account, sendMessage, message, setMessage, posts, users, select, setSelect } = useMainContext();
 
   const [variables, setVariables] = useState([
     {
@@ -38,10 +39,9 @@ function Search() {
       label: "Сервисы"
     },
   ]);
-  const [select, setSelect] = useState("transport");
   const [transport, setTransport] = useState(posts || []);
-  const [services, setServices] = useState([]);
-  const [dealers, setDealers] = useState([]);;
+  const [services, setServices] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [dealers, setDealers] = useState([]);
   const [accounts, setAccounts] = useState(users || []);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function Search() {
       {select === "services" &&
         <>
           <Title text="Автоуслуги" allowGrid={true} allowBlocks={true}/>
-          <Grid items={services} navigate={navigate} />
+          <RandomGrid items={services} navigate={navigate} />
         </>}
       {select === "dealers" &&
         <>

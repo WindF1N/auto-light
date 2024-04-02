@@ -38,12 +38,12 @@
   gap: 2.5px;
 }
 
-.information > span:first-child {
+.information > span:nth-child(1) {
   font-size: 15px;
   font-weight: 300;
 }
 
-.information > span:last-child {
+.information > span:nth-child(2) {
   font-size: 12px;
   font-weight: 300;
   color: #888;
