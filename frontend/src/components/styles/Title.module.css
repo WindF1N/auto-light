@@ -1,0 +1,24 @@
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 0;
+  height: 32px;
+}
+
+.text {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.views {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.view img {
+  width: 30px;
+  height: 30px;
+}

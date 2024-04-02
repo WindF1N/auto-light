@@ -1,0 +1,162 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding-top: 10px;
+}
+
+.header > div:first-child {
+  width: 50%;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header > div:first-child > img {
+  width: 80%;
+}
+
+.header > div:last-child {
+  font-size: 11px;
+  font-weight: 300;
+  text-align: right;
+
+  flex-shrink: 1;
+
+  width: 100%;
+
+  color: #ccc;
+}
+
+.socialMedias {
+  padding: 20px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+
+  border-bottom: .5px solid #191919;
+}
+
+.socialMedia {
+  background-color: #18181A;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+
+  gap: 10px;
+
+  width: 100%;
+  padding: 10px 0;
+}
+
+.socialMedia > div:first-child {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialMedia > div:first-child img {
+  width: 50%;
+}
+
+.socialMedia > div:last-child {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.block {
+  display: flex;
+  flex-flow: column;
+  padding: 20px 0;
+  border-bottom: .5px solid #191919;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+  padding-bottom: 10px;
+}
+
+.title > div {
+  display: flex;
+  align-items: center;
+
+  font-size: 13px;
+  font-weight: 300;
+
+  gap: 5px;
+}
+
+.itemsWrapper {
+  height: 35vw;
+  overflow: hidden;
+
+  width: calc(100% + 20px);
+  margin-left: -10px;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+
+  width: auto;
+  overflow-x: auto;
+
+  padding: 0 10px;
+  padding-bottom: 30px;
+}
+
+.item {
+  background-color: #18181A;
+
+  width: 35vw;
+  height: 35vw;
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: flex-end;
+  flex-flow: column;
+
+  border-radius: 8px;
+}
+
+.item span {
+  font-size: 13px;
+  font-weight: 300;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  padding-right: 10px;
+}
+
+.item div {
+  font-size: 11px;
+  font-weight: 300;
+  color: #aaa;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  padding-right: 10px;
+}
+
+.posts {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+
+  padding-bottom: 150px;
+}

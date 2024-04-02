@@ -1,0 +1,180 @@
+.wrapper {
+  margin-left: -10px;
+  width: 100vw;
+  overflow-y: auto;
+  display: flex;
+  flex-flow: column;
+}
+
+.price {
+  font-size: 28px;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-top: 10px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.action img {
+  width: 30px;
+  height: 30px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 300;
+  padding: 5px 0 0 0;
+}
+
+.address {
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 300;
+  padding: 5px 0 20px 0;
+
+  max-width: 70%;
+
+  color: #aaa;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.createdAt {
+  font-size: 11px;
+  font-weight: 300;
+  color: #aaa;
+
+  padding-bottom: 10px;
+}
+
+.viewCount {
+  font-size: 11px;
+  font-weight: 300;
+  color: #aaa;
+
+  padding-bottom: 10px;
+}
+
+.user {
+  padding: 10px 10px 20px 10px;
+  border-top: .5px solid #191919;
+  border-bottom: .5px solid #191919;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.descriptionBlock {
+  padding: 0 10px;
+  border-top: .5px solid #191919;
+  margin-top: 20px;
+}
+
+.description {
+  font-size: 14px;
+  font-weight: 300;
+
+  width: 95%;
+
+  color: #ddd;
+}
+
+.arrow {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.lastComment {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
+  border-top: .5px solid #191919;
+  border-bottom: .5px solid #191919;
+
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.lastComment > div:first-child {
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.lastComment > div:first-child span {
+  color: #888;
+  font-weight: 400;
+  margin-left: 2.5px;
+}
+
+.comment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comment img {
+  width: 25px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.comment span {
+  font-size: 12px;
+}
+
+.count {
+  position: absolute;
+  top: 2.5vw;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.count > div {
+  background-color: rgba(17, 17, 17, .5);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 300;
+}
+
+.anotherTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 0 15px 0;
+}
+
+.anotherTitle > div:last-child {
+  display: flex;
+  align-items: center;
+
+  font-size: 13px;
+  font-weight: 300;
+
+  gap: 5px;
+}
