@@ -10,6 +10,7 @@ import FormLIGHT from '../components/FormLIGHT';
 import CarView from '../components/CarView';
 import Button from '../components/Button';
 import LoadingHover from '../components/LoadingHover';
+import ScrollToError from '../components/ScrollToError';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
@@ -1308,10 +1309,6 @@ function Add() {
   const handleSubmit = (values) => {
     if (images.length === 0) {
       setPhotosError("Добавьте хотя бы 1 фотографию");
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
       return
     }
     images.forEach((image, index) => {
@@ -1341,7 +1338,7 @@ function Add() {
 
   return (
     <div className="view">
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} style={{marginBottom: 20}}>
         <Slider images={images}
                 imagesDivRef={imagesDivRef}
                 setActiveImage={setActiveImage}
@@ -1361,254 +1358,255 @@ function Add() {
                       maxImagesCount={10}
                       />}
       </div>
-      <Title text="Автомобиль" />
-        <Formik
-          initialValues={{
-            "input1": "Автомобили",
-            "input2": "",
-            "input3": "",
-            "input4": "",
-            "input5": "",
-            "input6": "",
-            "input7": "",
-            "input8": "",
-            "input9": "Седан",
-            "input10": "Бензин",
-            "input11": "",
-            "input12": "",
-            "input13": "",
-            "input14": "",
-            "input15": "Левый",
-            "input16": "",
-            "input17": "",
-            "input18": "Передний",
-            "input19": "Механика",
-            "input20": "",
-            "input21": "",
-            "input22": "",
-            "input23": "Не выбрано",
-            "input24": "",
-            "input25": "",
-            "input26": "",
-            "input27": "",
-            "input28": "",
-            "input29": "",
-            "input30": "",
-            "input31": "",
-            "input32": "",
-            "input33": "",
-            "input34": "",
-            "input35": "",
-            "input36": "",
-            "input37": "",
-            "input38": "",
-            "input39": "",
-            "input40": "",
-            "input41": "",
-            "input42": "",
-            "input43": "",
-            "input44": "",
-            "input45": "",
-            "input46": "",
-            "input47": "",
-            "input48": "",
-            "input49": "",
-            "input50": "",
-            "input51": "",
-            "input52": "",
-            "input53": "",
-            "input54": "",
-            "input55": "",
-            "input1-1": "",
-            "input2-1": "",
-            "input3-1": "",
-            "input4-1": "",
-            "input5-1": "",
-            "input6-1": "",
-            "input7-1": "Не выбрано",
-            "input8-1": "",
-            "input9-1": "",
-            "input10-1": "",
-            "input11-1": "",
-            "input12-1": "",
-            "input13-1": "",
-            "input14-1": "",
-            "input15-1": "",
-            "input16-1": "",
-            "input17-1": "",
-            "input18-1": "",
-            "input19-1": "",
-            "input20-1": "",
-            "input21-1": "",
-            "input22-1": "",
-            "input23-1": "Не выбрано",
-            "input24-1": "",
-            "input25-1": "",
-            "input26-1": "",
-            "input27-1": "",
-            "input28-1": "",
-            "input29-1": "",
-            "input30-1": "",
-            "input31-1": "",
-            "input32-1": "",
-            "input33-1": "",
-            "input34-1": "",
-            "input35-1": "",
-            "input36-1": "",
-            "input37-1": "",
-            "input38-1": "",
-            "input39-1": "",
-            "input40-1": "",
-            "input41-1": "",
-            "input42-1": "",
-            "input43-1": "",
-            "input44-1": "",
-            "input45-1": "",
-            "input46-1": "",
-            "input47-1": "",
-            "input48-1": "",
-            "input49-1": "",
-            "input50-1": "",
-            "input51-1": "",
-            "input52-1": "",
-            "input53-1": "",
-            "input54-1": "",
-            "input55-1": "",
-            "input56-1": "",
-            "input57-1": "",
-            "input58-1": "",
-            "input59-1": "",
-            "input60-1": "",
-            "input61-1": "",
-            "input62-1": "",
-            "input63-1": "",
-            "input64-1": "",
-            "input65-1": "",
-            "input66-1": "",
-            "input67-1": "",
-            "input68-1": "",
-            "input69-1": "",
-            "input70-1": "",
-            "input71-1": "",
-            "input72-1": "",
-            "input73-1": "",
-            "input74-1": "",
-            "input75-1": "",
-            "input76-1": "",
-            "input77-1": "",
-            "input78-1": "",
-            "input79-1": "",
-            "input80-1": "",
-            "input81-1": "",
-            "input82-1": "",
-            "input83-1": "",
-            "input84-1": "",
-            "input85-1": "",
-            "input86-1": "",
-            "input87-1": "",
-            "input88-1": "",
-            "input89-1": "",
-            "input90-1": "",
-            "input91-1": "",
-            "input92-1": "",
-            "input93-1": "",
-            "input94-1": "",
-            "input95-1": "",
-            "input96-1": "",
-            "input97-1": "",
-            "input98-1": "",
-            "input99-1": "",
-            "input100-1": "",
-            "input101-1": "",
-            "input102-1": "",
-            "input103-1": "",
-            "input104-1": "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-        {({ errors, touched, handleSubmit }) => (
-          <Form>
-            <div className={styles.flex20gap}>
-              <FormLIGHT inputs={Object.entries(inputs).slice(0, 4)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT title="Автомобиль" inputs={Object.entries(inputs).slice(4, 9)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs).slice(9, 19)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT title="Комплект документов" inputs={Object.entries(inputs).slice(19, 24)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT title="Дополнительно" inputs={Object.entries(inputs).slice(24, 31)} setInputs={setInputs} errors={errors} touched={touched} />
-              <CarView onlyView={true} carId="1234" damages={damages} />
-              {damages.length > 0 &&
-              <div>
-                <div className={styles.title}>Повреждения кузова</div>
-                <div className={styles.texts}>
-                  <div className={styles.label}>
-                    <div>Название детали</div>
-                    <div>Повреждения</div>
-                    <div>Ремонт</div>
-                  </div>
-                  {damages.map((damage, index) => (
-                    <div className={styles.text} key={index}>
-                      <div>{damage.type}</div>
-                      <div>{damage.input1}</div>
-                      <div>{damage.input3} {damage.input4} {damage.input5}</div>
-                    </div>
-                  ))}
+      <Formik
+        initialValues={{
+          "input1": "Автомобили",
+          "input2": "",
+          "input3": "",
+          "input4": "",
+          "input5": "",
+          "input6": "",
+          "input7": "",
+          "input8": "",
+          "input9": "Седан",
+          "input10": "Бензин",
+          "input11": "",
+          "input12": "",
+          "input13": "",
+          "input14": "",
+          "input15": "Левый",
+          "input16": "",
+          "input17": "",
+          "input18": "Передний",
+          "input19": "Механика",
+          "input20": "",
+          "input21": "",
+          "input22": "",
+          "input23": "Не выбрано",
+          "input24": "",
+          "input25": "",
+          "input26": "",
+          "input27": "",
+          "input28": "",
+          "input29": "",
+          "input30": "",
+          "input31": "",
+          "input32": "",
+          "input33": "",
+          "input34": "",
+          "input35": "",
+          "input36": "",
+          "input37": "",
+          "input38": "",
+          "input39": "",
+          "input40": "",
+          "input41": "",
+          "input42": "",
+          "input43": "",
+          "input44": "",
+          "input45": "",
+          "input46": "",
+          "input47": "",
+          "input48": "",
+          "input49": "",
+          "input50": "",
+          "input51": "",
+          "input52": "",
+          "input53": "",
+          "input54": "",
+          "input55": "",
+          "input1-1": "",
+          "input2-1": "",
+          "input3-1": "",
+          "input4-1": "",
+          "input5-1": "",
+          "input6-1": "",
+          "input7-1": "Не выбрано",
+          "input8-1": "",
+          "input9-1": "",
+          "input10-1": "",
+          "input11-1": "",
+          "input12-1": "",
+          "input13-1": "",
+          "input14-1": "",
+          "input15-1": "",
+          "input16-1": "",
+          "input17-1": "",
+          "input18-1": "",
+          "input19-1": "",
+          "input20-1": "",
+          "input21-1": "",
+          "input22-1": "",
+          "input23-1": "Не выбрано",
+          "input24-1": "",
+          "input25-1": "",
+          "input26-1": "",
+          "input27-1": "",
+          "input28-1": "",
+          "input29-1": "",
+          "input30-1": "",
+          "input31-1": "",
+          "input32-1": "",
+          "input33-1": "",
+          "input34-1": "",
+          "input35-1": "",
+          "input36-1": "",
+          "input37-1": "",
+          "input38-1": "",
+          "input39-1": "",
+          "input40-1": "",
+          "input41-1": "",
+          "input42-1": "",
+          "input43-1": "",
+          "input44-1": "",
+          "input45-1": "",
+          "input46-1": "",
+          "input47-1": "",
+          "input48-1": "",
+          "input49-1": "",
+          "input50-1": "",
+          "input51-1": "",
+          "input52-1": "",
+          "input53-1": "",
+          "input54-1": "",
+          "input55-1": "",
+          "input56-1": "",
+          "input57-1": "",
+          "input58-1": "",
+          "input59-1": "",
+          "input60-1": "",
+          "input61-1": "",
+          "input62-1": "",
+          "input63-1": "",
+          "input64-1": "",
+          "input65-1": "",
+          "input66-1": "",
+          "input67-1": "",
+          "input68-1": "",
+          "input69-1": "",
+          "input70-1": "",
+          "input71-1": "",
+          "input72-1": "",
+          "input73-1": "",
+          "input74-1": "",
+          "input75-1": "",
+          "input76-1": "",
+          "input77-1": "",
+          "input78-1": "",
+          "input79-1": "",
+          "input80-1": "",
+          "input81-1": "",
+          "input82-1": "",
+          "input83-1": "",
+          "input84-1": "",
+          "input85-1": "",
+          "input86-1": "",
+          "input87-1": "",
+          "input88-1": "",
+          "input89-1": "",
+          "input90-1": "",
+          "input91-1": "",
+          "input92-1": "",
+          "input93-1": "",
+          "input94-1": "",
+          "input95-1": "",
+          "input96-1": "",
+          "input97-1": "",
+          "input98-1": "",
+          "input99-1": "",
+          "input100-1": "",
+          "input101-1": "",
+          "input102-1": "",
+          "input103-1": "",
+          "input104-1": "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+      {({ errors, touched, handleSubmit }) => (
+        <Form>
+          <div className={styles.flex20gap}>
+            <FormLIGHT inputs={Object.entries(inputs).slice(0, 1)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(1, 4)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Автомобиль" inputs={Object.entries(inputs).slice(4, 9)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(9, 19)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Комплект документов" inputs={Object.entries(inputs).slice(19, 24)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Дополнительно" inputs={Object.entries(inputs).slice(24, 31)} setInputs={setInputs} errors={errors} touched={touched} />
+            <CarView onlyView={true} carId="1234" damages={damages} />
+            {damages.length > 0 &&
+            <div>
+              <div className={styles.title}>Повреждения кузова</div>
+              <div className={styles.texts}>
+                <div className={styles.label}>
+                  <div>Название детали</div>
+                  <div>Повреждения</div>
+                  <div>Ремонт</div>
                 </div>
-              </div>}
-              <div>
-                <div className={styles.title}>Фотографии кузова</div>
-                <MiniSlider images={images2}
-                            activeImage={activeImage2}
-                            setActiveImage={setActiveImage2}
-                            canAdd={true}
-                            setImages={setImages2}
-                            maxImagesCount={30}
-                            canDelete={true}
-                            style={{backgroundColor: "#000", padding: "5px 0 20px 0"}}
-                            />
+                {damages.map((damage, index) => (
+                  <div className={styles.text} key={index}>
+                    <div>{damage.type}</div>
+                    <div>{damage.input1}</div>
+                    <div>{damage.input3} {damage.input4} {damage.input5}</div>
+                  </div>
+                ))}
               </div>
-              <div className={styles.strangeInput} onClick={() => setMore(true)}>
-                <div>
-                  Дополнительные опции
-                </div>
-                <div>
-                  <img src={require("../components/images/arrow-right.svg").default} alt="" />
-                </div>
-              </div>
-              <FormLIGHT inputs={Object.entries(inputs).slice(31, 32)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs).slice(32, 34)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs).slice(34, 42)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs).slice(42, 43)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT title="Продавец" inputs={Object.entries(inputs).slice(43, 46)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT title="Размещено на сайтах" inputs={Object.entries(inputs).slice(46, 49)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs).slice(49, 52)} setInputs={setInputs} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs).slice(52, 55)} setInputs={setInputs} errors={errors} touched={touched} />
-              <Button text="Разместить" handleClick={handleSubmit} />
-              {more &&
-              <div className={styles.moreWrapper}>
-                <div className={styles.more}>
-                  <div className={styles.header}>
-                    <div onClick={() => setMore(false)}>Отменить</div>
-                    <div onClick={() => setMore(false)}>Готово</div>
-                  </div>
-                  <Title text="Дополнительные опции" />
-                  <div className={styles.flex20gap}>
-                    <FormLIGHT title="Вспомогательные системы" inputs={Object.entries(inputs).slice(55, 77)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Фары" inputs={Object.entries(inputs).slice(77, 85)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Салон" inputs={Object.entries(inputs).slice(85, 102)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Боковые зеркала" inputs={Object.entries(inputs).slice(102, 106)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Стёкла" inputs={Object.entries(inputs).slice(106, 113)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Руль и центральная панель" inputs={Object.entries(inputs).slice(113, 126)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Сохранность автомобиля" inputs={Object.entries(inputs).slice(126, 131)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Мультимедия" inputs={Object.entries(inputs).slice(131, 145)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Кузов" inputs={Object.entries(inputs).slice(145, 151)} setInputs={setInputs} errors={errors} touched={touched} />
-                    <FormLIGHT title="Колёса" inputs={Object.entries(inputs).slice(151)} setInputs={setInputs} errors={errors} touched={touched} />
-                  </div>
-                </div>
-              </div>}
+            </div>}
+            <div>
+              <div className={styles.title}>Фотографии кузова</div>
+              <MiniSlider images={images2}
+                          activeImage={activeImage2}
+                          setActiveImage={setActiveImage2}
+                          canAdd={true}
+                          setImages={setImages2}
+                          maxImagesCount={30}
+                          canDelete={true}
+                          style={{backgroundColor: "#000", padding: "5px 0 20px 0"}}
+                          />
             </div>
-          </Form>
-        )}
-        </Formik>
+            <div className={styles.strangeInput} onClick={() => setMore(true)}>
+              <div>
+                Дополнительные опции
+              </div>
+              <div>
+                <img src={require("../components/images/arrow-right.svg").default} alt="" />
+              </div>
+            </div>
+            <FormLIGHT inputs={Object.entries(inputs).slice(31, 32)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(32, 34)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(34, 42)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(42, 43)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Продавец" inputs={Object.entries(inputs).slice(43, 46)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Размещено на сайтах" inputs={Object.entries(inputs).slice(46, 49)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(49, 52)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(52, 55)} setInputs={setInputs} errors={errors} touched={touched} />
+            <Button text="Разместить" handleClick={handleSubmit} />
+            {more &&
+            <div className={styles.moreWrapper}>
+              <div className={styles.more}>
+                <div className={styles.header}>
+                  <div onClick={() => setMore(false)}>Отменить</div>
+                  <div onClick={() => setMore(false)}>Готово</div>
+                </div>
+                <Title text="Дополнительные опции" />
+                <div className={styles.flex20gap}>
+                  <FormLIGHT title="Вспомогательные системы" inputs={Object.entries(inputs).slice(55, 77)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Фары" inputs={Object.entries(inputs).slice(77, 85)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Салон" inputs={Object.entries(inputs).slice(85, 102)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Боковые зеркала" inputs={Object.entries(inputs).slice(102, 106)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Стёкла" inputs={Object.entries(inputs).slice(106, 113)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Руль и центральная панель" inputs={Object.entries(inputs).slice(113, 126)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Сохранность автомобиля" inputs={Object.entries(inputs).slice(126, 131)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Мультимедия" inputs={Object.entries(inputs).slice(131, 145)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Кузов" inputs={Object.entries(inputs).slice(145, 151)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Колёса" inputs={Object.entries(inputs).slice(151)} setInputs={setInputs} errors={errors} touched={touched} />
+                </div>
+              </div>
+            </div>}
+          </div>
+          <ScrollToError/>
+        </Form>
+      )}
+      </Formik>
       <FixedButton />
       {saving && <LoadingHover />}
     </div>

@@ -3,6 +3,7 @@
 
 .input {
   position: relative;
+  overflow: hidden;
 }
 
 .input input[type="text"], .input input[type="number"] {
@@ -57,6 +58,11 @@
   font-weight: 300;
   transition: .2s;
   color: #aaa;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: calc(100% - 20px);
 }
 
 .input.radio, .input.select {

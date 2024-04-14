@@ -1,7 +1,6 @@
-import styles from './styles/Main.module.css';
+import styles from './styles/Search.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Post from '../components/Post';
 import FixedButton from '../components/FixedButton';
 import SearchInput from '../components/SearchInput';
 import FlexVariables from '../components/FlexVariables';
@@ -27,6 +26,10 @@ function Search() {
       label: "Услуги"
     },
     {
+      value: "services_",
+      label: "Сервисы"
+    },
+    {
       value: "dealers",
       label: "Дилеры"
     },
@@ -34,13 +37,171 @@ function Search() {
       value: "accounts",
       label: "Аккаунты"
     },
-    {
-      value: "services_",
-      label: "Сервисы"
-    },
   ]);
   const [transport, setTransport] = useState(posts || []);
-  const [services, setServices] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [services, setServices] = useState([
+    {
+      title: "Деньги под залог ПТС",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Лизинг автомобилей",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Автоюрист бесплатная консультация",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Срочная продажа автомобиля",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Электронный полис е-ОСАГО",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Техническая гарантия на автомобили с пробегом",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Автокредит онлайн без первого взноса",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Автомобили в рассрочку",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Подбор автомобиля",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Обмен автомобиля",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Выкуп автомобиля",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Помощь на дороге",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Оформление переоборудования автомобилей",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Аренда/Прокат автомобилей",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Аукцион автомобилей с пробегом",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Диагностическая карта онлайн",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Автозапчасти",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Онлайн показ автомобиля",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Лизинг авто с пробегом",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Продажа с гарантией и обеспечительным платежём",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Онлайн комиссия",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "ДТП Онлайн",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Комиссионная продажа",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Снятие запретов и ограничений",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Помощь в покупке",
+      views_count: "3.3 млн просмотров"
+    },
+    {
+      title: "Восстановление КБМ",
+      views_count: "3.3 млн просмотров"
+    },
+  ]);
+  const [services_, setServices_] = useState([
+    {
+      title: "Проверка истории автомобиля",
+      views_count: "3.3 млн просмотров",
+      link: "/services/1"
+    },
+    {
+      title: "Оценка стоимости автомобиля",
+      views_count: "3.3 млн просмотров",
+      link: "/services/2"
+    },
+    {
+      title: "Договор купли-продажи",
+      views_count: "3.3 млн просмотров",
+      link: "/services/3"
+    },
+    {
+      title: "Проверить и оплатить штрафы ГИБДД",
+      views_count: "3.3 млн просмотров",
+      link: "/services/4"
+    },
+    {
+      title: "Калькулятор транспортного налога",
+      views_count: "3.3 млн просмотров",
+      link: "/services/5"
+    },
+    {
+      title: "Заявление на регистрацию автомобиля в ГИБДД service-online.su",
+      views_count: "3.3 млн просмотров",
+      link: "/services/6"
+    },
+    {
+      title: "Заявление на замену водительского удостоверения service-online.su",
+      views_count: "3.3 млн просмотров",
+      link: "/services/7"
+    },
+    {
+      title: "Акт приёма-передачи автомобиля service-online.su",
+      views_count: "3.3 млн просмотров",
+      link: "/services/8"
+    },
+    {
+      title: "Правила ПДД",
+      views_count: "3.3 млн просмотров",
+      link: "/services/9"
+    },
+    {
+      title: "Расписка о получении денег за автомобиль",
+      views_count: "3.3 млн просмотров",
+      link: "/services/10"
+    },
+    {
+      title: "Электронный акт осмотра транспортного средства",
+      views_count: "3.3 млн просмотров",
+      link: "/services/11"
+    },
+  ]);
   const [dealers, setDealers] = useState([]);
   const [accounts, setAccounts] = useState(users || []);
 
@@ -63,7 +224,7 @@ function Search() {
   }, [])
 
   return (
-    <div className="view">
+    <div className={styles.view}>
       <SearchInput />
       <FlexVariables variables={variables} select={select} setSelect={setSelect} />
       {select === "transport" &&
@@ -88,7 +249,8 @@ function Search() {
         </>}
       {select === "services_" &&
         <>
-          <Title text="Сервисы"/>
+          <Title text="Сервисы" allowGrid={true} allowBlocks={true}/>
+          <RandomGrid items={services_} navigate={navigate} />
         </>}
       <FixedButton />
     </div>

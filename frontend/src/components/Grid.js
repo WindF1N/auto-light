@@ -35,7 +35,7 @@ function Grid({ items: initialItems, navigate }) {
         return combinedList; // Обновляем состояние posts
       });
     }
-  }, [initialItems, items]);
+  }, [initialItems, items]); 
 
   return (
     <div className={styles.grid}>

@@ -50,11 +50,13 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
                                               onFocus={() => handleFocus(key)}
                                               onBlur={() => handleBlur(key, field.value)}
                                               className={value.error || (errors[key] && touched[key]) ? styles.error : null}
+                                              value={field.value}
                       />
                       : <input {...field} type="text"
                                           onFocus={() => handleFocus(key)}
                                           onBlur={() => handleBlur(key, field.value)}
                                           className={value.error || (errors[key] && touched[key]) ? styles.error : null}
+                                          value={field.value}
                         />}
 
                   </>
@@ -102,7 +104,7 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
                       {...field}
                       id={key}
                       type="checkbox"
-                      value={value.value}
+                      value={field.value}
                     />
                   </>
                 )}
