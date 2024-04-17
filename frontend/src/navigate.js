@@ -14,6 +14,8 @@ import User from './screens/User';
 import Add from './screens/Add';
 import Settings from './screens/Settings';
 import Service from './screens/Service';
+import Page from './screens/Page';
+import Serv from './screens/Serv';
 
 const Navigate = () => {
 
@@ -34,6 +36,8 @@ const Navigate = () => {
             <Route path="/posts/:id/comments" element={<Comments />} />
             <Route path="/users/:username" element={<User />} />
             <Route path="/services/:id" element={<Service />} />
+            <Route path="/page/:id" element={<Page />} />
+            <Route path="/serv/:id" element={<Serv />} />
           </Routes>
         </BrowserRouter>
         : <LoadUserInfo />

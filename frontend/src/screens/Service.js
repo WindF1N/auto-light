@@ -1,6 +1,6 @@
 import styles from './styles/Service.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useMainContext } from '../context';
 import FixedButton from '../components/FixedButton';
 import Title from '../components/Title';
@@ -24,24 +24,102 @@ function Service() {
 
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const { state, setState, accessToken, refreshToken, sendMessage, setLoading, postId, setPostId, message, setMessage } = useMainContext();
+  const { accessToken, refreshToken, why, why2 } = useMainContext();
   const [ select, setSelect ] = useState("check");
-  const [ more, setMore ] = useState(false);
-  const imagesDivRef = useRef();
-  const [ images, setImages ] = useState([]);
-  const [ activeImage, setActiveImage ] = useState(0);
-  const [ photosError, setPhotosError ] = useState(null);
-  const [ images2, setImages2 ] = useState([]);
-  const [ activeImage2, setActiveImage2 ] = useState(null);
-  const [ photosError2, setPhotosError2 ] = useState(null);
   const [ inputs2, setInputs2 ] = useState({
     "input1": {
-      value: null,
+      value: "1 - Республика Адыгея",
       isFocused: false,
       error: null,
       label: "Регион",
-      type: "text"
+      type: "select",
+      choices: [
+        "1 - Республика Адыгея",
+        "2 - Республика Башкортостан",
+        "3 - Республика Бурятия",
+        "4 - Республика Алтай",
+        "5 - Республика Дагестан",
+        "6 - Республика Ингушетия",
+        "7 - Кабардино-Балкарская республика",
+        "8 - Республика Калмыкия",
+        "9 - Карачаево-Черкесская республика",
+        "10 -	Республика Карелия",
+        "11 -	Республика Коми",
+        "12 -	Республика Марий Эл",
+        "13 -	Республика Мордовия",
+        "14 -	Республика Саха (Якутия)",
+        "15 -	Республика Северная Осетия — Алания",
+        "16 -	Республика Татарстан",
+        "17 -	Республика Тыва",
+        "18 -	Удмуртская республика",
+        "19 -	Республика Хакасия",
+        "20 -	Чеченская республика",
+        "21 -	Чувашская республика",
+        "22 -	Алтайский край",
+        "23 -	Краснодарский край",
+        "24 -	Красноярский край",
+        "25 -	Приморский край",
+        "26 -	Ставропольский край",
+        "27 -	Хабаровский край",
+        "28 -	Амурская область",
+        "29 -	Архангельская область",
+        "30 -	Астраханская область",
+        "31 -	Белгородская область",
+        "32 -	Брянская область",
+        "33 -	Владимирская область",
+        "34 -	Волгоградская область",
+        "35 -	Вологодская область",
+        "36 -	Воронежская область",
+        "37	- Ивановская область",
+        "38	- Иркутская область",
+        "39	- Калининградская область",
+        "40	- Калужская область",
+        "41	- Камчатский край",
+        "42	- Кемеровская область",
+        "43	- Кировская область",
+        "44	- Костромская область",
+        "45	- Курганская область",
+        "46 -	Курская область",
+        "47 -	Ленинградская область",
+        "48 -	Липецкая область",
+        "49 -	Магаданская область",
+        "50 -	Московская область",
+        "51 -	Мурманская область",
+        "52 -	Нижегородская область",
+        "53 -	Новгородская область",
+        "54 -	Новосибирская область",
+        "55	- Омская область",
+        "56	- Оренбургская область",
+        "57	- Орловская область",
+        "58	- Пензенская область",
+        "59	- Пермский край",
+        "60	- Псковская область",
+        "61	- Ростовская область",
+        "62	- Рязанская область",
+        "63	- Самарская область",
+        "64	- Саратовская область",
+        "65	- Сахалинская область",
+        "66	- Свердловская область",
+        "67	- Смоленская область",
+        "68	- Тамбовская область",
+        "69	- Тверская область",
+        "70	- Томская область",
+        "71	- Тульская область",
+        "72	- Тюменская область",
+        "73	- Ульяновская область",
+        "74	- Челябинская область",
+        "75	- Забайкальский край",
+        "76	- Ярославская область",
+        "77	- Москва",
+        "78	- Санкт-Петербург",
+        "79	- Еврейская автономная область",
+        "83	- Ненецкий автономный округ",
+        "86	- Ханты-Мансийский автономный округ - Югра",
+        "87	- Чукотский автономный округ",
+        "89	- Ямало-Ненецкий автономный округ",
+        "91	- Республика Крым",
+        "92	- Севастополь",
+      ]
     },
     "input2": {
       value: null,
@@ -128,7 +206,7 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Пробег, км",
+      label: "Пробег",
       type: "text",
       mask: createNumberMask({
         prefix: '',
@@ -141,7 +219,11 @@ function Service() {
         integerLimit: 4, // максимальное количество цифр до запятой
         allowNegative: false,
         allowLeadingZeroes: false,
-      })
+      }),
+      choices: [
+        "км", "мили"
+      ],
+      selectChoice: "км"
     },
     "input12": {
       value: "Оригинал",
@@ -544,31 +626,20 @@ function Service() {
   });
   const [ inputs4, setInputs4 ] = useState({
     "input1": {
-      value: null,
-      isFocused: false,
+      value: "Водительское удостоверение",
       error: null,
-      label: "Водительское удостоверение",
-      type: "text"
+      label: "Документ",
+      type: "select",
+      choices: [
+        "Водительское удостоверение",
+        "Свидетельство о регистрации СТС"
+      ]
     },
     "input2": {
       value: null,
       isFocused: false,
       error: null,
       label: "Номер документа",
-      type: "text"
-    },
-    "input3": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Свидетельство о регистрации СТС",
-      type: "text"
-    },
-    "input4": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Номер свидетельства",
       type: "text"
     },
     "input5": {
@@ -581,11 +652,98 @@ function Service() {
   });
   const [ inputs5, setInputs5 ] = useState({
     "input1": {
-      value: null,
+      value: "1 - Республика Адыгея",
       isFocused: false,
       error: null,
       label: "Регион регистрации ТС",
-      type: "text"
+      type: "select",
+      choices: [
+        "1 - Республика Адыгея",
+        "2 - Республика Башкортостан",
+        "3 - Республика Бурятия",
+        "4 - Республика Алтай",
+        "5 - Республика Дагестан",
+        "6 - Республика Ингушетия",
+        "7 - Кабардино-Балкарская республика",
+        "8 - Республика Калмыкия",
+        "9 - Карачаево-Черкесская республика",
+        "10 -	Республика Карелия",
+        "11 -	Республика Коми",
+        "12 -	Республика Марий Эл",
+        "13 -	Республика Мордовия",
+        "14 -	Республика Саха (Якутия)",
+        "15 -	Республика Северная Осетия — Алания",
+        "16 -	Республика Татарстан",
+        "17 -	Республика Тыва",
+        "18 -	Удмуртская республика",
+        "19 -	Республика Хакасия",
+        "20 -	Чеченская республика",
+        "21 -	Чувашская республика",
+        "22 -	Алтайский край",
+        "23 -	Краснодарский край",
+        "24 -	Красноярский край",
+        "25 -	Приморский край",
+        "26 -	Ставропольский край",
+        "27 -	Хабаровский край",
+        "28 -	Амурская область",
+        "29 -	Архангельская область",
+        "30 -	Астраханская область",
+        "31 -	Белгородская область",
+        "32 -	Брянская область",
+        "33 -	Владимирская область",
+        "34 -	Волгоградская область",
+        "35 -	Вологодская область",
+        "36 -	Воронежская область",
+        "37	- Ивановская область",
+        "38	- Иркутская область",
+        "39	- Калининградская область",
+        "40	- Калужская область",
+        "41	- Камчатский край",
+        "42	- Кемеровская область",
+        "43	- Кировская область",
+        "44	- Костромская область",
+        "45	- Курганская область",
+        "46 -	Курская область",
+        "47 -	Ленинградская область",
+        "48 -	Липецкая область",
+        "49 -	Магаданская область",
+        "50 -	Московская область",
+        "51 -	Мурманская область",
+        "52 -	Нижегородская область",
+        "53 -	Новгородская область",
+        "54 -	Новосибирская область",
+        "55	- Омская область",
+        "56	- Оренбургская область",
+        "57	- Орловская область",
+        "58	- Пензенская область",
+        "59	- Пермский край",
+        "60	- Псковская область",
+        "61	- Ростовская область",
+        "62	- Рязанская область",
+        "63	- Самарская область",
+        "64	- Саратовская область",
+        "65	- Сахалинская область",
+        "66	- Свердловская область",
+        "67	- Смоленская область",
+        "68	- Тамбовская область",
+        "69	- Тверская область",
+        "70	- Томская область",
+        "71	- Тульская область",
+        "72	- Тюменская область",
+        "73	- Ульяновская область",
+        "74	- Челябинская область",
+        "75	- Забайкальский край",
+        "76	- Ярославская область",
+        "77	- Москва",
+        "78	- Санкт-Петербург",
+        "79	- Еврейская автономная область",
+        "83	- Ненецкий автономный округ",
+        "86	- Ханты-Мансийский автономный округ - Югра",
+        "87	- Чукотский автономный округ",
+        "89	- Ямало-Ненецкий автономный округ",
+        "91	- Республика Крым",
+        "92	- Севастополь",
+      ]
     },
     "input2": {
       value: "Не выбрано",
@@ -660,11 +818,14 @@ function Service() {
       type: "text"
     },
     "input3": {
-      value: null,
+      value: why,
       isFocused: false,
       error: null,
       label: "Причина обращения",
-      type: "text"
+      type: "text",
+      handleClick: () => {
+        navigate("/page/1");
+      }
     },
     "input4": {
       value: null,
@@ -741,8 +902,8 @@ function Service() {
       })
     },
     "input12": {
-      value: null,
-      isFocused: false,
+      value: "Отсутствует",
+      isFocused: true,
       error: null,
       label: "Шасси (рама) №",
       type: "text"
@@ -822,7 +983,7 @@ function Service() {
     },
     "input23": {
       value: null,
-      isFocused: true,
+      isFocused: false,
       error: null,
       label: "ФИО заявителя или наименование юридического лица",
       type: "text"
@@ -985,6 +1146,493 @@ function Service() {
       type: "text"
     },
   });
+  const [ inputs7, setInputs7 ] = useState({
+    "input1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Наименование подразделения ГИБДД",
+      type: "text"
+    },
+    "input2": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "ФИО заявителя ",
+      type: "text"
+    },
+    "input3": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата рождения",
+      type: "text"
+    },
+    "input4": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Место рождения",
+      type: "text"
+    },
+    "input5": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Адрес проживания",
+      type: "text"
+    },
+    "input6": {
+      value: "Паспорт",
+      error: null,
+      label: "Документ удостоверяющий личность (только для физ. лиц)",
+      type: "select",
+      choices: [
+        "Паспорт"
+      ]
+    },
+    "input7": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Серия, номер",
+      type: "text"
+    },
+    "input8": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Кем выдан",
+      type: "text"
+    },
+    "input9": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата выдачи",
+      type: "text"
+    },
+    "input10": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Телефон",
+      type: "text"
+    },
+    "input11": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "СНИЛС",
+      type: "text"
+    },
+    "input13": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Причина обращения",
+      type: "text"
+    },
+    "input14": {
+      value: why2,
+      isFocused: false,
+      error: null,
+      label: "в/у в связи с",
+      type: "text",
+      handleClick: () => {
+        navigate("/page/2");
+      }
+    },
+    "input15": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "К заявлению прилагаю",
+      type: "text"
+    },
+    "input16": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Данные в/у",
+      type: "text"
+    },
+    "input17": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Кем выдано в/у",
+      type: "text"
+    },
+    "input18": {
+      value: "B",
+      isFocused: false,
+      error: null,
+      label: "Категория ТС",
+      type: "select",
+      choices: [
+        "A", "B", "C", "D", "Прицеп"
+      ]
+    },
+    "input19": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата выдачи в/у",
+      type: "text"
+    },
+    "input20": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Особые отметки в/у",
+      type: "text"
+    },
+  });
+  const [ inputs8, setInputs8 ] = useState({
+    "input1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Взамен ПТС 52 МС 531370",
+      type: "text"
+    },
+    "input2": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Идентификационный номер (VIN)",
+      type: "text"
+    },
+    "input3": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Марка ТС",
+      type: "text"
+    },
+    "input4": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Модель ТС",
+      type: "text"
+    },
+    "input5": {
+      value: "Легковой",
+      isFocused: false,
+      error: null,
+      label: "Наименование (тип ТС)",
+      type: "select",
+      choices: [
+        "Легковой", "Грузовой"
+      ]
+    },
+    "input6": {
+      value: "B",
+      isFocused: false,
+      error: null,
+      label: "Категория ТС",
+      type: "select",
+      choices: [
+        "A", "B", "C", "D", "Прицеп"
+      ]
+    },
+    "input7": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Год изготовления ТС",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' г',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: '',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 4, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      })
+    },
+    "input8": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Модель / № двигателя",
+      type: "text"
+    },
+    "input9": {
+      value: "Отсутствует",
+      isFocused: true,
+      error: null,
+      label: "Шасси (рама) №",
+      type: "text"
+    },
+    "input10": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Кузов (кабина, прицеп) №",
+      type: "text"
+    },
+    "input11": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Цвет кузова (кабины, прицепа)",
+      type: "text"
+    },
+    "input12": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Мощность двигателя",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' л.с.',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: '',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 4, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      }),
+      choices: [
+        "л.с.", "кВт"
+      ],
+      selectChoice: "л.с."
+    },
+    "input13": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Объем двигателя",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' см3',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: '',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 9, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      }),
+    },
+    "input14": {
+      value: "Дизельный",
+      isFocused: false,
+      error: null,
+      label: "Тип двигателя",
+      type: "select",
+      choices: [
+        "Дизельный", "Бензиновый", "Электрический"
+      ]
+    },
+    "input15": {
+      value: "Первый",
+      isFocused: false,
+      error: null,
+      label: "Экологический класс",
+      type: "select",
+      choices: [
+        "Первый", "Второй", "Третий"
+      ]
+    },
+    "input16": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Разрешенная максимальная масса",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' кг',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: '',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 9, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      }),
+    },
+    "input17": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Масса без нагрузки",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' кг',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: '',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 9, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      }),
+    },
+    "input18": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Организация-изготовитель ТС (страна)",
+      type: "text"
+    },
+    "input19": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Одобрение типа ТС №",
+      type: "text"
+    },
+    "input20": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Страна вывоза ТС",
+      type: "text"
+    },
+    "input21": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Серия, № ТД, ТПО",
+      type: "text"
+    },
+    "input22": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Таможенные ограничения",
+      type: "text"
+    },
+    "input23": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Наименование (ф.и.о.) собственника ТС",
+      type: "text"
+    },
+    "input24": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Адрес",
+      type: "text"
+    },
+    "input25": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Наименование организации, выдавшей паспорт",
+      type: "text"
+    },
+    "input26": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Адрес",
+      type: "text"
+    },
+    "input27": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата выдачи паспорта",
+      type: "text"
+    },
+    "input28": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Взамен ПТС 52 МС 531370    (Узнать какие есть особые отметки)",
+      type: "text"
+    },
+    "input29": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Наименование (ф.и.о.) собственника",
+      type: "text"
+    },
+    "input30": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Адрес",
+      type: "text"
+    },
+    "input31": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата продажи (передачи)",
+      type: "text"
+    },
+    "input32": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Док-т на право собственности",
+      type: "text"
+    },
+    "input33": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "СТС серия / номер",
+      type: "text"
+    },
+    "input34": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Государственный регистрационный знак",
+      type: "text"
+    },
+    "input35": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата регистрации",
+      type: "text"
+    },
+    "input36": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Выдано ГИБДД",
+      type: "text"
+    },
+    "input37": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Отметка о снятии с учёта",
+      type: "text"
+    },
+    "input38": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата снятия учёта",
+      type: "text"
+    },
+  });
   const [variables, setVariables] = useState([
     {
       value: "check",
@@ -995,12 +1643,35 @@ function Service() {
       label: "Оплатить"
     }
   ]);
-  const [ damages, setDamages ] = useState([]);
   const [ saving, setSaving ] = useState(false);
 
   useEffect(() => {
     window.scrollTo({top: 0, smooth: "behavior"});
   }, [])
+
+  useEffect(() => {
+    setInputs6((prevState) => {
+      return {
+        ...prevState,
+        "input3": {
+          ...prevState["input3"],
+          isFocused: prevState["input3"].value ? true : false
+        },
+      };
+    });
+  }, [why])
+
+  useEffect(() => {
+    setInputs7((prevState) => {
+      return {
+        ...prevState,
+        "input14": {
+          ...prevState["input14"],
+          isFocused: prevState["input14"].value ? true : false
+        },
+      };
+    });
+  }, [why2])
 
   useEffect(() => {
     if (!accessToken && !refreshToken) {
@@ -1012,29 +1683,25 @@ function Service() {
     alert(JSON.stringify(values))
   }
 
-  const showMore = () => {
-
-  }
-
   return (
     <div className={styles.view}>
       {id === "1" &&
-      <>
-        <Title text="Проверка истории автомобиля"/>
+      <div style={{display: "flex", flexFlow: "column", height: "100vh", justifyContent: "center"}}>
+        <Title text={`Проверь истории автомобиля`}/>
         <div className={styles.vinsearch}>
           <img src={require("../components/images/search-input.svg").default} alt="search"/>
           <input type="text" placeholder="Укажите госномер, VIN или номер кузова" />
         </div>
         <span className={styles.example}>Пример отчёта</span>
         <Button text="Проверить авто" style={{marginTop: 20}} />
-      </>
+      </div>
       }
       {id === "2" &&
       <>
         <Title text="Оценка стоимости автомобиля"/>
         <Formik
           initialValues={{
-            "input1": "",
+            "input1": "1 - Республика Адыгея",
             "input2": "",
             "input3": "",
             "input4": "",
@@ -1055,8 +1722,7 @@ function Service() {
           <Form>
             <div className={styles.flex20gap}>
               <FormLIGHT inputs={Object.entries(inputs2).slice(0, 1)} setInputs={setInputs2} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs2).slice(1, 2)} setInputs={setInputs2} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs2).slice(2, 11)} setInputs={setInputs2} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs2).slice(1, 11)} setInputs={setInputs2} errors={errors} touched={touched} />
               <FormLIGHT inputs={Object.entries(inputs2).slice(11)} setInputs={setInputs2} errors={errors} touched={touched} />
               <Items items={[
                 {
@@ -1171,29 +1837,29 @@ function Service() {
       <>
         <Title text="Проверить и оплатить штрафы ГИБДД"/>
         <FlexVariables variables={variables} select={select} setSelect={setSelect} />
-        <Button text="Выбрать автомобиль" small={true} style={{ margin: "20px 0 20px 0" }} />
-        <Formik
-          initialValues={{
-            "input1": "",
-            "input2": "",
-            "input3": "",
-            "input4": "",
-            "input5": "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-        {({ errors, touched, handleSubmit }) => (
-          <Form>
-            <div className={styles.flex20gap}>
-              <FormLIGHT inputs={Object.entries(inputs4).slice(0, 2)} setInputs={setInputs4} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs4).slice(2, 5)} setInputs={setInputs4} errors={errors} touched={touched} />
-              <Button text="Проверить штрафы" handleClick={handleSubmit} />
-            </div>
-            <ScrollToError/>
-          </Form>
-        )}
-        </Formik>
+        {select == "check" &&
+        <>
+          <Button text="Выбрать автомобиль" small={true} style={{ margin: "20px 0 20px 0" }} />
+          <Formik
+            initialValues={{
+              "input1": "Водительское удостоверение",
+              "input2": "",
+              "input3": ""
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+          {({ errors, touched, handleSubmit }) => (
+            <Form>
+              <div className={styles.flex20gap}>
+                <FormLIGHT inputs={Object.entries(inputs4)} setInputs={setInputs4} errors={errors} touched={touched} />
+                <Button text="Проверить штрафы" handleClick={handleSubmit} />
+              </div>
+              <ScrollToError/>
+            </Form>
+          )}
+          </Formik>
+        </>}
       </>
       }
       {id === "5" &&
@@ -1201,7 +1867,7 @@ function Service() {
         <Title text="Калькулятор транспортного налога"/>
         <Formik
           initialValues={{
-            "input1": "",
+            "input1": "1 - Республика Адыгея",
             "input2": "Не выбрано",
             "input3": "",
             "input4": "",
@@ -1238,10 +1904,13 @@ function Service() {
         <Formik
           initialValues={{
             "input1": "",
+            "input3": why,
+            "input12": "Отсутствует",
             "input45": "когда, кем выдана, номер",
             "input8": "Легковой", 
             "input10": "B", 
             "input13": "Левое", 
+            "input22": "Cерия, номер, дата выдачи",
             "input30": "Мужской"
           }}
           validationSchema={validationSchema}
@@ -1251,12 +1920,76 @@ function Service() {
           <Form>
             <div className={styles.flex20gap}>
               <FormLIGHT inputs={Object.entries(inputs6).slice(0, 3)} setInputs={setInputs6} errors={errors} touched={touched} />
-              <FormLIGHT title="Информация о транспортном средстве (номерном агрегате)" inputs={Object.entries(inputs6).slice(3, 3)} setInputs={setInputs6} errors={errors} touched={touched} />
+              <FormLIGHT title="Информация о транспортном средстве (номерном агрегате)" inputs={Object.entries(inputs6).slice(3, 22)} setInputs={setInputs6} errors={errors} touched={touched} />
+              <FormLIGHT title="Сведения владельца транспортного средства" inputs={Object.entries(inputs6).slice(22, 34)} setInputs={setInputs6} errors={errors} touched={touched} />
+              <FormLIGHT title="Представитель владельца транспортного средства" inputs={Object.entries(inputs6).slice(34, 36)} setInputs={setInputs6} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs6).slice(36)} setInputs={setInputs6} errors={errors} touched={touched} />
               <div>Бланк заявления в ГИБДД печатайте обязательно на одном листе А4 с двух сторон</div>
               <div style={{display: "flex", gap: "10px"}}>
                 <Button text="Скачать заявление" />
                 <Button text="Сохранить" />
               </div>
+            </div>
+            <ScrollToError/>
+          </Form>
+        )}
+        </Formik>
+      </>
+      }
+      {id === "7" &&
+      <>
+        <Title text="Заявление на замену водительского удостоверения"/>
+        <Formik
+          initialValues={{
+            "input1": "",
+            "input14": why2,
+            "input6": "Паспорт",
+            "input18": "B"
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+        {({ errors, touched, handleSubmit }) => (
+          <Form>
+            <div className={styles.flex20gap} style={{marginTop: 10}}>
+              <FormLIGHT inputs={Object.entries(inputs7).slice(0, 1)} setInputs={setInputs7} errors={errors} touched={touched} />
+              <FormLIGHT title="Информация заявителя" inputs={Object.entries(inputs7).slice(1, 11)} setInputs={setInputs7} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs7).slice(11, 15)} setInputs={setInputs7} errors={errors} touched={touched} />
+              <FormLIGHT title="Данные водительского удостоверения" inputs={Object.entries(inputs7).slice(15)} setInputs={setInputs7} errors={errors} touched={touched} />
+              <Button text="Скачать заявление" />
+            </div>
+            <ScrollToError/>
+          </Form>
+        )}
+        </Formik>
+      </>
+      }
+      {id === "8" &&
+      <>
+        <Title text="Электронный ПТС"/>
+        <Formik
+          initialValues={{
+            "input1": "",
+            "input5": "Легковой",
+            "input6": "B",
+            "input14": "Дизельный",
+            "input15": "Первый"
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+        {({ errors, touched, handleSubmit }) => (
+          <Form>
+            <div className={styles.flex20gap} style={{marginTop: 10}}>
+              <FormLIGHT title="1-я Страница" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT title="Особые метки" inputs={Object.entries(inputs8).slice(0,1)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs8).slice(1,27)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT title="2, 3, 4-я Страница" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT title="Место записи •1 •2 •3 •4" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT title="Особые метки" inputs={Object.entries(inputs8).slice(27,28)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs8).slice(28, 32)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT title="Свидетельство о регистрации ТС" inputs={Object.entries(inputs8).slice(32)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <Button text="Скачать" />
             </div>
             <ScrollToError/>
           </Form>

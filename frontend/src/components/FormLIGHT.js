@@ -2,6 +2,7 @@ import styles from './styles/FormLIGHT.module.css';
 import { Field, useFormikContext } from 'formik';
 import { useEffect } from 'react';
 import MaskedInput from 'react-text-mask';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
 
@@ -31,6 +32,30 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
     });
   };
 
+  const changeMask = (event, key) => {
+    setInputs((prevState) => {
+      return {
+        ...prevState,
+        [key]: {
+          ...prevState[key],
+          selectChoice: event.target.value,
+          mask: createNumberMask({
+            prefix: '',
+            suffix: ' ' + event.target.value,
+            includeThousandsSeparator: true,
+            thousandsSeparatorSymbol: '',
+            allowDecimal: false,
+            decimalSymbol: null,
+            decimalLimit: 0, // количество знаков после запятой
+            integerLimit: 4, // максимальное количество цифр до запятой
+            allowNegative: false,
+            allowLeadingZeroes: false,
+          }),
+        },
+      };
+    });
+  }
+
   return (
     <div>
       {title && <div className={styles.title}>{title}</div>}
@@ -38,7 +63,7 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
         {inputs.map(([key, value]) => (
           <>
             {value.type === "text" &&
-            <div className={styles.input} key={key}>
+            <div className={styles.input} key={key} onClick={value.handleClick}>
               <Field name={key}>
                 {({ field }) => (
                   <>
@@ -47,18 +72,35 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
                       <MaskedInput {...field} type="text"
                                               inputMode='decimal'
                                               mask={value.mask}
-                                              onFocus={() => handleFocus(key)}
-                                              onBlur={() => handleBlur(key, field.value)}
+                                              onFocus={() => !value.handleClick ? handleFocus(key) : null}
+                                              onBlur={() => !value.handleClick ? handleBlur(key, field.value) : null}
                                               className={value.error || (errors[key] && touched[key]) ? styles.error : null}
                                               value={field.value}
+                                              readOnly={value.handleClick ? true : false}
                       />
                       : <input {...field} type="text"
-                                          onFocus={() => handleFocus(key)}
-                                          onBlur={() => handleBlur(key, field.value)}
+                                          onFocus={() => !value.handleClick ? handleFocus(key) : null}
+                                          onBlur={() => !value.handleClick ? handleBlur(key, field.value) : null}
                                           className={value.error || (errors[key] && touched[key]) ? styles.error : null}
                                           value={field.value}
+                                          readOnly={value.handleClick ? true : false}
                         />}
-
+                    {value.handleClick &&
+                    <img src={require("./images/arrow-right.svg").default} alt="" style={{marginRight: 15}} />}
+                    {value.choices?.length > 0 &&
+                    <>
+                      <div className={styles.selectChoice} onClick={() => {
+                        document.getElementById(`select${key}`).focus()
+                      }}>
+                        {value.selectChoice}
+                        <img src={require("./images/arrow-right.svg").default} alt="" />
+                      </div>
+                      <select id={`select${key}`} onChange={(event) => changeMask(event, key)}>
+                        {value.choices.map((val, index) => (
+                          <option value={val} key={`select${key}${index}`}>{val}</option>
+                        ))}
+                      </select>
+                    </>}
                   </>
                 )}
               </Field>

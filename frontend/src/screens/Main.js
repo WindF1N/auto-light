@@ -11,6 +11,7 @@ function Main() {
   const navigate = useNavigate();
 
   const { sendMessage, posts, setPosts, message, setMessage } = useMainContext();
+  const [ isOpenPromo, setIsOpenPromo ] = useState(false);
 
   useEffect(() => {
     if (posts.length === 0) {
@@ -219,7 +220,7 @@ function Main() {
           </div>
         </div>
       </div>
-      <div className={styles.block}>
+      <div className={styles.block} onClick={() => setIsOpenPromo(true)}>
         <div className={styles.promo}>
           <div>
             <img src={require("../components/images/light-logo.svg").default} alt="" />
@@ -235,6 +236,30 @@ function Main() {
           <Post data={post} key={index}/>
         ))}
       </div>
+      {isOpenPromo &&
+        <div className={styles.promoModal}>
+          <div className={styles.promoHeader}>
+            <div>
+              <img src={require("../components/images/light-logo.svg").default} alt="" />
+            </div>
+            <div>
+              <div className={styles.promoTitle}>Добавьте AutoLIGHT на главный экран</div>
+              <div className={styles.promoDescription}>Для быстрого доступа к AutoLIGHT установите веб-приложение на экран:</div>
+            </div>
+            <img src={require("../components/images/plus.svg").default} alt="" onClick={() => setIsOpenPromo(false)} />
+          </div>
+          <div className={styles.promoBody}>
+            <div>
+              1.  Нажмите “Поделиться” <img src={require("./images/share.svg").default} alt="" />
+            </div>
+            <div>
+              2.  Выберите “На экран “Домой” <img src={require("./images/menu-add.svg").default} alt="" />
+            </div>
+            <div>
+              3.  Нажмите “Добавить”
+            </div>
+          </div>
+        </div>}
       <FixedButton />
     </div>
   );

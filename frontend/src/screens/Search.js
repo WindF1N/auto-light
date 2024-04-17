@@ -6,15 +6,18 @@ import SearchInput from '../components/SearchInput';
 import FlexVariables from '../components/FlexVariables';
 import Title from '../components/Title';
 import Grid from '../components/Grid';
+import DataItems from '../components/DataItems';
+import Blocks from '../components/Blocks';
 import RandomGrid from '../components/RandomGrid';
 import UserList from '../components/UserList';
+import Button from '../components/Button';
 import { useMainContext } from '../context';
 
 function Search() {
 
   const navigate = useNavigate();
 
-  const { account, sendMessage, message, setMessage, posts, users, select, setSelect } = useMainContext();
+  const { account, sendMessage, message, setMessage, posts, users, select, setSelect, transportView, setTransportView, servicesView, setServicesView, services_View, setServices_View } = useMainContext();
 
   const [variables, setVariables] = useState([
     {
@@ -42,107 +45,133 @@ function Search() {
   const [services, setServices] = useState([
     {
       title: "Деньги под залог ПТС",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Лизинг автомобилей",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Автоюрист бесплатная консультация",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Срочная продажа автомобиля",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Электронный полис е-ОСАГО",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Техническая гарантия на автомобили с пробегом",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Автокредит онлайн без первого взноса",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Автомобили в рассрочку",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Подбор автомобиля",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Обмен автомобиля",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Выкуп автомобиля",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Помощь на дороге",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Оформление переоборудования автомобилей",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Аренда/Прокат автомобилей",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Аукцион автомобилей с пробегом",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Диагностическая карта онлайн",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Автозапчасти",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Онлайн показ автомобиля",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Лизинг авто с пробегом",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Продажа с гарантией и обеспечительным платежём",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Онлайн комиссия",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "ДТП Онлайн",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Комиссионная продажа",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Снятие запретов и ограничений",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Помощь в покупке",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
     {
       title: "Восстановление КБМ",
-      views_count: "3.3 млн просмотров"
+      views_count: "3.3 млн просмотров",
+      link: "/serv/1"
     },
   ]);
   const [services_, setServices_] = useState([
@@ -182,24 +211,29 @@ function Search() {
       link: "/services/7"
     },
     {
-      title: "Акт приёма-передачи автомобиля service-online.su",
+      title: "Электронный ПТС",
       views_count: "3.3 млн просмотров",
       link: "/services/8"
     },
     {
-      title: "Правила ПДД",
+      title: "Акт приёма-передачи автомобиля service-online.su",
       views_count: "3.3 млн просмотров",
       link: "/services/9"
     },
     {
-      title: "Расписка о получении денег за автомобиль",
+      title: "Правила ПДД",
       views_count: "3.3 млн просмотров",
       link: "/services/10"
     },
     {
-      title: "Электронный акт осмотра транспортного средства",
+      title: "Расписка о получении денег за автомобиль",
       views_count: "3.3 млн просмотров",
       link: "/services/11"
+    },
+    {
+      title: "Электронный акт осмотра транспортного средства",
+      views_count: "3.3 млн просмотров",
+      link: "/services/12"
     },
   ]);
   const [dealers, setDealers] = useState([]);
@@ -229,17 +263,24 @@ function Search() {
       <FlexVariables variables={variables} select={select} setSelect={setSelect} />
       {select === "transport" &&
         <>
-          <Title text="Автомобили" allowGrid={true} allowBlocks={true}/>
-          <Grid items={transport} navigate={navigate} />
+          <Title text="Автомобили" allowGrid={() => setTransportView("grid")} allowBlocks={() => setTransportView("list")} selected={transportView}/>
+          <Button text="Расширенный поиск" style={{marginBottom: 15}} />
+          {transportView === "grid" &&
+            <Grid items={transport} navigate={navigate} />}
+          {transportView === "list" &&
+            <Blocks items={transport} />}
         </>}
       {select === "services" &&
         <>
-          <Title text="Автоуслуги" allowGrid={true} allowBlocks={true}/>
-          <RandomGrid items={services} navigate={navigate} />
+          <Title text="Автоуслуги" allowGrid={() => setServicesView("grid")} allowBlocks={() => setServicesView("list")} selected={servicesView}/>
+          {servicesView === "grid" &&
+            <RandomGrid items={services} navigate={navigate} />}
+          {servicesView === "list" &&
+            <DataItems items={services} navigate={navigate} />}
         </>}
       {select === "dealers" &&
         <>
-          <Title text="Дилеры" allowGrid={true} allowBlocks={true}/>
+          <Title text="Дилеры"/>
           <Grid items={dealers} navigate={navigate} />
         </>}
       {select === "accounts" &&
@@ -249,8 +290,11 @@ function Search() {
         </>}
       {select === "services_" &&
         <>
-          <Title text="Сервисы" allowGrid={true} allowBlocks={true}/>
-          <RandomGrid items={services_} navigate={navigate} />
+          <Title text="Сервисы" allowGrid={() => setServices_View("grid")} allowBlocks={() => setServices_View("list")} selected={services_View}/>
+          {services_View === "grid" &&
+            <RandomGrid items={services_} navigate={navigate} />}
+          {services_View === "list" &&
+            <DataItems items={services_} navigate={navigate} />}
         </>}
       <FixedButton />
     </div>

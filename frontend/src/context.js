@@ -7,7 +7,7 @@ const SocketContext = createContext();
 const SocketProvider = ({ children }) => {
 
   const [ state, setState ] = useState(null);
-  const [ loading, setLoading ] = useState(false);
+  const [ loading, setLoading ] = useState(true);
   const [ error, setError ] = useState(null);
 
   const [ account, setAccount ] = useState(null);
@@ -27,6 +27,13 @@ const SocketProvider = ({ children }) => {
   const [ userPosts, setUserPosts ] = useState([]);
 
   const [ select, setSelect ] = useState("transport");
+
+  const [ why, setWhy ] = useState(null);
+  const [ why2, setWhy2 ] = useState(null);
+
+  const [ transportView, setTransportView ] = useState("grid");
+  const [ servicesView, setServicesView ] = useState("grid");
+  const [ services_View, setServices_View ] = useState("grid");
 
   const login = async (data, navigate) => {
     try {
@@ -248,6 +255,18 @@ const SocketProvider = ({ children }) => {
                                      setUsers,
                                      select, 
                                      setSelect,
+
+                                     why, 
+                                     setWhy,
+                                     why2, 
+                                     setWhy2,
+
+                                     transportView, 
+                                     setTransportView,
+                                     servicesView, 
+                                     setServicesView,
+                                     services_View, 
+                                     setServices_View,
 
                                      login,
                                      verify,
