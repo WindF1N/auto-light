@@ -48,3 +48,81 @@
     margin-top: 5px;
     color: #0052FF;
 }
+
+.strangeInput {
+    background-color: #18181A;
+    border-radius: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 10px;
+
+    font-size: 14px;
+    font-weight: 300;
+}
+  
+.strangeInput img {
+    height: 10px;
+}
+
+.header {
+    padding: 10px 5px 15px 5px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: .3s;
+  }
+  
+  .header > div {
+    flex-shrink: 1;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0884FE;
+    font-size: 16px;
+  }
+  
+  .header > div:first-child {
+    justify-content: flex-start;
+  }
+  
+  .header > div:last-child {
+    justify-content: flex-end;
+  }
+
+.moreWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    z-index: 9998;
+    overflow-x: hidden;
+    max-height: 100vh;
+  }
+  
+  .more {
+    padding: 0 10px 200px 10px;
+  }
+
+  .wrapper {
+    margin-left: -10px;
+    width: 100vw;
+    overflow-y: auto;
+    display: flex;
+    flex-flow: column;
+  }
+  .title {
+    font-size: 13px;
+    font-weight: 300;
+    margin-bottom: 5px;
+    color: #aaa;
+  }

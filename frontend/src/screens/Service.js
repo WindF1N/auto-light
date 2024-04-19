@@ -8,6 +8,8 @@ import FormLIGHT from '../components/FormLIGHT';
 import Button from '../components/Button';
 import Items from '../components/Items';
 import LoadingHover from '../components/LoadingHover';
+import MiniSlider from '../components/MiniSlider';
+import CarView from '../components/CarView';
 import ScrollToError from '../components/ScrollToError';
 import FlexVariables from '../components/FlexVariables';
 import { Formik, Form } from 'formik';
@@ -26,6 +28,9 @@ function Service() {
   const { id } = useParams();
   const { accessToken, refreshToken, why, why2 } = useMainContext();
   const [ select, setSelect ] = useState("check");
+  const [ more, setMore ] = useState(false);
+  const [ images2, setImages2 ] = useState([]);
+  const [ activeImage2, setActiveImage2 ] = useState(null);
   const [ inputs2, setInputs2 ] = useState({
     "input1": {
       value: "1 - Республика Адыгея",
@@ -1301,28 +1306,21 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Идентификационный номер (VIN)",
+      label: "1. Идентификационный номер (VIN)",
       type: "text"
     },
     "input3": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Марка ТС",
-      type: "text"
-    },
-    "input4": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Модель ТС",
+      label: "2. Марка / Модель ТС",
       type: "text"
     },
     "input5": {
       value: "Легковой",
       isFocused: false,
       error: null,
-      label: "Наименование (тип ТС)",
+      label: "3. Наименование (тип ТС)",
       type: "select",
       choices: [
         "Легковой", "Грузовой"
@@ -1332,7 +1330,7 @@ function Service() {
       value: "B",
       isFocused: false,
       error: null,
-      label: "Категория ТС",
+      label: "4. Категория ТС",
       type: "select",
       choices: [
         "A", "B", "C", "D", "Прицеп"
@@ -1342,7 +1340,7 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Год изготовления ТС",
+      label: "5. Год изготовления ТС",
       type: "text",
       mask: createNumberMask({
         prefix: '',
@@ -1361,35 +1359,35 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Модель / № двигателя",
+      label: "6. Модель / № двигателя",
       type: "text"
     },
     "input9": {
       value: "Отсутствует",
       isFocused: true,
       error: null,
-      label: "Шасси (рама) №",
+      label: "7. Шасси (рама) №",
       type: "text"
     },
     "input10": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Кузов (кабина, прицеп) №",
+      label: "8. Кузов (кабина, прицеп) №",
       type: "text"
     },
     "input11": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Цвет кузова (кабины, прицепа)",
+      label: "9. Цвет кузова (кабины, прицепа)",
       type: "text"
     },
     "input12": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Мощность двигателя",
+      label: "10. Мощность двигателя",
       type: "text",
       mask: createNumberMask({
         prefix: '',
@@ -1412,7 +1410,7 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Объем двигателя",
+      label: "11. Объем двигателя",
       type: "text",
       mask: createNumberMask({
         prefix: '',
@@ -1431,7 +1429,7 @@ function Service() {
       value: "Дизельный",
       isFocused: false,
       error: null,
-      label: "Тип двигателя",
+      label: "12. Тип двигателя",
       type: "select",
       choices: [
         "Дизельный", "Бензиновый", "Электрический"
@@ -1441,7 +1439,7 @@ function Service() {
       value: "Первый",
       isFocused: false,
       error: null,
-      label: "Экологический класс",
+      label: "13. Экологический класс",
       type: "select",
       choices: [
         "Первый", "Второй", "Третий"
@@ -1451,7 +1449,7 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Разрешенная максимальная масса",
+      label: "14. Разрешенная максимальная масса",
       type: "text",
       mask: createNumberMask({
         prefix: '',
@@ -1470,7 +1468,7 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Масса без нагрузки",
+      label: "15. Масса без нагрузки",
       type: "text",
       mask: createNumberMask({
         prefix: '',
@@ -1489,70 +1487,70 @@ function Service() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Организация-изготовитель ТС (страна)",
+      label: "16. Организация-изготовитель ТС (страна)",
       type: "text"
     },
     "input19": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Одобрение типа ТС №",
+      label: "17. Одобрение типа ТС №",
       type: "text"
     },
     "input20": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Страна вывоза ТС",
+      label: "18. Страна вывоза ТС",
       type: "text"
     },
     "input21": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Серия, № ТД, ТПО",
+      label: "19. Серия, № ТД, ТПО",
       type: "text"
     },
     "input22": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Таможенные ограничения",
+      label: "20. Таможенные ограничения",
       type: "text"
     },
     "input23": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Наименование (ф.и.о.) собственника ТС",
+      label: "21. Наименование (ф.и.о.) собственника ТС",
       type: "text"
     },
     "input24": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Адрес",
+      label: "22. Адрес",
       type: "text"
     },
     "input25": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Наименование организации, выдавшей паспорт",
+      label: "23. Наименование организации, выдавшей паспорт",
       type: "text"
     },
     "input26": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Адрес",
+      label: "24. Адрес",
       type: "text"
     },
     "input27": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Дата выдачи паспорта",
+      label: "25. Дата выдачи паспорта",
       type: "text"
     },
     "input28": {
@@ -1633,6 +1631,917 @@ function Service() {
       type: "text"
     },
   });
+  const [ inputs12, setInputs12 ] = useState({
+    "input1": {
+      value: "Оригинал",
+      isFocused: false,
+      error: null,
+      label: "ПТС",
+      type: "select",
+      choices: [
+        "Оригинал", "Электронный", "Дубликат", "Нет ПТС"
+      ]
+    },
+    "input2": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Владельцев по ПТС",
+      type: "text"
+    },
+    "input3": {
+      value: "КАСКО до 23.03.2024 (Дата окончания страховки)",
+      isFocused: false,
+      error: null,
+      label: "Страховка",
+      type: "select",
+      choices: [
+        "ОСАГО", "КАСКО", "Отсутствует"
+      ]
+    },
+    "input4": {
+      value: "В наличии",
+      isFocused: false,
+      error: null,
+      label: "Статус",
+      type: "select",
+      choices: [
+        "В наличии", "Отсутствует"
+      ]
+    },
+    "input5": {
+      value: "Личный автомобиль",
+      isFocused: false,
+      error: null,
+      label: "Вид объявления",
+      type: "select",
+      choices: [
+        "Личный автомобиль", "Автомобиль приобретён на продажу", "Комиссионная продажа", "Онлайн", "Услуга 250р"
+      ]
+    },
+
+    "input1-1": {
+      value: "ABS Антиблокировочная система",
+      isFocused: false,
+      error: null,
+      label: "ABS Антиблокировочная система",
+      type: "radio"
+    },
+    "input2-1": {
+      value: "EBD Распределения усилия тормоза",
+      isFocused: false,
+      error: null,
+      label: "EBD Распределения усилия тормоза",
+      type: "radio"
+    },
+    "input3-1": {
+      value: "BAS Вспомогательное торможение",
+      isFocused: false,
+      error: null,
+      label: "BAS Вспомогательное торможение",
+      type: "radio"
+    },
+    "input4-1": {
+      value: "DMS Система выбора режима движения",
+      isFocused: false,
+      error: null,
+      label: "DMS Система выбора режима движения",
+      type: "radio"
+    },
+    "input5-1": {
+      value: "ESP Система стабилизации",
+      isFocused: false,
+      error: null,
+      label: "ESP Система стабилизации",
+      type: "radio"
+    },
+    "input6-1": {
+      value: "ТСS Антипробуксовочная система",
+      isFocused: false,
+      error: null,
+      label: "ТСS Антипробуксовочная система",
+      type: "radio"
+    },
+    "input7-1": {
+      value: "Не выбрано",
+      error: null,
+      label: "Круиз-контроль",
+      type: "select",
+      choices: [
+        "Не выбрано", "Пассивный", "Адаптивный"
+      ]
+    },
+    "input8-1": {
+      value: "Система помощи при парковке",
+      isFocused: false,
+      error: null,
+      label: "Система помощи при парковке",
+      type: "select",
+      choices: [
+        "Парктроник задний", "Парктроник передний", "Комбинированный парктроник"
+      ]
+    },
+    "input9-1": {
+      value: "Камера",
+      isFocused: false,
+      error: null,
+      label: "Камера",
+      type: "select",
+      choices: [
+        "360*", "Передняя", "Задняя"
+      ]
+    },
+    "input10-1": {
+      value: "Система автомотической парковки",
+      isFocused: false,
+      error: null,
+      label: "Система автомотической парковки",
+      type: "radio"
+    },
+    "input11-1": {
+      value: "Автопилот",
+      isFocused: false,
+      error: null,
+      label: "Автопилот",
+      type: "radio"
+    },
+    "input12-1": {
+      value: "Помощь при старте в гору",
+      isFocused: false,
+      error: null,
+      label: "Помощь при старте в гору",
+      type: "radio"
+    },
+    "input13-1": {
+      value: "Помощь при спуске",
+      isFocused: false,
+      error: null,
+      label: "Помощь при спуске",
+      type: "radio"
+    },
+    "input14-1": {
+      value: "Контроль за полосой движения",
+      isFocused: false,
+      error: null,
+      label: "Контроль за полосой движения",
+      type: "radio"
+    },
+    "input15-1": {
+      value: "Контроль слепых зон",
+      isFocused: false,
+      error: null,
+      label: "Контроль слепых зон",
+      type: "radio"
+    },
+    "input16-1": {
+      value: "Распознавание дорожных знаков",
+      isFocused: false,
+      error: null,
+      label: "Распознавание дорожных знаков",
+      type: "radio"
+    },
+    "input17-1": {
+      value: "Предотвращения столкновения",
+      isFocused: false,
+      error: null,
+      label: "Предотвращения столкновения",
+      type: "radio"
+    },
+    "input18-1": {
+      value: "Датчик усталости водителя",
+      isFocused: false,
+      error: null,
+      label: "Датчик усталости водителя",
+      type: "radio"
+    },
+    "input19-1": {
+      value: "Система Ночного видения",
+      isFocused: false,
+      error: null,
+      label: "Система Ночного видения",
+      type: "radio"
+    },
+    "input20-1": {
+      value: "Обнаружение пешеходов",
+      isFocused: false,
+      error: null,
+      label: "Обнаружение пешеходов",
+      type: "radio"
+    },
+    "input21-1": {
+      value: "Датчик дождя",
+      isFocused: false,
+      error: null,
+      label: "Датчик дождя",
+      type: "radio"
+    },
+    "input22-1": {
+      value: "Бортовой компьютер",
+      isFocused: false,
+      error: null,
+      label: "Бортовой компьютер",
+      type: "radio"
+    },
+    "input23-1": {
+      value: "Не выбрано",
+      error: null,
+      label: "Фары",
+      type: "select",
+      choices: [
+        "Не выбрано", "Галогеновые", "Светодиодные", "Ксеноновые", "Биксеноновые", "Лазерные"
+      ]
+    },
+    "input24-1": {
+      value: "Противотуманные фары",
+      isFocused: false,
+      error: null,
+      label: "Противотуманные фары",
+      type: "radio"
+    },
+    "input25-1": {
+      value: "Дневные ходовые огни",
+      isFocused: false,
+      error: null,
+      label: "Дневные ходовые огни",
+      type: "radio"
+    },
+    "input26-1": {
+      value: "Датчик света",
+      isFocused: false,
+      error: null,
+      label: "Датчик света",
+      type: "radio"
+    },
+    "input27-1": {
+      value: "Автоматический дальний свет",
+      isFocused: false,
+      error: null,
+      label: "Автоматический дальний свет",
+      type: "radio"
+    },
+    "input28-1": {
+      value: "Адаптивное освещение",
+      isFocused: false,
+      error: null,
+      label: "Адаптивное освещение",
+      type: "radio"
+    },
+    "input29-1": {
+      value: "Автоматический корректор фар",
+      isFocused: false,
+      error: null,
+      label: "Автоматический корректор фар",
+      type: "radio"
+    },
+    "input30-1": {
+      value: "Омыватели фар",
+      isFocused: false,
+      error: null,
+      label: "Омыватели фар",
+      type: "radio"
+    },
+    "input31-1": {
+      value: "Кожа",
+      isFocused: false,
+      error: null,
+      label: "Материал салона",
+      type: "select",
+      choices: [
+        "Кожа", "Ткань", "Велюр", "Комбинированный", "Искуственная кожа", "Алькантара"
+      ]
+    },
+    "input32-1": {
+      value: "Да",
+      isFocused: false,
+      error: null,
+      label: "Салон перетянут",
+      type: "select",
+      choices: [
+        "Да", "Нет"
+      ]
+    },
+    "input33-1": {
+      value: "Отличное",
+      isFocused: false,
+      error: null,
+      label: "Состояние салона",
+      type: "select",
+      choices: [
+        "Отличное", "Хорошее", "Среднее", "Плохое"
+      ]
+    },
+    "input34-1": {
+      value: "Наличие люка",
+      isFocused: false,
+      error: null,
+      label: "Наличие люка",
+      type: "radio"
+    },
+    "input35-1": {
+      value: "Панорамная крыша",
+      isFocused: false,
+      error: null,
+      label: "Панорамная крыша",
+      type: "radio"
+    },
+    "input36-1": {
+      value: "Кондиционер",
+      isFocused: false,
+      error: null,
+      label: "Управление климатом",
+      type: "select",
+      choices: [
+        "Кондиционер", "Климат-контроль однозонный", "Двухзонный", "Многозонный"
+      ]
+    },
+    "input37-1": {
+      value: "Отделка потолка в чёрный цвет",
+      isFocused: false,
+      error: null,
+      label: "Отделка потолка в чёрный цвет",
+      type: "radio"
+    },
+    "input38-1": {
+      value: "Сиденья с массажем",
+      isFocused: false,
+      error: null,
+      label: "Сиденья с массажем",
+      type: "radio"
+    },
+    "input39-1": {
+      value: "Третий ряд сидений",
+      isFocused: false,
+      error: null,
+      label: "Третий ряд сидений",
+      type: "radio"
+    },
+    "input40-1": {
+      value: "2",
+      isFocused: false,
+      error: null,
+      label: "Количество мест",
+      type: "select",
+      choices: [
+        "2", "3", "4", "5", "6", "7", "8", "9"
+      ]
+    },
+    "input41-1": {
+      value: "Сиденья водителя",
+      isFocused: false,
+      error: null,
+      label: "Вентиляция сидений",
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
+    },
+    "input42-1": {
+      value: "Сиденья водителя",
+      isFocused: false,
+      error: null,
+      label: "Электроподогрев",
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
+    },
+    "input43-1": {
+      value: "Сиденья водителя",
+      isFocused: false,
+      error: null,
+      label: "Электропривод",
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
+    },
+    "input44-1": {
+      value: "Сиденья водителя",
+      isFocused: false,
+      error: null,
+      label: "Память настроек",
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
+    },
+    "input45-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Доводчик дверей",
+      type: "radio"
+    },
+    "input46-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Розетка 220V",
+      type: "radio"
+    },
+    "input47-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Открытие багажника без помощи рук",
+      type: "radio"
+    },
+    "input48-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Зеркала в цвет кузова",
+      type: "radio"
+    },
+    "input49-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Зеркало с повторением поворота",
+      type: "radio"
+    },
+    "input50-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Электроподогрев зеркал",
+      type: "radio"
+    },
+    "input51-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Память настроек зеркал",
+      type: "radio"
+    },
+    "input52-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Остекление с защитой от ультрафиолета",
+      type: "radio"
+    },
+    "input53-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Подогрев лобового стекла",
+      type: "radio"
+    },
+    "input54-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Подогрев заднего стекла",
+      type: "radio"
+    },
+    "input55-1": {
+      value: "Без тонировки",
+      isFocused: false,
+      error: null,
+      label: "Тонировка",
+      type: "select",
+      choices: [
+        "Без тонировки", "Полная", "Задняя часть"
+      ]
+    },
+    "input56-1": {
+      value: "Нет",
+      isFocused: false,
+      error: null,
+      label: "Электрические стеклоподьемники",
+      type: "select",
+      choices: [
+        "Нет", "Передние", "Задние", "Все"
+      ]
+    },
+    "input57-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Электроподогрев зоны стеклоочистителей",
+      type: "radio"
+    },
+    "input58-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Электроподогрев форсунок стеклоомывателей",
+      type: "radio"
+    },
+    "input59-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Кожаный руль",
+      type: "radio"
+    },
+    "input60-1": {
+      value: "Гидравлический (ГУР)",
+      isFocused: false,
+      error: null,
+      label: "Усилитель руля",
+      type: "select",
+      choices: [
+        "Гидравлический (ГУР)", "Электрический (ЭУР)", "Электрогидравлический (ЭГУР)"
+      ]
+    },
+    "input61-1": {
+      value: "По высоте",
+      isFocused: false,
+      error: null,
+      label: "Регулировка руля",
+      type: "select",
+      choices: [
+        "По высоте", "По вылету", "Электрорегулировка"
+      ]
+    },
+    "input62-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Память настроек рулевой колонки",
+      type: "radio"
+    },
+    "input63-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Управление на руле",
+      type: "radio"
+    },
+    "input64-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Подрулевые лепестки",
+      type: "radio"
+    },
+    "input65-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Электроподогрев руля",
+      type: "radio"
+    },
+    "input66-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Электронная приборная панель",
+      type: "radio"
+    },
+    "input67-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Проекционный дисплей",
+      type: "radio"
+    },
+    "input68-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Система “старт-стоп”",
+      type: "radio"
+    },
+    "input69-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Многофункциональный дисплей",
+      type: "radio"
+    },
+    "input70-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Встроенная навигация",
+      type: "radio"
+    },
+    "input71-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Видео-регистартор",
+      type: "radio"
+    },
+    "input72-1": {
+      value: "Полный комплект",
+      isFocused: false,
+      error: null,
+      label: "Комплектация ключей",
+      type: "select",
+      choices: [
+        "Один ключ", "Два ключа", "Полный комплект"
+      ]
+    },
+    "input73-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Центральный замок",
+      type: "radio"
+    },
+    "input74-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Сигнализация",
+      type: "radio"
+    },
+    "input75-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Бесключевой доступ",
+      type: "radio"
+    },
+    "input76-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "ЭРА-ГЛОНАСС",
+      type: "radio"
+    },
+    "input77-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "CarPlay",
+      type: "radio"
+    },
+    "input78-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Android Auto",
+      type: "radio"
+    },
+    "input79-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Яндекс Авто",
+      type: "radio"
+    },
+    "input80-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Мультимедиа система с ЖК-экраном",
+      type: "radio"
+    },
+    "input81-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Мультимедиа система для задних пассажиров",
+      type: "radio"
+    },
+    "input82-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Беспроводная зарядка для смартфона",
+      type: "radio"
+    },
+    "input83-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Навигационная система",
+      type: "radio"
+    },
+    "input84-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Голосовое управление",
+      type: "radio"
+    },
+    "input85-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "USB",
+      type: "radio"
+    },
+    "input86-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "AUX",
+      type: "radio"
+    },
+    "input87-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Bluetooth",
+      type: "radio"
+    },
+    "input88-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Радио",
+      type: "radio"
+    },
+    "input89-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Аудиосистема",
+      type: "select",
+      choices: [
+        "2 колонки", "4 колонки", "6 колонок", "8+ колонок"
+      ]
+    },
+    "input90-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Савбуфер",
+      type: "radio"
+    },
+    "input91-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Фаркоп",
+      type: "radio"
+    },
+    "input92-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Защита картера",
+      type: "radio"
+    },
+    "input93-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Рейлинги на крыше",
+      type: "radio"
+    },
+    "input94-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Обвес кузова",
+      type: "radio"
+    },
+    "input95-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Бронированный кузов",
+      type: "radio"
+    },
+    "input96-1": {
+      value: "Активная",
+      isFocused: false,
+      error: null,
+      label: "Подвеска",
+      type: "select",
+      choices: [
+        "Активная", "Спортивная", "Пневмоподвеска"
+      ]
+    },
+    "input97-1": {
+      value: "Штампованные",
+      isFocused: false,
+      error: null,
+      label: "Тип дисков",
+      type: "select",
+      choices: [
+        "Штампованные", "Литые", "Кованные", "Сборные"
+      ]
+    },
+    "input98-1": {
+      value: "13\”",
+      isFocused: false,
+      error: null,
+      label: "Радиус дисков",
+      type: "select",
+      choices: [
+        "13\”", "14\”", "15\”", "16\”"
+      ]
+    },
+    "input99-1": {
+      value: "Зимняя",
+      isFocused: false,
+      error: null,
+      label: "Тип резины",
+      type: "select",
+      choices: [
+        "Зимняя", "Летняя", "Всесезонная"
+      ]
+    },
+    "input100-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Профиль шин",
+      type: "text"
+    },
+    "input101-1": {
+      value: "Изношенная шина 1.6 мм",
+      isFocused: false,
+      error: null,
+      label: "Износ резины высота протектора",
+      type: "select",
+      choices: [
+        "Изношенная шина 1.6 мм", "Средний износ 4 мм", "Новая шина 8 мм"
+      ]
+    },
+    "input102-1": {
+      value: "Полноразмерное",
+      isFocused: false,
+      error: null,
+      label: "Запасное колесо",
+      type: "select",
+      choices: [
+        "Полноразмерное", "Докатка"
+      ]
+    },
+    "input103-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Датчик давления в шинах",
+      type: "radio"
+    },
+    "input104-1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Зимние шины в комплекте",
+      type: "radio"
+    },
+    "input105-1": {
+      value: "1",
+      isFocused: false,
+      error: null,
+      label: "Общее количество",
+      type: "select",
+      choices: [
+        "1", "2", "3", "Отсутствуют"
+      ]
+    },
+    "input106-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Водителя",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input107-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Пассажира",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input108-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Боковые",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input109-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Коленные",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input110-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Шторки",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    }
+  });
   const [variables, setVariables] = useState([
     {
       value: "check",
@@ -1643,6 +2552,7 @@ function Service() {
       label: "Оплатить"
     }
   ]);
+  const [ damages, setDamages ] = useState([]);
   const [ saving, setSaving ] = useState(false);
 
   useEffect(() => {
@@ -1722,7 +2632,8 @@ function Service() {
           <Form>
             <div className={styles.flex20gap}>
               <FormLIGHT inputs={Object.entries(inputs2).slice(0, 1)} setInputs={setInputs2} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs2).slice(1, 11)} setInputs={setInputs2} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs2).slice(1, 3)} setInputs={setInputs2} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs2).slice(3, 11)} setInputs={setInputs2} errors={errors} touched={touched} />
               <FormLIGHT inputs={Object.entries(inputs2).slice(11)} setInputs={setInputs2} errors={errors} touched={touched} />
               <Items items={[
                 {
@@ -1849,10 +2760,13 @@ function Service() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-          {({ errors, touched, handleSubmit }) => (
+          {({ errors, touched, handleSubmit, values }) => (
             <Form>
               <div className={styles.flex20gap}>
-                <FormLIGHT inputs={Object.entries(inputs4)} setInputs={setInputs4} errors={errors} touched={touched} />
+                {values.input1 === "Водительское удостоверение" &&
+                  <FormLIGHT inputs={Object.entries(inputs4).slice(0, 2)} setInputs={setInputs4} errors={errors} touched={touched} />}
+                {values.input1 === "Свидетельство о регистрации СТС" &&
+                  <FormLIGHT inputs={Object.entries(inputs4)} setInputs={setInputs4} errors={errors} touched={touched} />}
                 <Button text="Проверить штрафы" handleClick={handleSubmit} />
               </div>
               <ScrollToError/>
@@ -1972,6 +2886,7 @@ function Service() {
             "input1": "",
             "input5": "Легковой",
             "input6": "B",
+            "input9": "Отсутствует",
             "input14": "Дизельный",
             "input15": "Первый"
           }}
@@ -1983,13 +2898,103 @@ function Service() {
             <div className={styles.flex20gap} style={{marginTop: 10}}>
               <FormLIGHT title="1-я Страница" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
               <FormLIGHT title="Особые метки" inputs={Object.entries(inputs8).slice(0,1)} setInputs={setInputs8} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs8).slice(1,27)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs8).slice(1,26)} setInputs={setInputs8} errors={errors} touched={touched} />
               <FormLIGHT title="2, 3, 4-я Страница" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
               <FormLIGHT title="Место записи •1 •2 •3 •4" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
-              <FormLIGHT title="Особые метки" inputs={Object.entries(inputs8).slice(27,28)} setInputs={setInputs8} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs8).slice(28, 32)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT title="Особые метки" inputs={Object.entries(inputs8).slice(26,27)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs8).slice(27, 32)} setInputs={setInputs8} errors={errors} touched={touched} />
               <FormLIGHT title="Свидетельство о регистрации ТС" inputs={Object.entries(inputs8).slice(32)} setInputs={setInputs8} errors={errors} touched={touched} />
               <Button text="Скачать" />
+            </div>
+            <ScrollToError/>
+          </Form>
+        )}
+        </Formik>
+      </>
+      }
+      {id === "12" &&
+      <>
+        <Title text="Акт осмотра"/>
+        <Formik
+          initialValues={{
+            "input1": "Оригинал",
+            "input3": "КАСКО до 23.03.2024 (Дата окончания страховки)",
+            "input4": "В наличии",
+            "input5": "Личный автомобиль"
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+        {({ errors, touched, handleSubmit }) => (
+          <Form>
+            <div className={styles.flex20gap} style={{marginTop: 10}}>
+              <FormLIGHT title="Комплект документов" inputs={Object.entries(inputs12).slice(0, 3)} setInputs={setInputs12} errors={errors} touched={touched} />
+              <div className={styles.strangeInput} onClick={() => setMore(true)}>
+                <div>
+                  Дополнительные опции
+                </div>
+                <div>
+                  <img src={require("../components/images/arrow-right.svg").default} alt="" />
+                </div>
+              </div>
+              <FormLIGHT inputs={Object.entries(inputs12).slice(3, 4)} setInputs={setInputs12} errors={errors} touched={touched} />
+              <div className={styles.title} style={{marginBottom: -10}}>Осмотр кузова</div>
+              <CarView onlyView={false} carId="1234" damages={damages} />
+              {damages.length > 0 &&
+              <div>
+                <div className={styles.title}>Повреждения кузова</div>
+                <div className={styles.texts}>
+                  <div className={styles.label}>
+                    <div>Название детали</div>
+                    <div>Повреждения</div>
+                    <div>Ремонт</div>
+                  </div>
+                  {damages.map((damage, index) => (
+                    <div className={styles.text} key={index}>
+                      <div>{damage.type}</div>
+                      <div>{damage.input1}</div>
+                      <div>{damage.input3} {damage.input4} {damage.input5}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>}
+              <div>
+                <div className={styles.title}>Фотографии кузова</div>
+                <MiniSlider images={images2}
+                            activeImage={activeImage2}
+                            setActiveImage={setActiveImage2}
+                            canAdd={true}
+                            setImages={setImages2}
+                            maxImagesCount={30}
+                            canDelete={true}
+                            style={{backgroundColor: "#000", padding: "5px 0 20px 0"}}
+                            />
+              </div>
+              <div className={styles.title}>Оценка автомобиля: 450 000 - 520 000 ₽<br/>Средняя стоимость автомобиля: 499 000 ₽</div>
+              <FormLIGHT inputs={Object.entries(inputs12).slice(4, 5)} setInputs={setInputs12} errors={errors} touched={touched} />
+              {more &&
+              <div className={styles.moreWrapper}>
+                <div className={styles.more}>
+                  <div className={styles.header}>
+                    <div onClick={() => setMore(false)}>Отменить</div>
+                    <div onClick={() => setMore(false)}>Готово</div>
+                  </div>
+                  <Title text="Дополнительные опции" />
+                  <div className={styles.flex20gap}>
+                    <FormLIGHT title="Вспомогательные системы" inputs={Object.entries(inputs12).slice(5, 27)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Фары" inputs={Object.entries(inputs12).slice(27, 35)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Салон" inputs={Object.entries(inputs12).slice(35, 52)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Боковые зеркала" inputs={Object.entries(inputs12).slice(52, 56)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Стёкла" inputs={Object.entries(inputs12).slice(56, 63)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Руль и центральная панель" inputs={Object.entries(inputs12).slice(63, 76)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Сохранность автомобиля" inputs={Object.entries(inputs12).slice(76, 81)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Мультимедия" inputs={Object.entries(inputs12).slice(81, 95)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Кузов" inputs={Object.entries(inputs12).slice(95, 101)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Колёса" inputs={Object.entries(inputs12).slice(101, 109)} setInputs={setInputs12} errors={errors} touched={touched} />
+                    <FormLIGHT title="Подушка безопасности" inputs={Object.entries(inputs12).slice(109)} setInputs={setInputs12} errors={errors} touched={touched} />
+                  </div>
+                </div>
+              </div>}
             </div>
             <ScrollToError/>
           </Form>

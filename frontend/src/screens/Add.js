@@ -609,14 +609,20 @@ function Add() {
       isFocused: false,
       error: null,
       label: "Система помощи при парковке",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Парктроник задний", "Парктроник передний", "Комбинированный парктроник"
+      ]
     },
     "input9-1": {
       value: "Камера",
       isFocused: false,
       error: null,
       label: "Камера",
-      type: "radio"
+      type: "select",
+      choices: [
+        "360*", "Передняя", "Задняя"
+      ]
     },
     "input10-1": {
       value: "Система автомотической парковки",
@@ -768,25 +774,34 @@ function Add() {
       type: "radio"
     },
     "input31-1": {
-      value: null,
+      value: "Кожа",
       isFocused: false,
       error: null,
       label: "Материал салона",
-      type: "text"
+      type: "select",
+      choices: [
+        "Кожа", "Ткань", "Велюр", "Комбинированный", "Искуственная кожа", "Алькантара"
+      ]
     },
     "input32-1": {
-      value: "Салон перетянут",
+      value: "Да",
       isFocused: false,
       error: null,
       label: "Салон перетянут",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Да", "Нет"
+      ]
     },
     "input33-1": {
-      value: null,
+      value: "Отличное",
       isFocused: false,
       error: null,
       label: "Состояние салона",
-      type: "text"
+      type: "select",
+      choices: [
+        "Отличное", "Хорошее", "Среднее", "Плохое"
+      ]
     },
     "input34-1": {
       value: "Наличие люка",
@@ -803,11 +818,14 @@ function Add() {
       type: "radio"
     },
     "input36-1": {
-      value: "Управление климатом",
+      value: "Кондиционер",
       isFocused: false,
       error: null,
       label: "Управление климатом",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Кондиционер", "Климат-контроль однозонный", "Двухзонный", "Многозонный"
+      ]
     },
     "input37-1": {
       value: "Отделка потолка в чёрный цвет",
@@ -831,39 +849,54 @@ function Add() {
       type: "radio"
     },
     "input40-1": {
-      value: null,
+      value: "2",
       isFocused: false,
       error: null,
       label: "Количество мест",
-      type: "text"
+      type: "select",
+      choices: [
+        "2", "3", "4", "5", "6", "7", "8", "9"
+      ]
     },
     "input41-1": {
-      value: "Вентиляция сидений",
+      value: "Сиденья водителя",
       isFocused: false,
       error: null,
       label: "Вентиляция сидений",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
     },
     "input42-1": {
-      value: "Электроподогрев",
+      value: "Сиденья водителя",
       isFocused: false,
       error: null,
       label: "Электроподогрев",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
     },
     "input43-1": {
-      value: "Электропривод",
+      value: "Сиденья водителя",
       isFocused: false,
       error: null,
       label: "Электропривод",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
     },
     "input44-1": {
-      value: null,
+      value: "Сиденья водителя",
       isFocused: false,
       error: null,
       label: "Память настроек",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Сиденья водителя", "Передних сидений", "Задних сидений"
+      ]
     },
     "input45-1": {
       value: null,
@@ -936,18 +969,24 @@ function Add() {
       type: "radio"
     },
     "input55-1": {
-      value: null,
+      value: "Без тонировки",
       isFocused: false,
       error: null,
       label: "Тонировка",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Без тонировки", "Полная", "Задняя часть"
+      ]
     },
     "input56-1": {
-      value: null,
+      value: "Нет",
       isFocused: false,
       error: null,
       label: "Электрические стеклоподьемники",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Нет", "Передние", "Задние", "Все"
+      ]
     },
     "input57-1": {
       value: null,
@@ -971,18 +1010,24 @@ function Add() {
       type: "radio"
     },
     "input60-1": {
-      value: null,
+      value: "Гидравлический (ГУР)",
       isFocused: false,
       error: null,
       label: "Усилитель руля",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Гидравлический (ГУР)", "Электрический (ЭУР)", "Электрогидравлический (ЭГУР)"
+      ]
     },
     "input61-1": {
-      value: null,
+      value: "По высоте",
       isFocused: false,
       error: null,
       label: "Регулировка руля",
-      type: "radio"
+      type: "select",
+      choices: [
+        "По высоте", "По вылету", "Электрорегулировка"
+      ]
     },
     "input62-1": {
       value: null,
@@ -1055,11 +1100,14 @@ function Add() {
       type: "radio"
     },
     "input72-1": {
-      value: null,
+      value: "Полный комплект",
       isFocused: false,
       error: null,
       label: "Комплектация ключей",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Один ключ", "Два ключа", "Полный комплект"
+      ]
     },
     "input73-1": {
       value: null,
@@ -1178,7 +1226,10 @@ function Add() {
       isFocused: false,
       error: null,
       label: "Аудиосистема",
-      type: "radio"
+      type: "select",
+      choices: [
+        "2 колонки", "4 колонки", "6 колонок", "8+ колонок"
+      ]
     },
     "input90-1": {
       value: null,
@@ -1223,32 +1274,44 @@ function Add() {
       type: "radio"
     },
     "input96-1": {
-      value: null,
+      value: "Активная",
       isFocused: false,
       error: null,
       label: "Подвеска",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Активная", "Спортивная", "Пневмоподвеска"
+      ]
     },
     "input97-1": {
-      value: null,
+      value: "Штампованные",
       isFocused: false,
       error: null,
       label: "Тип дисков",
-      type: "text"
+      type: "select",
+      choices: [
+        "Штампованные", "Литые", "Кованные", "Сборные"
+      ]
     },
     "input98-1": {
-      value: null,
+      value: "13\”",
       isFocused: false,
       error: null,
       label: "Радиус дисков",
-      type: "text"
+      type: "select",
+      choices: [
+        "13\”", "14\”", "15\”", "16\”"
+      ]
     },
     "input99-1": {
-      value: null,
+      value: "Зимняя",
       isFocused: false,
       error: null,
       label: "Тип резины",
-      type: "text"
+      type: "select",
+      choices: [
+        "Зимняя", "Летняя", "Всесезонная"
+      ]
     },
     "input100-1": {
       value: null,
@@ -1258,18 +1321,24 @@ function Add() {
       type: "text"
     },
     "input101-1": {
-      value: null,
+      value: "Изношенная шина 1.6 мм",
       isFocused: false,
       error: null,
       label: "Износ резины высота протектора",
-      type: "text"
+      type: "select",
+      choices: [
+        "Изношенная шина 1.6 мм", "Средний износ 4 мм", "Новая шина 8 мм"
+      ]
     },
     "input102-1": {
-      value: null,
+      value: "Полноразмерное",
       isFocused: false,
       error: null,
       label: "Запасное колесо",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Полноразмерное", "Докатка"
+      ]
     },
     "input103-1": {
       value: null,
@@ -1285,6 +1354,66 @@ function Add() {
       label: "Зимние шины в комплекте",
       type: "radio"
     },
+    "input105-1": {
+      value: "1",
+      isFocused: false,
+      error: null,
+      label: "Общее количество",
+      type: "select",
+      choices: [
+        "1", "2", "3", "Отсутствуют"
+      ]
+    },
+    "input106-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Водителя",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input107-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Пассажира",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input108-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Боковые",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input109-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Коленные",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    },
+    "input110-1": {
+      value: "Есть",
+      isFocused: false,
+      error: null,
+      label: "Шторки",
+      type: "select",
+      choices: [
+        "Нет", "Есть", "Неисправен"
+      ]
+    }
   });
   const [ damages, setDamages ] = useState([]);
   const [ saving, setSaving ] = useState(false);
@@ -1532,6 +1661,7 @@ function Add() {
             <FormLIGHT inputs={Object.entries(inputs).slice(9, 19)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT title="Комплект документов" inputs={Object.entries(inputs).slice(19, 24)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT title="Дополнительно" inputs={Object.entries(inputs).slice(24, 31)} setInputs={setInputs} errors={errors} touched={touched} />
+            <div className={styles.title} style={{marginBottom: -10}}>Осмотр кузова</div>
             <CarView onlyView={true} carId="1234" damages={damages} />
             {damages.length > 0 &&
             <div>
@@ -1598,7 +1728,8 @@ function Add() {
                   <FormLIGHT title="Сохранность автомобиля" inputs={Object.entries(inputs).slice(126, 131)} setInputs={setInputs} errors={errors} touched={touched} />
                   <FormLIGHT title="Мультимедия" inputs={Object.entries(inputs).slice(131, 145)} setInputs={setInputs} errors={errors} touched={touched} />
                   <FormLIGHT title="Кузов" inputs={Object.entries(inputs).slice(145, 151)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Колёса" inputs={Object.entries(inputs).slice(151)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Колёса" inputs={Object.entries(inputs).slice(151, 159)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Подушка безопасности" inputs={Object.entries(inputs).slice(159)} setInputs={setInputs} errors={errors} touched={touched} />
                 </div>
               </div>
             </div>}

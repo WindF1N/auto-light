@@ -16,6 +16,7 @@ import Settings from './screens/Settings';
 import Service from './screens/Service';
 import Page from './screens/Page';
 import Serv from './screens/Serv';
+import AddDamage from './screens/AddDamage';
 
 const Navigate = () => {
 
@@ -38,6 +39,7 @@ const Navigate = () => {
             <Route path="/services/:id" element={<Service />} />
             <Route path="/page/:id" element={<Page />} />
             <Route path="/serv/:id" element={<Serv />} />
+            <Route path="/add-damage/" element={<AddDamage />} />
           </Routes>
         </BrowserRouter>
         : <LoadUserInfo />
