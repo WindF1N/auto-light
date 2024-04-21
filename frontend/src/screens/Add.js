@@ -8,6 +8,7 @@ import MiniSlider from '../components/MiniSlider';
 import Title from '../components/Title';
 import FormLIGHT from '../components/FormLIGHT';
 import CarView from '../components/CarView';
+import FlexVariables from '../components/FlexVariables';
 import Button from '../components/Button';
 import LoadingHover from '../components/LoadingHover';
 import ScrollToError from '../components/ScrollToError';
@@ -110,6 +111,12 @@ function Add() {
       error: null,
       label: "Госномер",
       type: "text"
+    },
+    "input3_": {
+      value: "Публичный госномер",
+      error: null,
+      label: "Публичный госномер",
+      type: "radio"
     },
     "input4": {
       value: null,
@@ -275,30 +282,24 @@ function Add() {
       ]
     },
     "input20": {
-      value: null,
+      value: "Оригинал",
       isFocused: false,
       error: null,
       label: "ПТС",
-      type: "radio"
+      type: "select",
+      choices: [
+        "Оригинал", "Электронный", "Дубликат", "Нет ПТС"
+      ]
     },
     "input21": {
-      value: null,
+      value: "1",
       isFocused: false,
       error: null,
       label: "Владельцев по ПТС",
-      type: "text",
-      mask: createNumberMask({
-        prefix: '',
-        suffix: '',
-        includeThousandsSeparator: true,
-        thousandsSeparatorSymbol: '',
-        allowDecimal: false,
-        decimalSymbol: null,
-        decimalLimit: 0, // количество знаков после запятой
-        integerLimit: 4, // максимальное количество цифр до запятой
-        allowNegative: false,
-        allowLeadingZeroes: false,
-      })
+      type: "select",
+      choices: [
+        "1", "2", "3", "4+"
+      ]
     },
     "input22": {
       value: "СТС",
@@ -316,6 +317,13 @@ function Add() {
         "Не выбрано", "Отсутствует", "ОСАГО", "КАСКО"
       ]
     },
+    "input23_": {
+      value: null,
+      error: null,
+      isFocused: false,
+      label: "Дата окончания страховки",
+      type: "text"
+    },
     "input24": {
       value: "Сервисная книжка",
       isFocused: false,
@@ -324,11 +332,14 @@ function Add() {
       type: "radio"
     },
     "input25": {
-      value: null,
+      value: "В наличии",
       isFocused: false,
       error: null,
       label: "Статус",
-      type: "text"
+      type: "select",
+      choices: [
+        "В наличии", "В пути"
+      ]
     },
     "input26": {
       value: "Без пробега по РФ",
@@ -462,11 +473,14 @@ function Add() {
       type: "text"
     },
     "input43": {
-      value: null,
+      value: "Личный автомобиль",
       isFocused: false,
       error: null,
       label: "Вид объявления",
-      type: "text"
+      type: "select",
+      choices: [
+        "Личный автомобиль", "Автомобиль приобретён на продажу", "Комиссионная продажа", "Онлайн", "Услуга 250р"
+      ]
     },
     "input44": {
       value: "Собственник",
@@ -625,10 +639,10 @@ function Add() {
       ]
     },
     "input10-1": {
-      value: "Система автомотической парковки",
+      value: "Система автоматической парковки",
       isFocused: false,
       error: null,
-      label: "Система автомотической парковки",
+      label: "Система автоматической парковки",
       type: "radio"
     },
     "input11-1": {
@@ -1415,8 +1429,27 @@ function Add() {
       ]
     }
   });
-  const [ damages, setDamages ] = useState([]);
+  const [ damages, setDamages ] = useState([
+    {
+      type: "Лобовое стекло ЛКП 280",
+      input1: "Трещина",
+      input3: "",
+      input4: "",
+      input5: ""
+    }
+  ]);
   const [ saving, setSaving ] = useState(false);
+  const [ select, setSelect ] = useState("schema");
+  const [ variables, setVariables ] = useState([
+    {
+      value: "schema",
+      label: "Схема"
+    },
+    {
+      value: "3d",
+      label: "3D Модель"
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo({top: 0, smooth: "behavior"});
@@ -1492,6 +1525,7 @@ function Add() {
           "input1": "Автомобили",
           "input2": "",
           "input3": "",
+          "input3_": "",
           "input4": "",
           "input5": "",
           "input6": "",
@@ -1508,12 +1542,13 @@ function Add() {
           "input17": "",
           "input18": "Передний",
           "input19": "Механика",
-          "input20": "",
-          "input21": "",
+          "input20": "Оригинал",
+          "input21": "1",
           "input22": "",
           "input23": "Не выбрано",
+          "input23_": "",
           "input24": "",
-          "input25": "",
+          "input25": "В наличии",
           "input26": "",
           "input27": "",
           "input28": "",
@@ -1531,7 +1566,7 @@ function Add() {
           "input40": "",
           "input41": "",
           "input42": "",
-          "input43": "",
+          "input43": "Личный автомобиль",
           "input44": "",
           "input45": "",
           "input46": "",
@@ -1652,17 +1687,24 @@ function Add() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-      {({ errors, touched, handleSubmit }) => (
+      {({ errors, touched, handleSubmit, values }) => (
         <Form>
           <div className={styles.flex20gap}>
             <FormLIGHT inputs={Object.entries(inputs).slice(0, 1)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(1, 4)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT title="Автомобиль" inputs={Object.entries(inputs).slice(4, 9)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(9, 19)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT title="Комплект документов" inputs={Object.entries(inputs).slice(19, 24)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT title="Дополнительно" inputs={Object.entries(inputs).slice(24, 31)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(1, 5)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Автомобиль" inputs={Object.entries(inputs).slice(5, 10)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(10, 20)} setInputs={setInputs} errors={errors} touched={touched} />
+            {values.input23 === "ОСАГО" &&
+              <FormLIGHT title="Комплект документов" inputs={Object.entries(inputs).slice(20, 26)} setInputs={setInputs} errors={errors} touched={touched} />}
+            {values.input23 !== "ОСАГО" &&
+              <FormLIGHT title="Комплект документов" inputs={Object.entries(inputs).slice(20, 26).filter((i) => i[0] !== "input23_")} setInputs={setInputs} errors={errors} touched={touched} />}
+            <FormLIGHT title="Дополнительно" inputs={Object.entries(inputs).slice(26, 33)} setInputs={setInputs} errors={errors} touched={touched} />
             <div className={styles.title} style={{marginBottom: -10}}>Осмотр кузова</div>
-            <CarView onlyView={true} carId="1234" damages={damages} />
+            <FlexVariables variables={variables} select={select} setSelect={setSelect} />
+            {select === "schema" &&
+              <CarView onlyView={true} carId="1234" damages={damages} />}
+            {select === "3d" &&
+              <iframe title="Rolls Royce Ghost 3D model - Sketchfab" style={{borderWidth: 0, height: "65vw", borderRadius: 8}} src="https://sketchfab.com/models/f93b7cfaff924ade9b2d0b7b5e5e6418/embed?autostart=1&amp;internal=1&amp;tracking=0&amp;ui_ar=0&amp;ui_infos=0&amp;ui_snapshots=1&amp;ui_stop=0&amp;ui_theatre=1&amp;ui_watermark=0" id="api-frame" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking="true" execution-while-out-of-viewport="true" execution-while-not-rendered="true" web-share="true" allowfullscreen=""></iframe>}
             {damages.length > 0 &&
             <div>
               <div className={styles.title}>Повреждения кузова</div>
@@ -1681,6 +1723,8 @@ function Add() {
                 ))}
               </div>
             </div>}
+            <Button text="Добавить +" small={true} style={{marginTop: -10}} handleClick={() => navigate("/add-damage?type=Крыша&carId=123")} />
+            <div className={styles.title}>Оценка автомобиля: 450 000 - 520 000 ₽<br/>Средняя стоимость автомобиля: 499 000 ₽</div>
             <div>
               <div className={styles.title}>Фотографии кузова</div>
               <MiniSlider images={images2}
@@ -1701,14 +1745,14 @@ function Add() {
                 <img src={require("../components/images/arrow-right.svg").default} alt="" />
               </div>
             </div>
-            <FormLIGHT inputs={Object.entries(inputs).slice(31, 32)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(32, 34)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(34, 42)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(42, 43)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT title="Продавец" inputs={Object.entries(inputs).slice(43, 46)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT title="Размещено на сайтах" inputs={Object.entries(inputs).slice(46, 49)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(49, 52)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(52, 55)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(33, 34)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(34, 36)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(36, 44)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(44, 45)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Продавец" inputs={Object.entries(inputs).slice(45, 48)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT title="Размещено на сайтах" inputs={Object.entries(inputs).slice(48, 51)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(51, 54)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(54, 57)} setInputs={setInputs} errors={errors} touched={touched} />
             <Button text="Разместить" handleClick={handleSubmit} />
             {more &&
             <div className={styles.moreWrapper}>
@@ -1719,17 +1763,17 @@ function Add() {
                 </div>
                 <Title text="Дополнительные опции" />
                 <div className={styles.flex20gap}>
-                  <FormLIGHT title="Вспомогательные системы" inputs={Object.entries(inputs).slice(55, 77)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Фары" inputs={Object.entries(inputs).slice(77, 85)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Салон" inputs={Object.entries(inputs).slice(85, 102)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Боковые зеркала" inputs={Object.entries(inputs).slice(102, 106)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Стёкла" inputs={Object.entries(inputs).slice(106, 113)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Руль и центральная панель" inputs={Object.entries(inputs).slice(113, 126)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Сохранность автомобиля" inputs={Object.entries(inputs).slice(126, 131)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Мультимедия" inputs={Object.entries(inputs).slice(131, 145)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Кузов" inputs={Object.entries(inputs).slice(145, 151)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Колёса" inputs={Object.entries(inputs).slice(151, 159)} setInputs={setInputs} errors={errors} touched={touched} />
-                  <FormLIGHT title="Подушка безопасности" inputs={Object.entries(inputs).slice(159)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Вспомогательные системы" inputs={Object.entries(inputs).slice(57, 79)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Фары" inputs={Object.entries(inputs).slice(79, 87)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Салон" inputs={Object.entries(inputs).slice(87, 104)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Боковые зеркала" inputs={Object.entries(inputs).slice(104, 108)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Стёкла" inputs={Object.entries(inputs).slice(108, 115)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Руль и центральная панель" inputs={Object.entries(inputs).slice(115, 128)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Сохранность автомобиля" inputs={Object.entries(inputs).slice(128, 133)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Мультимедия" inputs={Object.entries(inputs).slice(133, 147)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Кузов" inputs={Object.entries(inputs).slice(147, 153)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Колёса" inputs={Object.entries(inputs).slice(153, 161)} setInputs={setInputs} errors={errors} touched={touched} />
+                  <FormLIGHT title="Подушка безопасности" inputs={Object.entries(inputs).slice(161)} setInputs={setInputs} errors={errors} touched={touched} />
                 </div>
               </div>
             </div>}

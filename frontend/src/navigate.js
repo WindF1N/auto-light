@@ -8,6 +8,7 @@ import LoadUserInfo from './screens/LoadUserInfo';
 import SignIn from './screens/SignIn';
 import Verify from './screens/Verify';
 import Search from './screens/Search';
+import SearchMore from './screens/SearchMore';
 import Comments from './screens/Comments';
 import Post from './screens/Post';
 import User from './screens/User';
@@ -32,6 +33,7 @@ const Navigate = () => {
             <Route path="/verify" element={<Verify />} />
             <Route path="/add" element={<Add />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/search/more" element={<SearchMore />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/posts/:id" element={<Post />} />
             <Route path="/posts/:id/comments" element={<Comments />} />

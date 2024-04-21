@@ -165,7 +165,7 @@ const SocketProvider = ({ children }) => {
           setPostId(message[2]);
           setLoading(false);
         } else if (message[1] === 'list') {
-          setPosts(message[2]);
+          setPosts(message[2].reverse());
         }
       } else if (message[0] === 'error') {
         if (message[1] === 'Token has expired') {

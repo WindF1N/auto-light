@@ -117,7 +117,7 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
                   document.getElementById(`select${key}`).focus()
                 }}>
                   <label htmlFor={key}>{value.label}</label>
-                  <div className={field.value === "Не выбрано" ? styles.valueGray : styles.value}>
+                  <div className={field.value === "Не выбрано" ? styles.valueGray : styles.value} style={{whiteSpace: "nowrap"}}>
                     {field.value}
                     <img src={require("./images/arrow-right.svg").default} alt="" />
                   </div>

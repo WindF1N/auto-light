@@ -12,6 +12,8 @@ import RandomGrid from '../components/RandomGrid';
 import UserList from '../components/UserList';
 import Button from '../components/Button';
 import { useMainContext } from '../context';
+import addphoto from './images/add-photo.svg';
+import GosNumber from '../components/GosNumber';
 
 function Search() {
 
@@ -264,7 +266,20 @@ function Search() {
       {select === "transport" &&
         <>
           <Title text="Автомобили" allowGrid={() => setTransportView("grid")} allowBlocks={() => setTransportView("list")} selected={transportView}/>
-          <Button text="Расширенный поиск" style={{marginBottom: 15}} />
+          <Button text="Расширенный поиск" style={{marginBottom: 15}} small={true} handleClick={() => navigate("/search/more")} />
+          <div className={styles.flex} style={{marginBottom: 10, marginTop: -5}}>
+            <GosNumber />
+            <div className={styles.addphoto} onClick={() => document.getElementById('photo-input').click()}>
+              <img src={addphoto} alt="" />
+              <input
+                  id="photo-input"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  style={{ display: 'none' }}
+                />
+            </div>
+          </div>
           {transportView === "grid" &&
             <Grid items={transport} navigate={navigate} />}
           {transportView === "list" &&

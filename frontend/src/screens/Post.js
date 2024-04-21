@@ -273,7 +273,7 @@ function Post() {
               <img src={require("../components/images/arrow-right.svg").default} alt="" />
             </div>
           </div>
-          <Grid items={posts_} navigate={navigate} />
+          <Grid items={posts_.slice(0,3)} navigate={navigate} />
         </>}
 
       <div className={styles.wrapper}>

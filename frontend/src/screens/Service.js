@@ -641,15 +641,22 @@ function Service() {
       ]
     },
     "input2": {
-      value: null,
-      isFocused: false,
+      value: "00 AA 000000",
+      isFocused: true,
       error: null,
-      label: "Номер документа",
+      label: "Введите номер документа",
       type: "text"
     },
-    "input5": {
-      value: null,
-      isFocused: false,
+    "input2-2": {
+      value: "00 00 000000",
+      isFocused: true,
+      error: null,
+      label: "Введите номер свидетельства",
+      type: "text"
+    },
+    "input3": {
+      value: "A 000 AA 000",
+      isFocused: true,
       error: null,
       label: "Гос. номер",
       type: "text"
@@ -2593,6 +2600,8 @@ function Service() {
     alert(JSON.stringify(values))
   }
 
+
+
   return (
     <div className={styles.view}>
       {id === "1" &&
@@ -2754,8 +2763,9 @@ function Service() {
           <Formik
             initialValues={{
               "input1": "Водительское удостоверение",
-              "input2": "",
-              "input3": ""
+              "input2": "00 AA 000000",
+              "input2-2": "00 00 000000",
+              "input3": "A 000 AA 000"
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -2766,7 +2776,7 @@ function Service() {
                 {values.input1 === "Водительское удостоверение" &&
                   <FormLIGHT inputs={Object.entries(inputs4).slice(0, 2)} setInputs={setInputs4} errors={errors} touched={touched} />}
                 {values.input1 === "Свидетельство о регистрации СТС" &&
-                  <FormLIGHT inputs={Object.entries(inputs4)} setInputs={setInputs4} errors={errors} touched={touched} />}
+                  <FormLIGHT inputs={Object.entries(inputs4).filter((i) => i[0] !== "input2")} setInputs={setInputs4} errors={errors} touched={touched} />}
                 <Button text="Проверить штрафы" handleClick={handleSubmit} />
               </div>
               <ScrollToError/>
@@ -2902,8 +2912,8 @@ function Service() {
               <FormLIGHT title="2, 3, 4-я Страница" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
               <FormLIGHT title="Место записи •1 •2 •3 •4" inputs={[]} setInputs={setInputs8} errors={errors} touched={touched} />
               <FormLIGHT title="Особые метки" inputs={Object.entries(inputs8).slice(26,27)} setInputs={setInputs8} errors={errors} touched={touched} />
-              <FormLIGHT inputs={Object.entries(inputs8).slice(27, 32)} setInputs={setInputs8} errors={errors} touched={touched} />
-              <FormLIGHT title="Свидетельство о регистрации ТС" inputs={Object.entries(inputs8).slice(32)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT inputs={Object.entries(inputs8).slice(27, 31)} setInputs={setInputs8} errors={errors} touched={touched} />
+              <FormLIGHT title="Свидетельство о регистрации ТС" inputs={Object.entries(inputs8).slice(31)} setInputs={setInputs8} errors={errors} touched={touched} />
               <Button text="Скачать" />
             </div>
             <ScrollToError/>

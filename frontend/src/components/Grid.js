@@ -1,6 +1,7 @@
 import styles from './styles/Grid.module.css';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useEffect, useState } from 'react';
+import GosNumber from '../components/GosNumber';
 
 
 function Grid({ items: initialItems, navigate }) {
@@ -11,31 +12,40 @@ function Grid({ items: initialItems, navigate }) {
     if (items.length == 0 && initialItems.length > 0) {
       setItems(prevState => {
         const combinedList = [...prevState]; // Копируем текущее состояние в новый список
-
+  
         initialItems.forEach(item => {
-          // Находим все индексы, где количество элементов меньше или равно 3
-          const validIndices = combinedList.reduce((acc, list, index) => {
-            if (list.length <= 3) {
-              acc.push(index);
+          let randomIndex;
+          let isValidIndex = false;
+  
+          // Повторяем пока не найдем допустимый индекс
+          while (!isValidIndex) {
+            // Выбираем случайный индекс из всех доступных списков
+            randomIndex = Math.floor(Math.random() * (combinedList.length + 1)); // +1 для возможности создания нового списка
+  
+            // Проверяем, чтобы предыдущий или следующий список не был одинаковой длины
+            const isPreviousSameLength = randomIndex > 0 && combinedList[randomIndex - 1]?.length === combinedList[randomIndex]?.length;
+  
+            // Проверяем, что combinedList[randomIndex] существует и что он не имеет одинаковой длины с соседними списками
+            if (randomIndex < combinedList.length && !isPreviousSameLength && combinedList[randomIndex]) {
+              // Добавляем элемент в существующий список, если индекс меньше длины combinedList и нет одинаковой длины рядом
+              if (combinedList[randomIndex].length <= 2) {
+                combinedList[randomIndex].push(item);
+                isValidIndex = true;
+              }
+            } else if (randomIndex === combinedList.length) {
+              // Если индекс равен длине combinedList, создаем новый список с одним элементом
+              combinedList.push([item]);
+              isValidIndex = true;
             }
-            return acc;
-          }, []);
-
-          if (validIndices.length > 0) {
-            // Выбираем случайный индекс из доступных
-            const randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
-            // Добавляем элемент в выбранный индекс
-            combinedList[randomIndex].push(item);
-          } else {
-            // Если нет доступных индексов, создаем новый список с элементом
-            combinedList.push([item]);
           }
         });
-
+  
+        console.log(combinedList);
+  
         return combinedList; // Обновляем состояние posts
       });
     }
-  }, [initialItems, items]); 
+  }, [initialItems, items]);
 
   return (
     <div className={styles.grid}>
@@ -51,6 +61,9 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
+                <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
+                  <GosNumber number={"м555мм"} region={"95"} size={.35} />
+                </div>
               </div>
               <div className={styles.information}>
                 <div className={styles.title}>{item.input39}</div>
@@ -68,6 +81,9 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
+                <div style={{position: "absolute", bottom: "5%", right: "4%", zIndex: 999}}>
+                  <GosNumber number={"м555мм"} region={"95"} size={.7} />
+                </div>
               </div>
               <div className={styles.information}>
                 <div className={styles.title}>{item.input39}</div>
@@ -85,6 +101,9 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
+                <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
+                  <GosNumber number={"м555мм"} region={"95"} size={.45} />
+                </div>
               </div>
               <div className={styles.information}>
                 <div className={styles.title}>{item.input39}</div>

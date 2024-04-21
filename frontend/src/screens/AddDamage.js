@@ -58,7 +58,6 @@ function AddDamage() {
     if ('input2' === id) {
       setInputs((prevState) => {
         if (!prevState[id].value) {
-          sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {[id]: ''}]));
           return {
             ...prevState,
             [id]: {
@@ -67,7 +66,6 @@ function AddDamage() {
             },
           };
         } else {
-          sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {[id]:  Number(prevState[id].value.replace(/\s/g, '')).toLocaleString() + ' мкм'}]));
           return {
             ...prevState,
             [id]: {
@@ -81,7 +79,6 @@ function AddDamage() {
     } else {
       setInputs((prevState) => {
         if (!prevState[id].value) {
-          sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {[id]: ''}]));
           return {
             ...prevState,
             [id]: {
@@ -90,7 +87,6 @@ function AddDamage() {
             },
           };
         };
-        sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {[id]: prevState[id].value}]));
         return prevState;
       });
     };
@@ -181,7 +177,7 @@ function AddDamage() {
               type="radio"
               name="type_damage"
               placeholder=""
-              onChange={(event) => {handleChange('input1', event);sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {'input1': event.target.value}]))}}
+              onChange={(event) => {handleChange('input1', event)}}
               value="Трещина"
               checked={!inputs['input1'] ? true : inputs['input1'].value === 'Трещина' ? true : false}
             />
@@ -193,7 +189,7 @@ function AddDamage() {
               type="radio"
               name="type_damage"
               placeholder=""
-              onChange={(event) => {handleChange('input1', event);sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {'input1': event.target.value}]))}}
+              onChange={(event) => {handleChange('input1', event)}}
               value="Вмятина"
             />
           </div>
@@ -204,7 +200,7 @@ function AddDamage() {
               type="radio"
               name="type_damage"
               placeholder=""
-              onChange={(event) => {handleChange('input1', event);sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {'input1': event.target.value}]))}}
+              onChange={(event) => {handleChange('input1', event)}}
               value="Разбито или отсутствует"
             />
           </div>
@@ -215,7 +211,7 @@ function AddDamage() {
               type="radio"
               name="type_damage"
               placeholder=""
-              onChange={(event) => {handleChange('input1', event);sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {'input1': event.target.value}]))}}
+              onChange={(event) => {handleChange('input1', event)}}
               value="Скол/царапина"
             />
           </div>
@@ -226,7 +222,7 @@ function AddDamage() {
               type="radio"
               name="type_damage"
               placeholder=""
-              onChange={(event) => {handleChange('input1', event);sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {'input1': event.target.value}]))}}
+              onChange={(event) => {handleChange('input1', event)}}
               value="Коррозия/ржавчина"
             />
           </div>
@@ -237,7 +233,7 @@ function AddDamage() {
               type="radio"
               name="type_damage"
               placeholder=""
-              onChange={(event) => {handleChange('input1', event);sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {'input1': event.target.value}]))}}
+              onChange={(event) => {handleChange('input1', event)}}
               value="Деталь окрашивалась"
             />
           </div>
@@ -248,7 +244,7 @@ function AddDamage() {
               type="radio"
               name="type_damage"
               placeholder=""
-              onChange={(event) => {handleChange('input1', event);sendMessage(JSON.stringify(['cars', 'change-damage', damageId, {'input1': event.target.value}]))}}
+              onChange={(event) => {handleChange('input1', event)}}
               value="Деталь менялась"
             />
           </div>
