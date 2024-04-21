@@ -1,13 +1,13 @@
-import remove from '../components/images/remove.svg';
-import plus2 from '../components/images/plus2.svg';
 import './styles/AddDamage.css';
 import FixedButton from '../components/FixedButton';
+import FormLIGHT from '../components/FormLIGHT';
 import Button from '../components/Button';
 import MiniSlider from '../components/MiniSlider';
 import Title from '../components/Title';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useMainContext } from '../context';
+import { Formik, Form } from 'formik';
 
 function AddDamage() {
   const navigate = useNavigate();
@@ -26,6 +26,39 @@ function AddDamage() {
   const [photosError, setPhotosError] = useState(null);
 
   const [loading, setLoading] = useState(false);
+
+  const [ inputs2, setInputs2 ] = useState({
+    "input1": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Повреждённая область",
+      type: "select",
+      choices: [
+        "Правое зеркало", 
+        "Левое зеркало", 
+        "Передняя правая фара", 
+        "Передняя левая фара", 
+        "Задняя правая фара", 
+        "Задняя левая фара", 
+        "Лобовое стекло", 
+        "Заднее стекло", 
+        "Передний бампер", 
+        "Задний бампер", 
+        "Капот", 
+        "Багажник", 
+        "Крыша", 
+        "Переднее правое крыло", 
+        "Переднее левое крыло", 
+        "Заднее правое крыло", 
+        "Заднее левое крыло", 
+        "Передняя правая дверь", 
+        "Передняя левая дверь", 
+        "Задняя правая дверь", 
+        "Задняя левая дверь"
+      ]
+    },
+  })
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -167,7 +200,19 @@ function AddDamage() {
   return (
     <div className="AddDamage">
       <div className="container">
-        <Title text={"Повреждение \"" + type + "\""} />
+        <Title text={"Повреждение кузова"} />
+        <Formik
+          initialValues={{
+            "input1": "Правое зеркало",
+          }}
+          onSubmit={(values) => console.log(JSON.stringify(values))}
+        >
+          {({ errors, touched, handleSubmit, values }) => (
+            <Form>
+              <FormLIGHT inputs={Object.entries(inputs2)} setInputs={setInputs2} errors={errors} touched={touched} />
+            </Form>
+          )}
+        </Formik>
         <div className="block-title">Тип повреждения</div>
         <div className="block-inputs">
           <div className="block-input radio">
@@ -269,7 +314,7 @@ function AddDamage() {
         </div>
         <div className="block-title">
           <div className="flex-line">
-            <div>Ремонт повреждения</div>
+            <div>Предполагаемый ремонт</div>
             <div className="error-label">
             {(inputs['input3'] && inputs['input3'].error) || (inputs['input4'] && inputs['input4'].error) || (inputs['input5'] && inputs['input5'].error) ?
               "Выберите хотя бы 1 пункт" : null}

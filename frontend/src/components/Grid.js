@@ -61,9 +61,10 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
+                {"input3_" in item &&
                 <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.35} />
-                </div>
+                </div>}
               </div>
               <div className={styles.information}>
                 <div className={styles.title}>{item.input39}</div>
@@ -81,9 +82,10 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
+                {"input3_" in item &&
                 <div style={{position: "absolute", bottom: "5%", right: "4%", zIndex: 999}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.7} />
-                </div>
+                </div>}
               </div>
               <div className={styles.information}>
                 <div className={styles.title}>{item.input39}</div>
@@ -101,9 +103,10 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
+                {"input3_" in item &&
                 <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.45} />
-                </div>
+                </div>}
               </div>
               <div className={styles.information}>
                 <div className={styles.title}>{item.input39}</div>

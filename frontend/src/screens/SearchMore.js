@@ -143,6 +143,16 @@ function SearchMore() {
       label: "Цена, ₽",
       type: "text"
     },
+    "input7_": {
+      value: "Бензин",
+      isFocused: true,
+      error: null,
+      label: "Двигатель",
+      type: "select",
+      choices: [
+        "Бензин", "Дизель", "Гибрид", "Электро"
+      ]
+    },
     "input7": {
       value: "2.0 - 2.5 л",
       isFocused: true,
@@ -167,6 +177,13 @@ function SearchMore() {
       isFocused: true,
       error: null,
       label: "Мощность (л.с.)",
+      type: "text"
+    },
+    "input8_": {
+      value: "10 000 - 50 000 км",
+      isFocused: true,
+      error: null,
+      label: "Пробег, км",
       type: "text"
     },
     "input9": {
@@ -258,7 +275,7 @@ function SearchMore() {
     "input19": {
       value: "Кроме битых",
       error: null,
-      label: "Документы",
+      label: "Состояние",
       type: "select",
       choices: [
         "Кроме битых", "Новые"
@@ -352,7 +369,9 @@ function SearchMore() {
           "input5": "2010 - 2022",
           "input6": "100 000 - 2 000 000",
           "input7": "2.0 - 2.5 л",
+          "input7_": "Бензин",
           "input8": "270 - 350 л.с.",
+          "input8_": "10 000 - 50 000 км",
           "input9": "Автомат",
           "input10": "Полный",
           "input11": "Седан",
@@ -378,9 +397,9 @@ function SearchMore() {
             <FormLIGHT inputs={Object.entries(inputs).slice(1, 2)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT inputs={Object.entries(inputs).slice(2, 4)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT inputs={Object.entries(inputs).slice(4, 6)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(6, 13)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(13, 21)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(21)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(6, 15)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(15, 23)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(23)} setInputs={setInputs} errors={errors} touched={touched} />
           </div>
         </Form>
       )}

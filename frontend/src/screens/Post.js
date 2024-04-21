@@ -26,6 +26,23 @@ function Post() {
   const [ loading, setLoading ] = useState(true);
   const [ isFavorite, setIsFavorite ] = useState(false);
 
+  const [ damages, setDamages ] = useState([
+    {
+      type: "Лобовое стекло ЛКП 280",
+      input1: "Трещина",
+      input3: "Замена",
+      input4: "",
+      input5: ""
+    },
+    {
+      type: "Передняя левая фара ЛКП 180",
+      input1: "Царапина",
+      input3: "Полировка",
+      input4: "",
+      input5: ""
+    }
+  ]);
+
   const handleAction = (e) => {
     alert('123');
   }
@@ -146,11 +163,17 @@ function Post() {
       <div className={styles.price}>
         <div>{post?.input39}</div>
         <div className={styles.actions}>
+          <div className={styles.action} onClick={handleAction}>
+            <img src={require("./images/compare.svg").default} alt="" />
+            Сравнить
+          </div>
           <div className={styles.action} onClick={handleFavorite}>
             <img src={isFavorite ? require("../components/images/like-active.svg").default : require("../components/images/like.svg").default} alt="" />
+            Избранное
           </div>
           <div className={styles.action} onClick={handleAction}>
             <img src={require("./images/share.svg").default} alt="" />
+            Поделиться
           </div>
         </div>
       </div>
@@ -181,6 +204,10 @@ function Post() {
           {
             label: "Категория",
             value: post?.input1
+          },
+          {
+            label: "Тип автомобиля",
+            value: "С пробегом"
           }
         ]} />
       </div>
@@ -195,24 +222,32 @@ function Post() {
             value: post?.input8
           },
           {
-            label: "Пробег, км",
-            value: post?.input17
+            label: "Комплектация",
+            value: post?.input14
           },
           {
-            label: "Владельцев по ПТС",
-            value: post?.input21
+            label: "Пробег, км",
+            value: post?.input17
           },
           {
             label: "Модификация",
             value: post?.input13
           },
           {
-            label: "Объём двигателя, л",
+            label: "Двигатель",
+            value: post?.input10
+          },
+          {
+            label: "Объём двигателя",
             value: post?.input11
           },
           {
-            label: "Тип двигателя",
-            value: post?.input10
+            label: "Мощность",
+            value: "250 л.с."
+          },
+          {
+            label: "Налог",
+            value: "3 570 ₽ в год"
           },
           {
             label: "Коробка передач",
@@ -223,11 +258,7 @@ function Post() {
             value: post?.input18
           },
           {
-            label: "Комплектация",
-            value: post?.input14
-          },
-          {
-            label: "Тип кузова",
+            label: "Кузов",
             value: post?.input9
           },
           {
@@ -239,13 +270,73 @@ function Post() {
             value: post?.input15
           },
           {
-            label: "VIN или номер кузова",
-            value: post?.input2
+            label: "Состояние",
+            value: "Не требует ремонта"
+          },
+          {
+            label: "Все характеристики",
+            value: <img src={require("../components/images/arrow-right.svg").default} alt="" />
           },
         ]} />
-        <div style={{marginTop: 20}}>
-          <Button text="Смотреть бесплатный отчёт" />
-        </div>
+      </div>
+      <div style={{marginTop: 10}}>
+        <Items items={[
+          {
+            label: "Таможня",
+            value: "Растоможен"
+          },
+          {
+            label: "ПТС",
+            value: "Оригинал"
+          },
+          {
+            label: "Владельцев по ПТС",
+            value: "1"
+          },
+          {
+            label: "VIN / Номер кузова",
+            value: "SADC*****************"
+          },
+          {
+            label: "Госномер",
+            value: "м555мм|95"
+          }
+        ]} />
+      </div>
+      {damages.length > 0 &&
+        <div>
+          <div className={styles.title_}>Повреждения кузова</div>
+          <div className={styles.texts_}>
+            <div className={styles.label_}>
+              <div>Название детали</div>
+              <div>Повреждения</div>
+              <div>Ремонт</div>
+            </div>
+            {damages.map((damage, index) => (
+              <div className={styles.text_} key={index}>
+                <div>{damage.type}</div>
+                <div>{damage.input1}</div>
+                <div>{damage.input3} {damage.input4} {damage.input5}</div>
+              </div>
+            ))}
+          </div>
+        </div>}
+      <Button text="Посмотреть на схеме" small={true} style={{borderTopLeftRadius: 0, borderTopRightRadius: 0}} />
+      <div style={{marginTop: 20}}>
+        <Items items={[
+          {
+            label: "Дополнительные опции",
+            value: <img src={require("../components/images/arrow-right.svg").default} alt="" />
+          },
+        ]} />
+      </div>
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+        Этот автомобиль возможно приобрести в Кредит<br/>
+        или в Рассрочку на выгодных для вас условиях!
+      </div>
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+        Этот автомобиль возможно приобрести в Кредит<br/>
+        или в Рассрочку на выгодных для вас условиях!
       </div>
       <div className={styles.wrapper}>
         {post?.description &&

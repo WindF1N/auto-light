@@ -34,6 +34,7 @@ const SocketProvider = ({ children }) => {
   const [ transportView, setTransportView ] = useState("grid");
   const [ servicesView, setServicesView ] = useState("grid");
   const [ services_View, setServices_View ] = useState("grid");
+  const [ dealersView, setDealersView ] = useState("grid");
 
   const login = async (data, navigate) => {
     try {
@@ -267,6 +268,8 @@ const SocketProvider = ({ children }) => {
                                      setServicesView,
                                      services_View, 
                                      setServices_View,
+                                     dealersView, 
+                                     setDealersView,
 
                                      login,
                                      verify,

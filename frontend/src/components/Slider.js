@@ -1,5 +1,6 @@
 import styles from './styles/Slider.module.css';
 import { useRef, useEffect, useState } from 'react';
+import GosNumber from './GosNumber';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 function Slider({ images, imagesDivRef, setActiveImage, canAdd, activeImage, setImages, maxImagesCount, photosError, setPhotosError }) {
@@ -90,6 +91,7 @@ function Slider({ images, imagesDivRef, setActiveImage, canAdd, activeImage, set
             {images.map((image, index) => (
               <div className={styles.image} key={index}>
                 <LazyLoadImage src={image.file} placeholderSrc={image.file_lazy} alt="" />
+                <span style={{position: "absolute", top: 25, right: 25, opacity: .2, fontSize: 18, fontWeight: 500}}>AutoLIGHT</span>
               </div>
             ))}
           </div>
@@ -131,6 +133,9 @@ function Slider({ images, imagesDivRef, setActiveImage, canAdd, activeImage, set
         <div className={styles.removeImage} onClick={handleRemoveImage}>
           <img src={require("./images/remove.svg").default} alt="remove"/>
         </div>}
+      <div style={{position: "absolute", bottom: images.length > 1 ? 20 : 8, right: 5}}>
+        <GosNumber number={"м555мм"} region={"95"} size={.6} />
+      </div>
     </div>
   );
 }

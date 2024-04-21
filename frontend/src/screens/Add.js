@@ -1433,7 +1433,7 @@ function Add() {
     {
       type: "Лобовое стекло ЛКП 280",
       input1: "Трещина",
-      input3: "",
+      input3: "Замена",
       input4: "",
       input5: ""
     }
@@ -1724,7 +1724,6 @@ function Add() {
               </div>
             </div>}
             <Button text="Добавить +" small={true} style={{marginTop: -10}} handleClick={() => navigate("/add-damage?type=Крыша&carId=123")} />
-            <div className={styles.title}>Оценка автомобиля: 450 000 - 520 000 ₽<br/>Средняя стоимость автомобиля: 499 000 ₽</div>
             <div>
               <div className={styles.title}>Фотографии кузова</div>
               <MiniSlider images={images2}
@@ -1748,6 +1747,7 @@ function Add() {
             <FormLIGHT inputs={Object.entries(inputs).slice(33, 34)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT inputs={Object.entries(inputs).slice(34, 36)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT inputs={Object.entries(inputs).slice(36, 44)} setInputs={setInputs} errors={errors} touched={touched} />
+            <div className={styles.title} style={{marginBottom: -10}}>Оценка автомобиля: 450 000 - 520 000 ₽<br/>Средняя стоимость автомобиля: 499 000 ₽</div>
             <FormLIGHT inputs={Object.entries(inputs).slice(44, 45)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT title="Продавец" inputs={Object.entries(inputs).slice(45, 48)} setInputs={setInputs} errors={errors} touched={touched} />
             <FormLIGHT title="Размещено на сайтах" inputs={Object.entries(inputs).slice(48, 51)} setInputs={setInputs} errors={errors} touched={touched} />

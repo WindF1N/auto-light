@@ -1,22 +1,15 @@
 import styles from './styles/Search.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FixedButton from '../components/FixedButton';
 import SearchInput from '../components/SearchInput';
-import FlexVariables from '../components/FlexVariables';
 import Title from '../components/Title';
-import Grid from '../components/Grid';
-import DataItems from '../components/DataItems';
 import BlocksV2 from '../components/BlocksV2';
-import RandomGrid from '../components/RandomGrid';
-import UserList from '../components/UserList';
-import Button from '../components/Button';
-import { useMainContext } from '../context';
 
 function Serv() {
 
   const navigate = useNavigate();
-
+  const [ view, setView ] = useState("grid");
   const [ items, setItems ] = useState([
     {
       image: require("./images/avatar.jpeg"),
@@ -37,8 +30,22 @@ function Serv() {
   return (
     <div className={styles.view}>
       <SearchInput />
-      <Title text="Деньги под залог ПТС" allowBlocks={() => null} allowGrid={() => null} selected={"grid"} />
-      <BlocksV2 items={items} />
+      <Title text="Деньги под залог ПТС" allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />
+      {view === "list" &&
+        <BlocksV2 items={items} />}
+      {view === "grid" &&
+        <div className={styles.line}>
+          {items.map((item, index) => (
+          <div className={styles.cellMiddle} key={index}>
+            <div className={styles.image}>
+              <img src={item.image} alt="" />
+            </div>
+            <div className={styles.information}>
+              <div className={styles.title}>{item.title}</div>
+              <div className={styles.price}>{item.price}</div>
+            </div>
+          </div>))}
+        </div>}
       <FixedButton />
     </div>
   );

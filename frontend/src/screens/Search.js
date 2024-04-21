@@ -19,7 +19,7 @@ function Search() {
 
   const navigate = useNavigate();
 
-  const { account, sendMessage, message, setMessage, posts, users, select, setSelect, transportView, setTransportView, servicesView, setServicesView, services_View, setServices_View } = useMainContext();
+  const { account, sendMessage, message, setMessage, posts, users, select, setSelect, transportView, setTransportView, servicesView, setServicesView, services_View, setServices_View, dealersView, setDealersView } = useMainContext();
 
   const [variables, setVariables] = useState([
     {
@@ -235,10 +235,41 @@ function Search() {
     {
       title: "Электронный акт осмотра транспортного средства",
       views_count: "3.3 млн просмотров",
-      link: "/services/12"
+      link: "/add"
     },
   ]);
-  const [dealers, setDealers] = useState([]);
+  const [dealers, setDealers] = useState([
+    {
+      image: "https://s0.rbk.ru/rbcplus_pics/media/img/3/20/295906625023203.jpg",
+      title: "ООО \"Престиж-Центр\"",
+      address: "Сочи, ул. Парусная, 20/3"
+    },
+    {
+      image: "https://s0.rbk.ru/rbcplus_pics/media/img/3/20/295906625023203.jpg",
+      title: "ООО \"Престиж-Центр\"",
+      address: "Сочи, ул. Парусная, 20/3"
+    },
+    {
+      image: "https://s0.rbk.ru/rbcplus_pics/media/img/3/20/295906625023203.jpg",
+      title: "ООО \"Престиж-Центр\"",
+      address: "Сочи, ул. Парусная, 20/3"
+    },
+    {
+      image: "https://s0.rbk.ru/rbcplus_pics/media/img/3/20/295906625023203.jpg",
+      title: "ООО \"Престиж-Центр\"",
+      address: "Сочи, ул. Парусная, 20/3"
+    },
+    {
+      image: "https://s0.rbk.ru/rbcplus_pics/media/img/3/20/295906625023203.jpg",
+      title: "ООО \"Престиж-Центр\"",
+      address: "Сочи, ул. Парусная, 20/3"
+    },
+    {
+      image: "https://s0.rbk.ru/rbcplus_pics/media/img/3/20/295906625023203.jpg",
+      title: "ООО \"Престиж-Центр\"",
+      address: "Сочи, ул. Парусная, 20/3"
+    }
+  ]);
   const [accounts, setAccounts] = useState(users || []);
 
   useEffect(() => {
@@ -295,8 +326,35 @@ function Search() {
         </>}
       {select === "dealers" &&
         <>
-          <Title text="Дилеры"/>
-          <Grid items={dealers} navigate={navigate} />
+          <Title text="Дилеры" allowGrid={() => setDealersView("grid")} allowBlocks={() => setDealersView("list")} selected={dealersView}/>
+          {dealersView === "grid" &&
+          <div className={styles.line}>
+            {dealers.map((item, index) => (
+            <div className={styles.cellMiddle} key={index}>
+              <div className={styles.image}>
+                <img src={item.image} alt="" />
+              </div>
+              <div className={styles.information}>
+                <div className={styles.title}>{item.title}</div>
+                <div className={styles.price}>{item.address}</div>
+              </div>
+            </div>))}
+          </div>}
+          {dealersView === "list" &&
+          <div className={styles.list}>
+            {dealers.map((item, index) => (
+            <div className={styles.item} key={index}>
+              <div className={styles.image}>
+                <img src={item.image} alt="" />
+              </div>
+              <div className={styles.information}>
+                <div className={styles.title}>{item.title}</div>
+                <div className={styles.price}>{item.address}</div>
+                <Button text="Написать" small={true} style={{marginTop: 5}}/>
+                <Button text="Позвонить" small={true}/>
+              </div>
+            </div>))}
+          </div>}
         </>}
       {select === "accounts" &&
         <>
