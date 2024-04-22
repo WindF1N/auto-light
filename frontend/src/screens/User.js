@@ -1,10 +1,13 @@
 import styles from './styles/User.module.css';
+import styles2 from './styles/Search.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import FixedButton from '../components/FixedButton';
 import Button from '../components/Button';
 import Title from '../components/Title';
 import Grid from '../components/Grid';
+import BlocksV2 from "../components/BlocksV2";
+import Blocks from "../components/Blocks";
 import FlexVariables from '../components/FlexVariables';
 import { useMainContext } from '../context';
 
@@ -28,7 +31,24 @@ function User() {
   const [ select, setSelect ] = useState("transport");
   const [ user, setUser ] = useState(account?.username === username ? account : null);
   const [ posts, setPosts ] = useState([]);
-  const [ services, setServices ] = useState([]);
+  const [ services, setServices ] = useState([
+    {
+      image: require("./images/avatar.jpeg"),
+      title: "Андрей",
+      description: "Срочный выкуп автомобилей",
+      price: "Цена договорная",
+      name: "Александр"
+    },
+    {
+      image: require("./images/avatar.jpeg"),
+      title: "Выкуп авто в любом состоянии",
+      description: "",
+      price: "100 000 ₽",
+      name: "Александр"
+    }
+  ]);
+  const [ servicesView, setServicesView ] = useState("grid");
+  const [ transportView, setTransportView ] = useState("grid");
   const [ loading, setLoading ] = useState(true);
   const [ subscribeState, setSubscribeState ] = useState(false);
   const [ stats, setStats ] = useState([0, 0, 0]);
@@ -68,10 +88,12 @@ function User() {
         }
       } else if (message[0] === 'posts') {
         if (message[1] === 'filter') {
-          setPosts(prevState => [...prevState, ...message[2]]);
-          message[2].forEach(item => {
-            sendMessage(JSON.stringify(["images", "get", item._id, "main"]));
-          })
+          if (posts.length === 0) {
+            setPosts(prevState => [...prevState, ...message[2]]);
+            message[2].forEach(item => {
+              sendMessage(JSON.stringify(["images", "get", item._id, "main"]));
+            })
+          }
         }
       } else if (message[0] === 'images') {
         if (message[1] === 'get') {
@@ -156,6 +178,11 @@ function User() {
         <div className={styles.pb20}>
           <div className={styles.bio}>{user?.bio}</div>
         </div>
+        {(account?._id === user?._id && account) &&
+          <div style={{marginTop: -15, marginBottom: 10, padding: "0 10px"}}>
+            <Button text="Пароли" small={true} handleClick={() => navigate("/passwords")} />
+          </div>
+        }
         {(account?._id !== user?._id && account) &&
         <div className={styles.pb20}>
           <div className={styles.buttons}>
@@ -173,13 +200,30 @@ function User() {
         <FlexVariables variables={variables} select={select} setSelect={setSelect} />
         {select === "transport" && !loading &&
           <>
-            <Title text="Автомобили" allowGrid={true} allowBlocks={true}/>
-            <Grid items={posts} navigate={navigate} />
+            <Title text="Автомобили" allowGrid={() => setTransportView("grid")} allowBlocks={() => setTransportView("list")} selected={transportView}/>
+            {transportView === "grid" &&
+              <Grid items={posts} navigate={navigate} />}
+            {transportView === "list" &&
+              <Blocks items={posts} />}
           </>}
         {select === "services" && !loading &&
           <>
-            <Title text="Автоуслуги" allowGrid={true} allowBlocks={true}/>
-            <Grid items={services} navigate={navigate} />
+            <Title text="Автоуслуги" allowGrid={() => setServicesView("grid")} allowBlocks={() => setServicesView("list")} selected={servicesView}/>
+            {servicesView === "list" &&
+              <BlocksV2 items={services} />}
+            {servicesView === "grid" &&
+              <div className={styles2.line}>
+                {services.map((item, index) => (
+                <div className={styles2.cellMiddle} key={index}>
+                  <div className={styles2.image}>
+                    <img src={item.image} alt="" />
+                  </div>
+                  <div className={styles2.information}>
+                    <div className={styles2.title}>{item.title}</div>
+                    <div className={styles2.price}>{item.price}</div>
+                  </div>
+                </div>))}
+              </div>}
           </>}
       </div>
       <FixedButton />

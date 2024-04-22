@@ -18,6 +18,11 @@ import Service from './screens/Service';
 import Page from './screens/Page';
 import Serv from './screens/Serv';
 import AddDamage from './screens/AddDamage';
+import Activity from './screens/Activity';
+import Passwords from './screens/Passwords';
+import Password from './screens/Password';
+import Messenger from './screens/Messenger';
+import Redirect from './screens/Redirect';
 
 const Navigate = () => {
 
@@ -33,6 +38,10 @@ const Navigate = () => {
             <Route path="/verify" element={<Verify />} />
             <Route path="/add" element={<Add />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/activity" element={<Activity />} />
+            <Route path="/passwords" element={<Passwords />} />
+            <Route path="/password" element={<Password />} />
+            <Route path="/messenger" element={<Messenger />} />
             <Route path="/search/more" element={<SearchMore />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/posts/:id" element={<Post />} />
@@ -42,6 +51,9 @@ const Navigate = () => {
             <Route path="/page/:id" element={<Page />} />
             <Route path="/serv/:id" element={<Serv />} />
             <Route path="/add-damage/" element={<AddDamage />} />
+            <Route path="/prokat" element={<Redirect link={"http://prolbrm2.beget.tech"} />} />
+            <Route path="/travel" element={<Redirect link={"http://objectnss.beget.tech"} />} />
+            <Route path="/documents" element={<Redirect link={"http://kostya.prolbrm2.beget.tech:5000"} />} />
           </Routes>
         </BrowserRouter>
         : <LoadUserInfo />

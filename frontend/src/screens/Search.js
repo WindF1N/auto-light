@@ -19,7 +19,7 @@ function Search() {
 
   const navigate = useNavigate();
 
-  const { account, sendMessage, message, setMessage, posts, users, select, setSelect, transportView, setTransportView, servicesView, setServicesView, services_View, setServices_View, dealersView, setDealersView } = useMainContext();
+  const { account, sendMessage, message, setMessage, posts, setPosts, users, select, setSelect, transportView, setTransportView, servicesView, setServicesView, services_View, setServices_View, dealersView, setDealersView } = useMainContext();
 
   const [variables, setVariables] = useState([
     {
@@ -45,6 +45,21 @@ function Search() {
   ]);
   const [transport, setTransport] = useState(posts || []);
   const [services, setServices] = useState([
+    {
+      title: "Аренда/Прокат автомобилей",
+      views_count: "3.3 млн просмотров",
+      link: "/prokat"
+    },
+    {
+      title: "Автопутешествия",
+      views_count: "3.3 млн просмотров",
+      link: "/travel"
+    },
+    {
+      title: "Помощь в оформлении документов",
+      views_count: "3.3 млн просмотров",
+      link: "/documents"
+    },
     {
       title: "Деньги под залог ПТС",
       views_count: "3.3 млн просмотров",
@@ -107,11 +122,6 @@ function Search() {
     },
     {
       title: "Оформление переоборудования автомобилей",
-      views_count: "3.3 млн просмотров",
-      link: "/serv/1"
-    },
-    {
-      title: "Аренда/Прокат автомобилей",
       views_count: "3.3 млн просмотров",
       link: "/serv/1"
     },
@@ -288,7 +298,48 @@ function Search() {
     if (transport.length === 0) {
       setTransport(posts);
     }
-  }, [])
+  }, [posts, transport])
+
+  useEffect(() => {
+    if (posts.length === 0) {
+      console.log(posts);
+      sendMessage(JSON.stringify(["posts", "list"]));
+    }
+  }, [posts])
+  
+  useEffect(() => {
+    if (message) {
+      if (message[0] === 'images') {
+        if (message[1] === 'get') {
+          setPosts(prevState => {
+            // Создаем копию массива постов
+            const newPosts = [...prevState];
+
+            // Находим пост по его _id
+            const postIndex = newPosts.findIndex(post => post._id === message[3]);
+
+            // Если пост найден, обновляем его изображения
+            if (postIndex !== -1) {
+              newPosts[postIndex].images = message[2];
+            }
+
+            // Обновляем состояние постов
+            return newPosts;
+          });
+        }
+      } else if (message[0] === 'posts') {
+        if (message[1] === 'list') {
+          if (posts.length === 0) {
+            setPosts(prevState => [...prevState, ...message[2]]);
+            message[2].forEach(item => {
+              sendMessage(JSON.stringify(["images", "get", item._id, "main"]));
+            })
+          }
+        }
+      }
+      setMessage(null);
+    };
+  }, [message]);
 
   return (
     <div className={styles.view}>

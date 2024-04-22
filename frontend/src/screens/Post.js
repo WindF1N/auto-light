@@ -335,8 +335,163 @@ function Post() {
         или в Рассрочку на выгодных для вас условиях!
       </div>
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
-        Этот автомобиль возможно приобрести в Кредит<br/>
-        или в Рассрочку на выгодных для вас условиях!
+        <div style={{padding: "10px 20px", textAlign: "center", background: "rgba(74,232,18,.2)", borderRadius: 4}}>
+          Оценка автомобиля: 450 000 - 520 000 ₽
+        </div>
+        <div style={{padding: "20px 20px 0 20px", textAlign: "center", borderRadius: 4}}>
+          Средняя стоимость: 499 000 ₽
+        </div>
+      </div>
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+        <div style={{fontSize: 16}}>
+          Проверка истории автомобиля
+        </div>
+        <div style={{marginTop: 10}}>
+          VIN или номер кузова: SADC*************
+        </div>
+        <div style={{marginTop: 20, display: "flex", alignItems: "center", gap: 10}}>
+          <div style={{width: 20, height: 20, border: "1px solid #42CC16", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("../components/images/active.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+          <div>Характеристики совпадают с ПТС</div>
+        </div>
+        <div style={{marginTop: 10, display: "flex", alignItems: "center", gap: 10}}>
+          <div style={{width: 20, height: 20, border: "1px solid #42CC16", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("../components/images/active.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+          <div>2 владельца по ПТС</div>
+        </div>
+        <div style={{marginTop: 10, display: "flex", alignItems: "center", gap: 10}}>
+          <div style={{width: 20, height: 20, border: "1px solid #42CC16", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("../components/images/active.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+          <div>Ограничений не обнаружено</div>
+        </div>
+        <div style={{marginTop: 10, display: "flex", alignItems: "center", gap: 10}}>
+          <div style={{width: 20, height: 20, border: "1px solid #42CC16", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("../components/images/active.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+          <div>Не числиться в розыске</div>
+        </div>
+        <div style={{marginTop: 10, display: "flex", alignItems: "center", gap: 10}}>
+          <div style={{width: 20, height: 20, border: "1px solid #42CC16", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("../components/images/active.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+          <div>Стоит на учете в ГИБДД</div>
+        </div>
+        <Button text="Получить полный отчёт" small={true} style={{marginTop: 20}} />
+      </div>
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+        <div style={{fontSize: 16}}>
+          Автокредит от 4.9%  
+        </div>
+        <div style={{marginTop: 20, display: "flex", alignItems: "center", gap: 60}}>
+          <div>
+            <div style={{fontSize: 12, marginBottom: 2.5}}>Первый взнос</div>
+            <div style={{fontSize: 16}}>Не требуется</div>
+          </div>
+          <div>
+            <div style={{fontSize: 12, marginBottom: 2.5}}>Платёж</div>
+            <div style={{fontSize: 16}}>от 7 950 ₽/мес</div>
+          </div>
+        </div>
+        <div style={{marginTop: 20, display: "flex", alignItems: "center", gap: 60}}>
+          <div>
+            <div style={{fontSize: 12, marginBottom: 2.5}}>Сумма кредита</div>
+            <div style={{fontSize: 16}}>610 000 ₽</div>
+            <input type="range" style={{
+              marginTop: 10,
+              width: "calc(100vw - 60px)"
+            }} />
+          </div>
+        </div>
+        <div style={{marginTop: 20, display: "flex", alignItems: "center", gap: 60}}>
+          <div>
+            <div style={{fontSize: 12, marginBottom: 2.5}}>Срок кредита</div>
+            <div style={{fontSize: 16}}>7 лет</div>
+            <input type="range" style={{
+              marginTop: 10,
+              width: "calc(100vw - 60px)"
+            }} />
+          </div>
+        </div>
+        <div style={{marginTop: 20}}>
+          Одна заявка в несколько банков
+        </div>
+        <div style={{marginTop: 10, display: "flex", alignItems: "center", gap: 10}}>
+          <div style={{padding: 10, background: "#28282A", borderRadius: 8, width: "100%", height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("./images/alfa.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+          <div style={{padding: 10, background: "#28282A", borderRadius: 8, width: "100%", height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("./images/sberbank.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+          <div style={{padding: 10, background: "#28282A", borderRadius: 8, width: "100%", height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img src={require("./images/tinkoff.svg").default} alt="" style={{width: "100%"}} />
+          </div>
+        </div>
+        <Button text="Перейти к анкете" small={true} style={{marginTop: 20}} />
+      </div>
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+        <div>
+          Краснодар, Краснодарский край
+        </div>
+        <div style={{marginTop: 10}}>
+          Размещено 07.12.2023, 16:23
+        </div>
+        <div style={{marginTop: 10}}>
+          Объявление: № 00772665353
+        </div>
+        <div style={{marginTop: 10}}>
+          Просмотров 699 (0 сегодня)
+        </div>
+        <div style={{marginTop: 10}}>
+          В избраном: 29
+        </div>
+      </div>
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+        <div style={{display: "flex", flexFlow: "column"}}>
+          <div style={{fontSize: 16}}>
+            Владислав Ромаданов
+          </div>
+          <div style={{fontSize: 12, marginTop: 5}}>
+            Частное лицо
+          </div>
+          <div style={{fontSize: 16, marginTop: 10}}>
+            +7 966 77 57 966
+          </div>
+        </div>
+        <div>
+          <img src={user?.avatar || require("../components/images/non-avatar.svg").default} alt="" style={{display: "block", borderRadius: 8, width: "10vw", height: "17.5vw", objectFit: "cover"}} />
+        </div>
+      </div>
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8, display: "flex", justifyContent: "space-between"}}>
+        <div style={{display: "flex", flexFlow: "column"}}>
+          <div style={{fontSize: 16}}>
+            AutoLIGHT | MOTOR COMPANY
+          </div>
+          <div style={{display: "flex", gap: 10, marginTop: 5}}>
+            <div style={{fontSize: 12}}>Комания</div>
+            <div style={{fontSize: 12}}>2 отзыва</div>
+          </div>
+          <div style={{display: "flex", gap: 10, marginTop: 10}}>
+            <div style={{fontSize: 12}}>25 объявлений</div>
+          </div>
+          <div style={{fontSize: 12, marginTop: 5}}>
+            Частное лицо
+          </div>
+          <div style={{fontSize: 16, marginTop: 10}}>
+            Ромаданов Владислав Константинович
+          </div>
+          <div style={{display: "flex", gap: 10, marginTop: 10}}>
+            <div style={{fontSize: 12}}>Контактное лицо</div>
+          </div>
+          <div style={{fontSize: 16, marginTop: 10}}>
+            +7 966 77 57 966
+          </div>
+        </div>
+        <div>
+          <img src={user?.avatar || require("../components/images/non-avatar.svg").default} alt="" style={{display: "block", borderRadius: 8, width: "10vw", height: "17.5vw", objectFit: "cover"}} />
+        </div>
       </div>
       <div className={styles.wrapper}>
         {post?.description &&
@@ -358,7 +513,7 @@ function Post() {
       {posts_.length > 0 && !loading &&
         <>
           <div className={styles.anotherTitle}>
-            <div>Другие автомобили</div>
+            <div>Другие автомобили компании</div>
             <div>
               <span>Показать все</span>
               <img src={require("../components/images/arrow-right.svg").default} alt="" />
@@ -366,7 +521,70 @@ function Post() {
           </div>
           <Grid items={posts_.slice(0,3)} navigate={navigate} />
         </>}
-
+      <div style={{marginTop: 20, display: "flex", alignItems: "center", gap: 10}}>
+        <div style={{borderRadius: "50%", background: "#18181A", width: 40, height: 40, display: "flex", justifyContent: "center", alignItems: "center", boxShadow: "0 0 10px red"}}>
+          4.7
+        </div>
+        <div style={{fontSize: 16}}>
+          Общий рейтинг модели<br/>
+          AutoLIGHT
+        </div>
+      </div>
+      <div style={{display: "flex", gap: 10, marginTop: 20}}>
+        <div>
+          <div style={{position: "relative"}}>
+            <img src={require("./images/car.jpg")} alt="" style={{borderRadius: 8, width: "100%"}} />
+            <div style={{fontSize: 14, position: "absolute", bottom: 10, left: 10, borderRadius: "50%", background: "#18181A", width: 35, height: 35, display: "flex", justifyContent: "center", alignItems: "center", boxShadow: "0 0 10px red"}}>
+              4.9
+            </div>
+          </div>
+          <div style={{fontSize: 14, fontWeight: 300, marginTop: 5}}>Комментарии 33</div>
+        </div>
+        <div>
+          <div style={{position: "relative"}}>
+            <img src={require("./images/car.jpg")} alt="" style={{borderRadius: 8, width: "100%"}} />
+            <div style={{fontSize: 14, position: "absolute", bottom: 10, left: 10, borderRadius: "50%", background: "#18181A", width: 35, height: 35, display: "flex", justifyContent: "center", alignItems: "center", boxShadow: "0 0 10px red"}}>
+              3.5
+            </div>
+          </div>
+          <div style={{fontSize: 14, fontWeight: 300, marginTop: 5}}>Комментарии 33</div>
+        </div>
+      </div>
+      <div style={{marginTop: 10, fontWeight: 300, fontSize: 14}}>Все отзывы</div>
+      <div style={{marginTop: 20, background: "#18181A", borderRadius: 8}}>
+        <div style={{fontSize: 16, padding: "10px", fontWeight: 300, fontSize: 16}}>
+          Оценка модели
+        </div>
+        <Items items={[
+          {
+            label: "Внешний вид",
+            value: "4.8"
+          },
+          {
+            label: "Салон",
+            value: "3.6"
+          },
+          {
+            label: "Двигатель",
+            value: "3.2"
+          },
+          {
+            label: "Ходовая часть",
+            value: "4.3"
+          }
+        ]} />
+      </div>
+      {posts_.length > 5 && !loading &&
+        <>
+          <div className={styles.anotherTitle}>
+            <div>Рекомендуем</div>
+            <div>
+              <span>Показать все</span>
+              <img src={require("../components/images/arrow-right.svg").default} alt="" />
+            </div>
+          </div>
+          <Grid items={posts_.slice(3,6)} navigate={navigate} />
+        </>}
       <div className={styles.wrapper}>
         <Banner navigate={navigate} />
       </div>

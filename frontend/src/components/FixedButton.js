@@ -83,6 +83,15 @@ const FixedButton = (props) => {
       <div className={`fixed-button search ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/search')}>
         <img src={require("./images/menu-search-button.svg").default} className="" alt="menu-search" />
       </div>
+      <div className={`fixed-button like ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/activity')}>
+        <img src={require("./images/like.svg").default} className="" alt="menu-activity" />
+      </div>
+      <div className={`fixed-button messenger ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/messenger')}>
+        <img src={require("../screens/images/messenger.svg").default} className="" alt="menu-messenger" />
+      </div>
+      <div className={`fixed-button home ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/')}>
+        <img src={require("../screens/images/home.svg").default} className="" alt="menu-home" />
+      </div>
       <div className={`fixed-button acc ${isProButtonVisible ? 'visible' : ''}`} onClick={(accessToken && refreshToken) ? () => navigate(`/users/${account?.username}`) : () => navigate('/login')}>
         <img src={account?.avatar || require("./images/non-avatar.svg").default} className="" alt="avatar" />
       </div>

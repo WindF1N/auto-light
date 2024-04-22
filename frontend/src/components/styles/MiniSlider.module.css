@@ -20,6 +20,7 @@
   height: 10vw;
   border: 2px solid #18181A;
   border-radius: 6px;
+  flex-shrink: 0;
 
   position: relative;
   overflow: hidden;
@@ -31,6 +32,7 @@
   border: 2px solid #fff;
   border-radius: 6px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .images .image img, .images .imageActive img {

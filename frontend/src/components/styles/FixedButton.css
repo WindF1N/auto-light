@@ -98,6 +98,24 @@
   transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 }
 
+.fixed-button.like {
+  transform: translateY(0) scale(.1);
+  opacity: 0;
+  transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.fixed-button.messenger {
+  transform: translateY(0) scale(.1);
+  opacity: 0;
+  transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.fixed-button.home {
+  transform: translateY(0) scale(.1);
+  opacity: 0;
+  transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
+}
+
 .fixed-button.acc {
   transform: translateY(0) scale(.1);
   opacity: 0;
@@ -106,7 +124,7 @@
 }
 
 .fixed-button.add.visible {
-  transform: translateY(-195px) scale(.9);
+  transform: translateY(-260px) scale(.9);
   opacity: 1;
 }
 
@@ -129,7 +147,22 @@
 }
 
 .fixed-button.search.visible {
+  transform: translateY(-195px) scale(.95);
+  opacity: 1;
+}
+
+.fixed-button.like.visible {
+  transform: translateY(-260px) scale(.95);
+  opacity: 1;
+}
+
+.fixed-button.home.visible {
   transform: translateY(-130px) scale(.95);
+  opacity: 1;
+}
+
+.fixed-button.messenger.visible {
+  transform: translateY(-325px) scale(.95);
   opacity: 1;
 }
 
@@ -138,8 +171,23 @@
   width: 70%;
 }
 
+.fixed-button.like img {
+  margin-top: 0;
+  width: 100%;
+}
+
+.fixed-button.home img {
+  margin-top: 0;
+  width: 90%;
+}
+
+.fixed-button.messenger img {
+  margin-top: 0;
+  width: 80%;
+}
+
 .fixed-button-up.visible {
-  transform: translateY(-195px) scale(.95);
+  transform: translateY(-320px) scale(.95);
   opacity: 1;
 }
 
