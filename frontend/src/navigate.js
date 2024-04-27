@@ -12,7 +12,9 @@ import SearchMore from './screens/SearchMore';
 import Comments from './screens/Comments';
 import Post from './screens/Post';
 import User from './screens/User';
-import Add from './screens/Add';
+import SelectCategory from './screens/SelectCategory';
+import AddCar from './screens/Add';
+import AddService from './screens/AddService';
 import Settings from './screens/Settings';
 import Service from './screens/Service';
 import Page from './screens/Page';
@@ -36,7 +38,9 @@ const Navigate = () => {
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/verify" element={<Verify />} />
-            <Route path="/add" element={<Add />} />
+            <Route path="/add" element={<SelectCategory />} />
+            <Route path="/add/car" element={<AddCar />} />
+            <Route path="/add/service" element={<AddService />} />
             <Route path="/search" element={<Search />} />
             <Route path="/activity" element={<Activity />} />
             <Route path="/passwords" element={<Passwords />} />

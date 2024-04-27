@@ -133,9 +133,10 @@ function Slider({ images, imagesDivRef, setActiveImage, canAdd, activeImage, set
         <div className={styles.removeImage} onClick={handleRemoveImage}>
           <img src={require("./images/remove.svg").default} alt="remove"/>
         </div>}
+      {(!canAdd && images.length > 0) &&
       <div style={{position: "absolute", bottom: images.length > 1 ? 20 : 8, right: 5}}>
         <GosNumber number={"м555мм"} region={"95"} size={.6} />
-      </div>
+      </div>}
     </div>
   );
 }

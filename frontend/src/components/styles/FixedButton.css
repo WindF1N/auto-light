@@ -124,7 +124,7 @@
 }
 
 .fixed-button.add.visible {
-  transform: translateY(-260px) scale(.9);
+  transform: translateY(-390px) scale(.9);
   opacity: 1;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .fixed-button-up.visible {
-  transform: translateY(-320px) scale(.95);
+  transform: translateY(-385px) scale(.95);
   opacity: 1;
 }
 
