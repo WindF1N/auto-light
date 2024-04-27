@@ -156,17 +156,18 @@ function Post() {
   return (
     <div className="view">
       <div className={styles.wrapper}>
-        <Slider images={images} imagesDivRef={imagesDivRef} setActiveImage={setActiveImage} />
+        <Slider images={images} imagesDivRef={imagesDivRef} setActiveImage={setActiveImage} category={post?.input1} />
         {images.length > 1 &&
           <MiniSlider images={images} imagesDivRef={imagesDivRef} activeImage={activeImage} />}
       </div>
       <div className={styles.price}>
-        <div>{post?.input39}</div>
+        <div>{post?.input1 === "Автомобили" ? post?.input39 : post?.input5}</div>
         <div className={styles.actions}>
+          {post?.input1 === "Автомобили" &&
           <div className={styles.action} onClick={handleAction}>
             <img src={require("./images/compare.svg").default} alt="" />
             Сравнить
-          </div>
+          </div>}
           <div className={styles.action} onClick={handleFavorite}>
             <img src={isFavorite ? require("../components/images/like-active.svg").default : require("../components/images/like.svg").default} alt="" />
             Избранное
@@ -177,8 +178,8 @@ function Post() {
           </div>
         </div>
       </div>
-      <div className={styles.title}>{post?.input5} {post?.input6}, {post?.input7}, {post?.input17}</div>
-      <div className={styles.address}>{post?.address}</div>
+      <div className={styles.title}>{post?.input1 === "Автомобили" ? `${post?.input5} ${post?.input6}, ${post?.input7}, ${post?.input17}` : post?.input2 }</div>
+      <div className={styles.address}>{post?.input1 === "Автомобили" ? post?.address : post?.input4}</div>
       <div className={styles.flex}>
         <div className={styles.createdAt}>{post?.created_at}</div>
         <div className={styles.viewCount}>{post?.view_count || 0} просмотров</div>
@@ -199,6 +200,7 @@ function Post() {
           </div>
         </div>
       </div>
+      {post?.input1 === "Автомобили" &&
       <div style={{marginTop: 20}}>
         <Items items={[
           {
@@ -210,7 +212,16 @@ function Post() {
             value: "С пробегом"
           }
         ]} />
-      </div>
+      </div>}
+      {post?.input1 !== "Автомобили" &&
+      <div style={{marginTop: 20}}>
+        <Items items={[
+          {
+            label: "Категория",
+            value: post?.input1
+          }
+        ]} />
+      </div>}
       <div style={{marginTop: 10}}>
         <Items items={[
           {

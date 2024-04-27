@@ -20,55 +20,13 @@ const validationSchema = Yup.object().shape({
   "input1": Yup.string()
     .max(100, 'Макс. длина 100')
     .required("Обязательное поле"),
-  "input7": Yup.string()
-    .max(10, 'Макс. длина 10')
-    .required("Обязательное поле"),
-  "input8": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input17": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input21": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input13": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input11": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input10": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input19": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input18": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input14": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input9": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input16": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input15": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
   "input2": Yup.string()
     .max(100, 'Макс. длина 100')
     .required("Обязательное поле"),
+  "input3": Yup.string()
+    .max(350, 'Макс. длина 350')
+    .required("Обязательное поле"),
   "input5": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input6": Yup.string()
-    .max(100, 'Макс. длина 100')
-    .required("Обязательное поле"),
-  "input39": Yup.string()
     .max(100, 'Макс. длина 100')
     .required("Обязательное поле"),
 });
@@ -136,92 +94,35 @@ function AddService() {
       value: null,
       isFocused: false,
       error: null,
-      label: "Опыт работы",
-      type: "select",
-      choices: [
-        "Не выбрано", "Меньше года", "1 год", "2 года", "3 года", "4 года", "5 лет", "6 лет", "7 лет", "8 лет", "9 лет", "10 лет и больше"
-      ]
+      label: "Описание",
+      type: "textarea"
     },
     "input4": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Бесплатная консультация",
-      type: "select",
-      choices: [
-        "Не выбрано", "Есть", "Нет"
-      ]
+      label: "Адрес предоставления услуг",
+      type: "text"
     },
     "input5": {
       value: null,
       isFocused: false,
       error: null,
-      label: "Гарантия на работу",
-      type: "select",
-      choices: [
-        "Не выбрано", "Есть", "Нет"
-      ]
-    },
-    "input6": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Работа по договору",
-      type: "select",
-      choices: [
-        "Не выбрано", "Да", "Нет"
-      ]
-    },
-    "input7": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Берёте ли срочные заказы",
-      type: "select",
-      choices: [
-        "Не выбрано", "Да", "Нет"
-      ]
-    },
-    "input8": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Есть сертификаты об обучении",
-      type: "select",
-      choices: [
-        "Не выбрано", "Да", "Нет"
-      ]
-    },
-    "input9": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Техническая поддержка сайта",
-      type: "select",
-      choices: [
-        "Не выбрано", "Да", "Нет"
-      ]
-    },
-    "input10": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Есть портфолио",
-      type: "select",
-      choices: [
-        "Не выбрано", "Да", "Нет"
-      ]
-    },
-    "input11": {
-      value: null,
-      isFocused: false,
-      error: null,
-      label: "Работаете с юрлицами и ИП",
-      type: "select",
-      choices: [
-        "Не выбрано", "Да", "Нет"
-      ]
-    },
+      label: "Стоимость",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' ₽',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: ' ',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 12, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      })
+    }
   });
   const [ saving, setSaving ] = useState(false);
 
@@ -268,7 +169,6 @@ function AddService() {
     };
   }, [message]);
 
-
   return (
     <div className="view">
       <div className={styles.wrapper} style={{marginBottom: 20}}>
@@ -293,6 +193,11 @@ function AddService() {
       </div>
       <Formik
         initialValues={{
+          "input1": "",
+          "input2": "",
+          "input3": "",
+          "input4": "",
+          "input5": ""
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -301,7 +206,10 @@ function AddService() {
         <Form>
           <div className={styles.flex20gap}>
             <FormLIGHT inputs={Object.entries(inputs).slice(0, 1)} setInputs={setInputs} errors={errors} touched={touched} />
-            <FormLIGHT inputs={Object.entries(inputs).slice(1)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(1, 2)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(2, 3)} setInputs={setInputs} errors={errors} touched={touched} />
+            <FormLIGHT inputs={Object.entries(inputs).slice(3)} setInputs={setInputs} errors={errors} touched={touched} />
+            <Button text="Разместить" handleClick={handleSubmit} />
           </div>
           <ScrollToError/>
         </Form>

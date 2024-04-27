@@ -55,13 +55,13 @@ function Post({ data }) {
           <img src={isFavorite ? require("./images/like.svg").default : require("./images/like-active.svg").default} alt="" />
         </div>
       </div>
-      <Slider images={data.images || []} imagesDivRef={imagesDivRef} setActiveImage={setActiveImage} />
+      <Slider images={data.images || []} imagesDivRef={imagesDivRef} setActiveImage={setActiveImage} category={data.input1} />
       <div className={styles.body} onClick={() => navigate(`/posts/${data._id}`)}>
         <div className={styles.price}>
-          {data.input39}
+          {data.input1 === "Автомобили" ? data.input39 : data.input5}
         </div>
         <div className={styles.title}>
-          {data.input5} {data.input6}, {data.input7}, {data.input17}
+          {data.input1 === "Автомобили" ? `${data.input5} ${data.input6}, ${data.input7}, ${data.input17}` : data.input2}
         </div>
         <div className={styles.info}>
           <div>{data.created_at}</div>
