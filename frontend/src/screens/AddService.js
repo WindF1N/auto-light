@@ -38,6 +38,7 @@ function AddService() {
   const { state, setState, accessToken, refreshToken, sendMessage, setLoading, postId, setPostId, message, setMessage } = useMainContext();
 
   const [ more, setMore ] = useState(false);
+  const [ countLoadedImages, setCountLoadedImages ] = useState(null);
   const imagesDivRef = useRef();
   const [ images, setImages ] = useState([]);
   const [ activeImage, setActiveImage ] = useState(0);
@@ -53,9 +54,6 @@ function AddService() {
       type: "select",
       choices: [
         "Не выбрано",
-        "Аренда/Прокат автомобилей",
-        "Автопутешествия",
-        "Помощь в оформлении документов",
         "Деньги под залог ПТС",
         "Лизинг автомобилей",
         "Автоюрист бесплатная консультация",

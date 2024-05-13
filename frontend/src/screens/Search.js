@@ -48,142 +48,142 @@ function Search() {
     {
       title: "Аренда/Прокат автомобилей",
       views_count: "3.3 млн просмотров",
-      link: "/prokat"
+      link: "/prokat" /// prokat
     },
     {
       title: "Автопутешествия",
       views_count: "3.3 млн просмотров",
-      link: "/travel"
+      link: "/travel" /// travel
     },
     {
       title: "Помощь в оформлении документов",
       views_count: "3.3 млн просмотров",
-      link: "/documents"
+      link: "/documents" /// documents
     },
     {
       title: "Деньги под залог ПТС",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/4"
     },
     {
       title: "Лизинг автомобилей",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/5"
     },
     {
       title: "Автоюрист бесплатная консультация",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/6"
     },
     {
       title: "Срочная продажа автомобиля",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/7"
     },
     {
       title: "Электронный полис е-ОСАГО",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/8"
     },
     {
       title: "Техническая гарантия на автомобили с пробегом",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/9"
     },
     {
       title: "Автокредит онлайн без первого взноса",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/10"
     },
     {
       title: "Автомобили в рассрочку",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/11"
     },
     {
       title: "Подбор автомобиля",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/12"
     },
     {
       title: "Обмен автомобиля",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/13"
     },
     {
       title: "Выкуп автомобиля",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/14"
     },
     {
       title: "Помощь на дороге",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/15"
     },
     {
       title: "Оформление переоборудования автомобилей",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/16"
     },
     {
       title: "Аукцион автомобилей с пробегом",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/17"
     },
     {
       title: "Диагностическая карта онлайн",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/18"
     },
     {
       title: "Автозапчасти",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/19"
     },
     {
       title: "Онлайн показ автомобиля",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/20"
     },
     {
       title: "Лизинг авто с пробегом",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/21"
     },
     {
       title: "Продажа с гарантией и обеспечительным платежём",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/22"
     },
     {
       title: "Онлайн комиссия",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/23"
     },
     {
       title: "ДТП Онлайн",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/24"
     },
     {
       title: "Комиссионная продажа",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/25"
     },
     {
       title: "Снятие запретов и ограничений",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/26"
     },
     {
       title: "Помощь в покупке",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/27"
     },
     {
       title: "Восстановление КБМ",
       views_count: "3.3 млн просмотров",
-      link: "/serv/1"
+      link: "/serv/28"
     },
   ]);
   const [services_, setServices_] = useState([
@@ -363,9 +363,9 @@ function Search() {
             </div>
           </div>
           {transportView === "grid" &&
-            <Grid items={transport} navigate={navigate} />}
+            <Grid items={transport.filter((item) => item.input1 === "Автомобили")} navigate={navigate} />}
           {transportView === "list" &&
-            <Blocks items={transport} />}
+            <Blocks items={transport.filter((item) => item.input1 === "Автомобили")} />}
         </>}
       {select === "services" &&
         <>

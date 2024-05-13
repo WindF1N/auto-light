@@ -61,14 +61,14 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
-                {"input3_" in item &&
+                {item.input1 === "Автомобили" && "input3_" in item &&
                 <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.35} />
                 </div>}
               </div>
               <div className={styles.information}>
-                <div className={styles.title}>{item.input39}</div>
-                <div className={styles.price}>{item.input5} {item.input6}, {item.input7}, {item.input17}</div>
+              <div className={styles.title}>{item.input1 === "Автомобили" ? item.input39 : item.input5}</div>
+                <div className={styles.price}>{item.input1 === "Автомобили" ? `${item.input5} ${item.input6}, ${item.input7}, ${item.input17}` : item.input2 }</div>
               </div>
             </div>))}
           </div>}
@@ -82,14 +82,14 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
-                {"input3_" in item &&
+                {item.input1 === "Автомобили" && "input3_" in item &&
                 <div style={{position: "absolute", bottom: "5%", right: "4%", zIndex: 999}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.7} />
                 </div>}
               </div>
               <div className={styles.information}>
-                <div className={styles.title}>{item.input39}</div>
-                <div className={styles.price}>{item.input5} {item.input6}, {item.input7}, {item.input17}</div>
+              <div className={styles.title}>{item.input1 === "Автомобили" ? item.input39 : item.input5}</div>
+                <div className={styles.price}>{item.input1 === "Автомобили" ? `${item.input5} ${item.input6}, ${item.input7}, ${item.input17}` : item.input2 }</div>
               </div>
             </div>))}
           </div>}
@@ -103,14 +103,14 @@ function Grid({ items: initialItems, navigate }) {
                   alt="item"
                   src={item.images[0].file}
                   placeholderSrc={item.images[0].file_lazy}/>}
-                {"input3_" in item &&
+                {item.input1 === "Автомобили" && "input3_" in item &&
                 <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.45} />
                 </div>}
               </div>
               <div className={styles.information}>
-                <div className={styles.title}>{item.input39}</div>
-                <div className={styles.price}>{item.input5} {item.input6}, {item.input7}, {item.input17}</div>
+                <div className={styles.title}>{item.input1 === "Автомобили" ? item.input39 : item.input5}</div>
+                <div className={styles.price}>{item.input1 === "Автомобили" ? `${item.input5} ${item.input6}, ${item.input7}, ${item.input17}` : item.input2 }</div>
               </div>
             </div>))}
           </div>}

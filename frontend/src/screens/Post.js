@@ -55,7 +55,11 @@ function Post() {
     setPosts_([]);
     sendMessage(JSON.stringify(["posts", "get", id]));
     sendMessage(JSON.stringify(["favorite_posts", "check", id]));
-    sendMessage(JSON.stringify(["posts", "filter", {_id: {"$ne": id}, status: 1}]));
+    if (post?.input1 === "Автомобили") {
+      sendMessage(JSON.stringify(["posts", "filter", {_id: {"$ne": id}, status: 1, input1: "Автомобили"}]));
+    } else {
+      sendMessage(JSON.stringify(["posts", "filter", {_id: {"$ne": id}, status: 1, input1: {"$ne": "Автомобили"}}]));
+    }
     sendMessage(JSON.stringify(["comments", "last", {post_id: id}]));
     sendMessage(JSON.stringify(["comments", "count", {post_id: id}]));
     window.scrollTo({top: 0, smooth: "behavior"});
@@ -222,6 +226,7 @@ function Post() {
           }
         ]} />
       </div>}
+      {post?.input1 === "Автомобили" &&
       <div style={{marginTop: 10}}>
         <Items items={[
           {
@@ -289,7 +294,8 @@ function Post() {
             value: <img src={require("../components/images/arrow-right.svg").default} alt="" />
           },
         ]} />
-      </div>
+      </div>}
+      {post?.input1 === "Автомобили" &&
       <div style={{marginTop: 10}}>
         <Items items={[
           {
@@ -313,8 +319,8 @@ function Post() {
             value: "м555мм|95"
           }
         ]} />
-      </div>
-      {damages.length > 0 &&
+      </div>}
+      {(post?.input1 === "Автомобили" && damages.length > 0) &&
         <div>
           <div className={styles.title_}>Повреждения кузова</div>
           <div className={styles.texts_}>
@@ -332,7 +338,9 @@ function Post() {
             ))}
           </div>
         </div>}
-      <Button text="Посмотреть на схеме" small={true} style={{borderTopLeftRadius: 0, borderTopRightRadius: 0}} />
+      {post?.input1 === "Автомобили" && 
+      <Button text="Посмотреть на схеме" small={true} style={{borderTopLeftRadius: 0, borderTopRightRadius: 0}} />}
+      {post?.input1 === "Автомобили" && 
       <div style={{marginTop: 20}}>
         <Items items={[
           {
@@ -340,11 +348,13 @@ function Post() {
             value: <img src={require("../components/images/arrow-right.svg").default} alt="" />
           },
         ]} />
-      </div>
+      </div>}
+      {post?.input1 === "Автомобили" && 
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
         Этот автомобиль возможно приобрести в Кредит<br/>
         или в Рассрочку на выгодных для вас условиях!
-      </div>
+      </div>}
+      {post?.input1 === "Автомобили" && 
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
         <div style={{padding: "10px 20px", textAlign: "center", background: "rgba(74,232,18,.2)", borderRadius: 4}}>
           Оценка автомобиля: 450 000 - 520 000 ₽
@@ -352,7 +362,8 @@ function Post() {
         <div style={{padding: "20px 20px 0 20px", textAlign: "center", borderRadius: 4}}>
           Средняя стоимость: 499 000 ₽
         </div>
-      </div>
+      </div>}
+      {post?.input1 === "Автомобили" && 
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
         <div style={{fontSize: 16}}>
           Проверка истории автомобиля
@@ -391,7 +402,8 @@ function Post() {
           <div>Стоит на учете в ГИБДД</div>
         </div>
         <Button text="Получить полный отчёт" small={true} style={{marginTop: 20}} />
-      </div>
+      </div>}
+      {post?.input1 === "Автомобили" && 
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
         <div style={{fontSize: 16}}>
           Автокредит от 4.9%  
@@ -441,7 +453,13 @@ function Post() {
           </div>
         </div>
         <Button text="Перейти к анкете" small={true} style={{marginTop: 20}} />
-      </div>
+      </div>}
+      {post?.input1 !== "Автомобили" &&
+      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+        <div>
+          {post?.input3}
+        </div>
+      </div>}
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
         <div>
           Краснодар, Краснодарский край
@@ -524,7 +542,10 @@ function Post() {
       {posts_.length > 0 && !loading &&
         <>
           <div className={styles.anotherTitle}>
-            <div>Другие автомобили компании</div>
+            {post?.input1 === "Автомобили" &&
+            <div>Другие автомобили компании</div>}
+            {post?.input1 !== "Автомобили" &&
+            <div>Другие услуги компании</div>}
             <div>
               <span>Показать все</span>
               <img src={require("../components/images/arrow-right.svg").default} alt="" />
@@ -532,6 +553,7 @@ function Post() {
           </div>
           <Grid items={posts_.slice(0,3)} navigate={navigate} />
         </>}
+      {post?.input1 === "Автомобили" &&
       <div style={{marginTop: 20, display: "flex", alignItems: "center", gap: 10}}>
         <div style={{borderRadius: "50%", background: "#18181A", width: 40, height: 40, display: "flex", justifyContent: "center", alignItems: "center", boxShadow: "0 0 10px red"}}>
           4.7
@@ -540,7 +562,8 @@ function Post() {
           Общий рейтинг модели<br/>
           AutoLIGHT
         </div>
-      </div>
+      </div>}
+      {post?.input1 === "Автомобили" &&
       <div style={{display: "flex", gap: 10, marginTop: 20}}>
         <div>
           <div style={{position: "relative"}}>
@@ -560,8 +583,10 @@ function Post() {
           </div>
           <div style={{fontSize: 14, fontWeight: 300, marginTop: 5}}>Комментарии 33</div>
         </div>
-      </div>
-      <div style={{marginTop: 10, fontWeight: 300, fontSize: 14}}>Все отзывы</div>
+      </div>}
+      {post?.input1 === "Автомобили" &&
+      <div style={{marginTop: 10, fontWeight: 300, fontSize: 14}}>Все отзывы</div>}
+      {post?.input1 === "Автомобили" &&
       <div style={{marginTop: 20, background: "#18181A", borderRadius: 8}}>
         <div style={{fontSize: 16, padding: "10px", fontWeight: 300, fontSize: 16}}>
           Оценка модели
@@ -584,8 +609,8 @@ function Post() {
             value: "4.3"
           }
         ]} />
-      </div>
-      {posts_.length > 5 && !loading &&
+      </div>}
+      {posts_.length > 5 && !loading && post?.input1 === "Автомобили" &&
         <>
           <div className={styles.anotherTitle}>
             <div>Рекомендуем</div>

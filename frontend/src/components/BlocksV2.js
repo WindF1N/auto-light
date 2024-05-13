@@ -9,26 +9,27 @@ function BlocksV2({ items }) {
   return (
     <div className={styles.items}>
       {items.map((item, index) => (
-        <div className={styles.item} key={index}>
+        <div className={styles.item} key={index} onClick={() => navigate('/posts/' + item._id)}>
           <div className={styles.image}>
-            <LazyLoadImage
-              alt="item"
-              src={item.image}
-              placeholderSrc={item.image}/>
+            {item.images &&
+              <LazyLoadImage
+                alt="item"
+                src={item.images[0].file}
+                placeholderSrc={item.images[0].file_lazy}/>}
           </div>
           <div className={styles.information}>
-            <div>{item.title}</div>
+            <div>{item.input2}</div>
             <div>
-              {item.description}
+              {item.input3}
             </div>
             <div>
-              {item.price}
+              {item.input5}
             </div>
           </div>
           <div className={styles.avatar}>
             <img src={require("./images/like.svg").default} alt="" />
             <div className={styles.city}>
-              {item.name}
+               Александр
             </div>
             <div className={styles.stars}>
               <img src={require("./images/stars.svg").default} alt="" />
