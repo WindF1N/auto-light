@@ -1,63 +1,63 @@
+import React, { useEffect, useState } from 'react';
 import styles from './styles/SignIn.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { useMainContext } from '../context';
 import FixedButton from '../components/FixedButton';
-import Button from '../components/Button';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+import MaskedInput from 'react-input-mask';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Некорректный email')
+  phone: Yup.string()
+    .matches(/^\+7\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/, 'Введите номер телефона в формате +7 XXX XXX XX XX')
     .required('Обязательное поле'),
-
-});
-const validationSchema2 = Yup.object().shape({
-  code: Yup.number()
-    .integer('Код должен быть целым числом')
-    .min(100000, 'Код должен содержать ровно 6 цифр')
-    .max(999999, 'Код должен содержать ровно 6 цифр')
-    .required('Обязательное поле')
 });
 
 function SignIn() {
-
   const navigate = useNavigate();
-
   const { account, setAccount, login, loading, setLoading } = useMainContext();
+  const [isPhoneFilled, setIsPhoneFilled] = useState(false);
+  const [phone, setPhone] = useState(null);
 
-  const handleSubmit = async (values) => {
-    setAccount(values);
-    setLoading(true);
-    await login(values, navigate);
-  }
+  useEffect(() => {
+    const handleSubmit = async (values) => {
+      if (isPhoneFilled) {
+        setAccount(values);
+        setLoading(true);
+        await login(values, navigate);
+      }
+    };
+    if (isPhoneFilled) {
+      handleSubmit({phone})
+    }
+  }, [isPhoneFilled])
+
+  const handleChange = (event) => {
+    const phoneNumber = event.target.value.replace(/\s/g, '');
+    const isFilled = phoneNumber.length === 12;
+    setIsPhoneFilled(isFilled);
+    setPhone(phoneNumber);
+    isFilled && console.log(phoneNumber)
+  };
 
   return (
     <div className="view">
       <div className={styles.container}>
-        <div className={styles.title}>Войти</div>
-          <Formik
-            initialValues={{ email: '' }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ errors, touched }) => (
-              <Form>
-                <div className={errors.email && touched.email ? `${styles.input} ${styles.error}` : `${styles.input}`}>
-                  <div className={styles.label}>Введите e-mail</div>
-                  <Field name="email">
-                    {({ field }) => (
-                      <input {...field} type="text" name="email" placeholder="example@example.com" />
-                    )}
-                  </Field>
-                </div>
-                {errors.email && touched.email &&
-                  <div className={styles.errorLabel}>{errors.email}</div>}
-                <button type="submit" className={(!errors.email && touched.email) ? styles.button : styles.buttonBlocked}>Далее</button>
-              </Form>
-            )}
-          </Formik>
+        <div style={{ fontSize: 16, fontWeight: 300 }}>Welcome to the World of</div>
+        <div style={{ marginTop: -20 }}>
+          <img src={require("./images/logo.svg").default} alt="" style={{ width: 135 }} />
+        </div>
+          <div className={styles.input}>
+            <div style={{ marginBottom: 10, fontWeight: 300 }}>Введите<br />номер телефона</div>
+            <div className={styles.label}>Чтобы войти или стать клиентом</div>
+            <MaskedInput
+              mask="+7 999 999 99 99"
+              placeholder=""
+              maskChar={" "}
+              onChange={handleChange}
+              value={phone}
+            />
+          </div>
       </div>
       <FixedButton />
     </div>

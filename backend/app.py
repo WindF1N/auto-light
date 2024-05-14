@@ -102,14 +102,13 @@ def generate_verification_code():
 
 @app.route('/login', methods=['POST'])
 def login():
-    email = request.json.get('email', None)
-    verify_code = generate_verification_code()
-    code_id = mongo.db.codes.insert_one({
-        "verify_code": verify_code,
-        "created_at": datetime.now()
-    }).inserted_id
-    send_email(email, f'Your verify code - {verify_code}', 'Paste this code to LIGHT.')
-    return jsonify(code_id=str(code_id), follow={"link": "/verify", "replace": False}), 200
+    phone = request.json.get('phone', None)
+    # verify_code = generate_verification_code()
+    # code_id = mongo.db.codes.insert_one({
+    #     "verify_code": verify_code,
+    #     "created_at": datetime.now()
+    # }).inserted_id
+    return jsonify(follow={"link": "/verify", "replace": False}), 200
 
 @app.route('/verify', methods=['POST'])
 def verify():
