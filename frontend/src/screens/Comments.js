@@ -104,7 +104,7 @@ function Comments() {
             prevState.map(comment => ({
               ...comment,
               avatar: message[2]._id === comment.user_id ? message[2].avatar : comment.avatar,
-              username: message[2]._id === comment.user_id ? message[2].username : comment.username
+              username: message[2]._id === comment.user_id ? (message[2].username ? message[2].username : message[2]._id) : comment.username
             }))
           );
         }

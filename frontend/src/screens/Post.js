@@ -193,7 +193,7 @@ function Post() {
           <UserList items={[
             {
               _id: user?._id,
-              username: user?.username,
+              username: user?.username ? user.username : user._id,
               name: user?.name,
               avatar: user?.avatar || require("../components/images/non-avatar.svg").default
             }

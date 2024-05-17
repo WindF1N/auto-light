@@ -18,8 +18,6 @@ from jwt import ExpiredSignatureError
 from datetime import datetime, timedelta
 import uuid
 import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -34,19 +32,6 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 mongo = PyMongo(app)
 socketio = SocketIO(app, cors_allowed_origins="*", max_http_buffer_size=1024 * 1024 * 1024)
 jwt = JWTManager(app)
-
-def send_email(to, subject, message):
-    msg = MIMEMultipart()
-    msg['From'] = os.getenv("MAIL_LOGIN")
-    msg['To'] = to
-    msg['Subject'] = subject
-    msg.attach(MIMEText(message))
-
-    mailserver = smtplib.SMTP_SSL('smtp.beget.com', 465)
-    mailserver.ehlo()
-    mailserver.login(os.getenv("MAIL_LOGIN"), os.getenv("MAIL_PASSWORD"))
-    mailserver.sendmail(os.getenv("MAIL_LOGIN"), to, msg.as_string())
-    mailserver.quit()
 
 def compress_image(image_data, max_size, quality):
     image = Image.open(BytesIO(image_data))
@@ -103,51 +88,35 @@ def generate_verification_code():
 @app.route('/login', methods=['POST'])
 def login():
     phone = request.json.get('phone', None)
-    # verify_code = generate_verification_code()
-    # code_id = mongo.db.codes.insert_one({
-    #     "verify_code": verify_code,
-    #     "created_at": datetime.now()
-    # }).inserted_id
-    return jsonify(follow={"link": "/verify", "replace": False}), 200
+    user = mongo.db.users.find_one({"phone": phone})
+    if not user:
+        mongo.db.users.insert_one({
+            "phone": phone,
+            "created_at": datetime.now(),
+        }).inserted_id
+        return jsonify(follow={"link": "/verify", "replace": False}), 200
+    else:
+        try:
+            user["code_access"]
+            del user["code_access"]
+            return jsonify(user=prepare_data(user), follow={"link": "/verify?type=login", "replace": False}), 200
+        except:
+            return jsonify(follow={"link": "/verify", "replace": False}), 200
 
 @app.route('/verify', methods=['POST'])
 def verify():
-    email = request.json.get('email', None)
-    code_id = request.json.get('code_id', None)
+    phone = request.json.get('phone', None)
     code = request.json.get('code', None)
-    result = mongo.db.codes.find_one({"_id": ObjectId(code_id)})
-    if not result:
-        return jsonify(error="\'code_id\' not found"), 200
-    elif int(result['verify_code']) != int(code):
-        return jsonify(error="\'verify_code\' is incorrect"), 200
-    else:
-        user = mongo.db.users.find_one({"email": email})
-        mongo.db.codes.delete_one({"_id": result["_id"]})
-        if not user:
-            user_id = mongo.db.users.insert_one({
-                "email": email,
-                "created_at": datetime.now(),
-            })
-            access_token = create_access_token(identity=email)
-            refresh_token = create_refresh_token(identity=email)
-            return jsonify(access_token=access_token, refresh_token=refresh_token, follow={"link": "/", "replace": False}), 200
+    user = mongo.db.users.find_one({"phone": phone})
+    if user:
+        if "code_access" in user:
+            if user["code_access"] != code:
+                return jsonify(error="Неверный код доступа, попробуйте ещё раз"), 200
         else:
-            access_token = create_access_token(identity=user["email"])
-            refresh_token = create_refresh_token(identity=user["email"])
-            return jsonify(access_token=access_token, refresh_token=refresh_token, follow={"link": "/", "replace": False}), 200
-
-@app.route('/resend-code', methods=['POST'])
-def resend_code():
-    email = request.json.get('email', None)
-    code_id = request.json.get('code_id', None)
-    result = mongo.db.codes.find_one({"_id": ObjectId(code_id)})
-    if not result:
-        return jsonify(error="\'code_id\' not found"), 200
-    else:
-        verify_code = generate_verification_code()
-        mongo.db.codes.update_one({"_id": result["_id"]}, {"$set": {"verify_code": verify_code}})
-        send_email(email, f'Your verify code - {verify_code}', 'Paste this code to LIGHT.')
-        return jsonify(code_id=str(code_id)), 200
+            mongo.db.users.update_one({"phone": phone}, {"$set": {"code_access": code}})
+        access_token = create_access_token(identity=phone)
+        refresh_token = create_refresh_token(identity=phone)
+        return jsonify(access_token=access_token, refresh_token=refresh_token, follow={"link": "/", "replace": False}), 200
 
 @app.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)
@@ -188,7 +157,7 @@ def handle_message(message):
     if message[0] == 'user':
         if message[1] == 'me':
             current_user = get_jwt_identity()
-            user = mongo.db.users.find_one({"email": current_user})
+            user = mongo.db.users.find_one({"phone": current_user})
             if user:
                 emit('message', json.dumps(["user", "me", prepare_data(user)]))
             else:
@@ -197,12 +166,12 @@ def handle_message(message):
             current_user = get_jwt_identity()
             if current_user:
                 if 'username' in message[2]:
-                    result = mongo.db.users.find_one({"username": message[2]["username"], "email": {"$ne": current_user}})
+                    result = mongo.db.users.find_one({"username": message[2]["username"], "phone": {"$ne": current_user}})
                     if result:
                         emit('message', json.dumps(["error", "Пользователь с таким никнеймом уже зарегистрирован"]))
                         return
-                mongo.db.users.update_one({"email": current_user}, {"$set": message[2]})
-                user = mongo.db.users.find_one({"email": current_user})
+                mongo.db.users.update_one({"phone": current_user}, {"$set": message[2]})
+                user = mongo.db.users.find_one({"phone": current_user})
                 emit('message', json.dumps(["user", "me", prepare_data(user)]))
         elif message[1] == 'get':
             if "_id" in message[2]:
@@ -224,7 +193,7 @@ def handle_message(message):
         if message[1] == 'create':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -238,7 +207,7 @@ def handle_message(message):
         elif message[1] == 'update':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -259,7 +228,7 @@ def handle_message(message):
         if message[1] == 'add':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -288,7 +257,7 @@ def handle_message(message):
         elif message[1] == 'remove':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -300,7 +269,7 @@ def handle_message(message):
         if message[1] == 'add':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -338,7 +307,7 @@ def handle_message(message):
         if message[1] == 'check':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -352,7 +321,7 @@ def handle_message(message):
         elif message[1] == 'action':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -369,7 +338,7 @@ def handle_message(message):
         if message[1] == 'check':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -383,7 +352,7 @@ def handle_message(message):
         elif message[1] == 'action':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -400,7 +369,7 @@ def handle_message(message):
         if message[1] == 'check':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
@@ -414,7 +383,7 @@ def handle_message(message):
         elif message[1] == 'action':
             current_user = get_jwt_identity()
             if current_user:
-                user = mongo.db.users.find_one({"email": current_user})
+                user = mongo.db.users.find_one({"phone": current_user})
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return

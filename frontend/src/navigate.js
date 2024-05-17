@@ -50,7 +50,7 @@ const Navigate = () => {
             <Route path="/settings" element={<Settings />} />
             <Route path="/posts/:id" element={<Post />} />
             <Route path="/posts/:id/comments" element={<Comments />} />
-            <Route path="/users/:username" element={<User />} />
+            <Route path="/users/:id" element={<User />} />
             <Route path="/services/:id" element={<Service />} />
             <Route path="/page/:id" element={<Page />} />
             <Route path="/serv/:id" element={<Serv />} />

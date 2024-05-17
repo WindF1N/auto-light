@@ -77,32 +77,35 @@ function Avatar({avatar, setAvatar}) {
       <div onClick={handleClick}>
         <img src={avatar || require("./images/non-avatar.svg").default} alt="" />
       </div>
-      <div onClick={handleClick}>Изменить</div>
-      <input id="change-avatar" type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none"}}/>
-      {image && (
-        <div className={styles.cropAvatarWrapper}
-             onTouchStart={handleTouchStart}
-             onTouchMove={handleTouchMove}
-        >
-          <div className={styles.cropAvatar}>
-            <AvatarEditor
-              ref={setEditor}
-              image={image}
-              width={200}
-              height={300}
-              border={(window.innerWidth - 200) / 2}
-              color={[0, 0, 0, 0.4]} // RGBA
-              scale={scale}
-              rotate={0}
-            />
-            <div className={styles.buttons}>
-              <button onClick={handleCancel}>Отмена</button>
-              <button onClick={handleSave}>Сохранить</button>
+      {setAvatar &&
+        <>
+        <div onClick={handleClick}>Изменить</div>
+        <input id="change-avatar" type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none"}}/>
+        {image && (
+          <div className={styles.cropAvatarWrapper}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+          >
+            <div className={styles.cropAvatar}>
+              <AvatarEditor
+                ref={setEditor}
+                image={image}
+                width={200}
+                height={300}
+                border={(window.innerWidth - 200) / 2}
+                color={[0, 0, 0, 0.4]} // RGBA
+                scale={scale}
+                rotate={0}
+              />
+              <div className={styles.buttons}>
+                <button onClick={handleCancel}>Отмена</button>
+                <button onClick={handleSave}>Сохранить</button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-
+        )}
+        </>
+      }
     </div>
   );
 }

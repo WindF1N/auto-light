@@ -10,9 +10,9 @@ function UserList({ items }) {
     <div className={styles.list}>
       <div className={styles.items}>
         {items.map((user) => (
-        <div className={styles.item} key={user._id} onClick={() => navigate("/users/" + user.username)}>
+        <div className={styles.item} key={user._id} onClick={() => navigate("/users/" + user._id)}>
             <div className={styles.avatar}>
-                <img src={user.avatar} alt="" />
+                <img src={user.avatar || require("./images/non-avatar.svg").default} alt="" />
             </div>
             <div>
                 <div>{user.username}</div>

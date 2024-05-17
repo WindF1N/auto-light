@@ -13,6 +13,7 @@ const SocketProvider = ({ children }) => {
   const [ account, setAccount ] = useState(null);
   const [ accessToken, setAccessToken ] = useState(localStorage.getItem('accessToken'));
   const [ refreshToken, setRefreshToken ] = useState(localStorage.getItem('refreshToken'));
+  const [ isFirstLogin, setIsFirstLogin ] = useState(JSON.parse(localStorage.getItem('isFirstLogin')));
 
   const [ verifyCodeId, setVerifyCodeId ] = useState(null);
   const [ loadUserInfo, setLoadUserInfo ] = useState(false);
@@ -43,7 +44,10 @@ const SocketProvider = ({ children }) => {
         alert(response.data.error);
         setError(response.data.error);
       } else {
-        setVerifyCodeId(response.data.code_id);
+        // setVerifyCodeId(response.data.code_id);
+        if ("user" in response.data) {
+          setAccount(response.data.user);
+        }
         navigate(response.data.follow.link,
                  { replace: response.data.follow.replace });
       }
@@ -58,7 +62,6 @@ const SocketProvider = ({ children }) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/verify`, data);
       if ('error' in response.data) {
-        alert(response.data.error);
         setError(response.data.error);
         setLoading(false);
       } else {
@@ -71,23 +74,12 @@ const SocketProvider = ({ children }) => {
           socket.off('disconnect');
           socket.off('message');
           setSocket(null);
+          setAccount(null);
         }
-        setVerifyCodeId(null);
+        setIsFirstLogin(true);
+        localStorage.setItem('isFirstLogin', true);
         navigate(response.data.follow.link,
                  { replace: response.data.follow.replace });
-      }
-    } catch (error) {
-      alert(error.message);
-      setError(error.message);
-    }
-  };
-
-  const resendCode = async (data) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/resend-code`, data);
-      if ('error' in response.data) {
-        alert(response.data.error);
-        setError(response.data.error);
       }
     } catch (error) {
       alert(error.message);
@@ -127,6 +119,8 @@ const SocketProvider = ({ children }) => {
     if (navigate) {
       navigate('/', {replace: true});
     }
+    setIsFirstLogin(true);
+    localStorage.setItem('isFirstLogin', true);
   }
 
   useEffect(() => {
@@ -152,12 +146,20 @@ const SocketProvider = ({ children }) => {
       if (message[0] === 'user') {
         if (message[1] === 'me') {
           setAccount(message[2]);
-          setLoading(false);
           if (!message[2]?.username && !message[2]?.name && accessToken && refreshToken) {
-            setLoadUserInfo(true);
+            if (isFirstLogin) {
+              console.log(isFirstLogin)
+              setLoadUserInfo(true);
+            }
           } else if (message[2]?.username && message[2]?.name && accessToken && refreshToken) {
             setLoadUserInfo(false);
           }
+          const timeoutId = setTimeout(() => {
+            setLoading(false);
+          }, 3000);
+          setIsFirstLogin(false);
+          localStorage.setItem('isFirstLogin', false);  
+          return () => clearTimeout(timeoutId);
         } else if (message[1] === 'list') {
           setUsers(message[2]);
         }
@@ -167,6 +169,7 @@ const SocketProvider = ({ children }) => {
           setLoading(false);
         } else if (message[1] === 'list') {
           setPosts(message[2].reverse());
+          setLoading(false);
         }
       } else if (message[0] === 'error') {
         if (message[1] === 'Token has expired') {
@@ -184,8 +187,15 @@ const SocketProvider = ({ children }) => {
     if (socket) {
       socket.on('connect', () => {
         console.log('Подключились к серверу');
-        sendMessage(JSON.stringify(["user", "me"]));
-        setLoading(true);
+        if (!accessToken && !refreshToken) {
+          const timeoutId = setTimeout(() => {
+            setLoading(false);
+          }, 1200);
+          return () => clearTimeout(timeoutId);
+        };
+        if (!account && accessToken && refreshToken) {
+          sendMessage(JSON.stringify(["user", "me"]));
+        }
       });
 
       socket.on('disconnect', () => {
@@ -271,9 +281,11 @@ const SocketProvider = ({ children }) => {
                                      dealersView, 
                                      setDealersView,
 
+                                     error,
+                                     setError,
+
                                      login,
                                      verify,
-                                     resendCode,
                                      logout}}>
       {children}
     </SocketContext.Provider>

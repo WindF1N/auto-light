@@ -1,90 +1,118 @@
-import styles from './styles/SignIn.module.css';
-import { useState } from 'react';
-import { useMainContext } from '../context';
-import FixedButton from '../components/FixedButton';
+import styles from './styles/Settings.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import FormLIGHT from '../components/FormLIGHT';
 import Button from '../components/Button';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import Avatar from '../components/Avatar';
+import { useMainContext } from '../context';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 // Добавляем регулярное выражение для проверки латиницы, нижнего пробела и точки
 const usernameRegex = /^[a-zA-Z0-9._]*$/;
 
-const validationSchemaUsername = Yup.object().shape({
+const validationSchema = Yup.object().shape({
   username: Yup.string()
     .matches(usernameRegex, 'Имя пользователя может содержать только латиницу, нижние пробелы и точки')
-    .max(20, 'Максимальная длина никнейма 20 символов')
+    .max(20, 'Максимальная длина имени пользователя 20 символов')
     .required('Обязательное поле'),
-});
-
-const validationSchemaName = Yup.object().shape({
-  name: Yup.string()
-    .max(50, 'Максимальная длина никнейма 50 символов')
+  first_name: Yup.string()
+    .max(50, 'Максимальная длина имени 50 символов')
+    .required('Обязательное поле'),
+  last_name: Yup.string()
+    .max(50, 'Максимальная длина фамилии 50 символов')
+    .required('Обязательное поле'),
+  birthdate: Yup.string()
+    .max(10, 'Максимальная длина даты рождения 10 символов в формате ДД-ММ-ГГГГ'),
+  phone: Yup.string()
+    .max(12, 'Максимальная длина сайта 12 символов')
     .required('Обязательное поле'),
 });
 
 function LoadUserInfo() {
 
-  const { account, setAccount, login, loading, setLoading, setLoadUserInfo, sendMessage } = useMainContext();
+  const { account, setAccount, sendMessage, message, setMessage, setLoading, logout, setLoadUserInfo } = useMainContext();
 
-  const handleSubmitUsername = async (values) => {
-    sendMessage(JSON.stringify(["user", "update", values]));
-    setLoading(true);
-  }
+  const [ avatar, setAvatar ] = useState(account?.avatar);
+  const [ inputs, setInputs ] = useState({
+    "username": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Имя пользователя",
+      type: "text"
+    },
+    "first_name": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Имя",
+      type: "text"
+    },
+    "last_name": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Фамилия",
+      type: "text"
+    },
+    "birthdate": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Дата рождения",
+      type: "text",
+    },
+    "phone": {
+      value: account?.phone,
+      isFocused: account?.phone ? true : false,
+      error: null,
+      label: "Номер телефона",
+      type: "text"
+    },
+  });
 
-  const handleSubmitName = async (values) => {
-    sendMessage(JSON.stringify(["user", "update", values]));
+  const handleSubmit = (values) => {
+    sendMessage(JSON.stringify(["user", "update", {phone: values.phone, username: values.username, birthdate: values.birthdate, name: [values.first_name, values.last_name].join(" "), avatar: avatar}]));
+    setAccount(prevState => ({
+      ...prevState,
+      ...values
+    }));
     setLoading(true);
   }
 
   return (
     <div className="view">
-      <div className={styles.container}>
-        <div className={styles.title}>Добро пожаловать!</div>
-          {(!account.username && !account.name) &&
-          <Formik
-            initialValues={{ username: '' }}
-            validationSchema={validationSchemaUsername}
-            onSubmit={handleSubmitUsername}
-          >
-            {({ errors, touched }) => (
-              <Form>
-                <div className={errors.username && touched.username ? `${styles.input} ${styles.error}` : `${styles.input}`}>
-                  <div className={styles.label}>Придумайте никнейм</div>
-                  <Field name="username">
-                    {({ field }) => (
-                      <input {...field} type="text" name="username" placeholder={`Например: ${account.email.split("@")[0]}`} />
-                    )}
-                  </Field>
-                </div>
-                {errors.username && touched.username &&
-                  <div className={styles.errorLabel}>{errors.username}</div>}
-                <button type="submit" className={(!errors.username && touched.username) ? styles.button : styles.buttonBlocked}>Далее</button>
-              </Form>
-            )}
-          </Formik>}
-          {(account.username && !account.name) &&
-          <Formik
-            initialValues={{ name: '' }}
-            validationSchema={validationSchemaName}
-            onSubmit={handleSubmitName}
-          >
-            {({ errors, touched }) => (
-              <Form>
-                <div className={errors.name && touched.name ? `${styles.input} ${styles.error}` : `${styles.input}`}>
-                  <div className={styles.label}>Введите имя пользователя</div>
-                  <Field name="name">
-                    {({ field }) => (
-                      <input {...field} type="text" name="name" placeholder={`Ромаданов Владислав`} />
-                    )}
-                  </Field>
-                </div>
-                {errors.name && touched.name &&
-                  <div className={styles.errorLabel}>{errors.name}</div>}
-                <button type="submit" className={(!errors.name && touched.name) ? styles.button : styles.buttonBlocked}>Далее</button>
-              </Form>
-            )}
-          </Formik>}
-      </div>
+      <Formik
+        initialValues={{ username: account?.username || '',
+                         first_name: '',
+                         last_name: '',
+                         phone: account?.phone || '' }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+      {({ errors, touched, handleSubmit }) => (
+        <Form>
+          <div style={{marginTop: 30}}>
+            <Avatar avatar={avatar} setAvatar={setAvatar}/>
+            <div className={styles.flex20gap}>
+              <div className={styles.flex20gap}>
+                <FormLIGHT inputs={Object.entries(inputs).slice(0, 1)} setInputs={setInputs} errors={errors} touched={touched} />
+                <FormLIGHT inputs={Object.entries(inputs).slice(1, 3)} setInputs={setInputs} errors={errors} touched={touched} />
+                <FormLIGHT inputs={Object.entries(inputs).slice(3, 4)} setInputs={setInputs} errors={errors} touched={touched} />
+                <FormLIGHT inputs={Object.entries(inputs).slice(4)} setInputs={setInputs} errors={errors} touched={touched} />
+              </div>
+              <div>
+                <Button text="Сохранить" handleClick={handleSubmit} />
+              </div>
+              <div style={{marginTop: 50}}>
+                <Button text="Заполнить позже" handleClick={() => setLoadUserInfo(false)} />
+              </div>
+            </div>
+          </div>
+        </Form>
+      )}
+      </Formik>
     </div>
   );
 }

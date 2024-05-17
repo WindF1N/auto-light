@@ -42,12 +42,12 @@ function Post({ data }) {
   return (
     <div className={styles.post}>
       <div className={styles.header}>
-        <div className={styles.user} onClick={() => navigate("/users/"+data.user?.username)}>
+        <div className={styles.user} onClick={() => navigate("/users/"+data.user?._id)}>
           <div className={styles.avatar}>
             <img src={data.user?.avatar || require("./images/non-avatar.svg").default} alt="" />
           </div>
           <div className={styles.information}>
-            <span>{data.user?.username}</span>
+            <span>{data.user?.username ? data.user.username : data.user._id}</span>
             {data.user?.city && <span>{data.user?.city}</span>}
           </div>
         </div>

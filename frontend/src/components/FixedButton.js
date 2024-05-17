@@ -92,7 +92,7 @@ const FixedButton = (props) => {
       <div className={`fixed-button home ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/')}>
         <img src={require("../screens/images/home.svg").default} className="" alt="menu-home" />
       </div>
-      <div className={`fixed-button acc ${isProButtonVisible ? 'visible' : ''}`} onClick={(accessToken && refreshToken) ? () => navigate(`/users/${account?.username}`) : () => navigate('/login')}>
+      <div className={`fixed-button acc ${isProButtonVisible ? 'visible' : ''}`} onClick={(accessToken && refreshToken) ? () => navigate(`/users/${account?._id}`) : () => navigate('/login')}>
         <img src={account?.avatar || require("./images/non-avatar.svg").default} className="" alt="avatar" />
       </div>
       <div className={`fixed-button ${isProButtonVisible ? 'visible' : ''}`} onClick={!props.send ? handleDoubleClick : props.onClick}>

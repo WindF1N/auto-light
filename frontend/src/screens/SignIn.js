@@ -43,7 +43,7 @@ function SignIn() {
   return (
     <div className="view">
       <div className={styles.container}>
-        <div style={{ fontSize: 16, fontWeight: 300 }}>Welcome to the World of</div>
+        <div style={{ fontSize: 16, fontWeight: 300, marginTop: -150 }}>Welcome to the World of</div>
         <div style={{ marginTop: -20 }}>
           <img src={require("./images/logo.svg").default} alt="" style={{ width: 135 }} />
         </div>

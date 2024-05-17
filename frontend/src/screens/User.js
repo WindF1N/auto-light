@@ -14,7 +14,7 @@ import { useMainContext } from '../context';
 function User() {
 
   const navigate = useNavigate();
-  const { username } = useParams();
+  const { id } = useParams();
 
   const { account, sendMessage, message, setMessage } = useMainContext();
 
@@ -29,7 +29,7 @@ function User() {
     }
   ])
   const [ select, setSelect ] = useState("transport");
-  const [ user, setUser ] = useState(account?.username === username ? account : null);
+  const [ user, setUser ] = useState(account?._id === id ? account : null);
   const [ posts, setPosts ] = useState([]);
   const [ services, setServices ] = useState([
     {
@@ -55,14 +55,14 @@ function User() {
 
   useEffect(() => {
     window.scrollTo({top: 0});
-    sendMessage(JSON.stringify(["user", "get", {username: username}]));
+    sendMessage(JSON.stringify(["user", "get", {_id: id}]));
   }, [])
 
   useEffect(() => {
     if (user) {
       sendMessage(JSON.stringify(["posts", "filter", {user_id: user._id, status: 1}]));
-      sendMessage(JSON.stringify(["stats", "get", {username: username}]));
-      sendMessage(JSON.stringify(["subscribe", "check", {username: username}]));
+      sendMessage(JSON.stringify(["stats", "get", {_id: id}]));
+      sendMessage(JSON.stringify(["subscribe", "check", {_id: id}]));
     }
   }, [ user ])
 
@@ -127,7 +127,7 @@ function User() {
   }, [message]);
 
   const handleSubscribe = () => {
-    sendMessage(JSON.stringify(["subscribe", "action", { username: username }]));
+    sendMessage(JSON.stringify(["subscribe", "action", { _id: id }]));
     setStats(prevState => {
       const newState = [...prevState];
       newState[2] += subscribeState ? -1 : 1;
@@ -141,10 +141,9 @@ function User() {
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <div>
-            <span>{user?.username}</span>
+            <span>{user?.username ? user?.username : user?._id}</span>
             {account?._id === user?._id && <img src={require("../components/images/arrow-right.svg").default} alt="arrow" />}
           </div>
-
           <div onClick={() => navigate('/settings')}>{account?._id === user?._id && "Править"}</div>
         </div>
         <div className={styles.main}>
