@@ -15,7 +15,7 @@ function Post() {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const { message, setMessage, sendMessage, posts } = useMainContext();
+  const { message, setMessage, sendMessage, posts, setPosts } = useMainContext();
   const imagesDivRef = useRef();
   const [ user, setUser ] = useState(posts.filter((post) => post._id === id)[0]?.user || null);
   const [ images, setImages ] = useState(posts.filter((post) => post._id === id)[0]?.images || []);
@@ -96,6 +96,21 @@ function Post() {
         if (message[1] === 'get') {
           if (message[3] === id) {
             setImages([...message[2]]);
+            setPosts(prevState => {
+              // Создаем копию массива постов
+              const newPosts = [...prevState];
+  
+              // Находим пост по его _id
+              const postIndex = newPosts.findIndex(post => post._id === message[3]);
+  
+              // Если пост найден, обновляем его изображения
+              if (postIndex !== -1) {
+                newPosts[postIndex].images = message[2];
+              }
+  
+              // Обновляем состояние постов
+              return newPosts;
+            });
           } else {
             setPosts_(prevState => {
               // Создаем копию массива постов
@@ -121,6 +136,9 @@ function Post() {
       } else if (message[0] === 'posts') {
         if (message[1] === 'get') {
           setPost(message[2]);
+          if (posts.filter((post) => post._id === message[2]._id).length === 0) {
+            setPosts(prevState => [message[2], ...prevState]);
+          }
         } else if (message[1] === 'filter') {
           setPosts_(message[2]);
           message[2].forEach(item => {

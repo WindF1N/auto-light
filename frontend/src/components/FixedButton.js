@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/FixedButton.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useMainContext } from '../context';
 
@@ -24,6 +24,7 @@ const useDoubleClick = (callback, onSingleClick = () => {}, timeout = 150) => {
 };
 
 const FixedButton = (props) => {
+  let location = useLocation();
   const navigate = useNavigate();
   const [ isProButtonVisible, setIsProButtonVisible ] = useState(false);
   const [ canGoBack, setCanGoBack ] = useState(false);
@@ -48,7 +49,6 @@ const FixedButton = (props) => {
   useEffect(() => {
     const updateCanGoBack = () => {
       setCanGoBack(window.location.pathname !== '/');
-      console.log(window.location.pathname);
     };
 
     const handleScroll = () => {
@@ -68,7 +68,7 @@ const FixedButton = (props) => {
       window.removeEventListener('popstate', updateCanGoBack);
       window.removeEventListener('scroll', handleScroll);
     }
-  }, [isProButtonVisible])
+  }, [location.pathname])
 
   const handleClick = (e) => {
     setText('');

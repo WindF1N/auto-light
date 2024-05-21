@@ -5,10 +5,11 @@ import { useState, useEffect } from 'react';
 import Button from '../components/Button';
 import Title from '../components/Title';
 import Grid from '../components/Grid';
-import BlocksV2 from "../components/BlocksV2";
 import Blocks from "../components/Blocks";
+import BlocksV2 from "../components/BlocksV2";
 import FlexVariables from '../components/FlexVariables';
 import { useMainContext } from '../context';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 function User() {
 
@@ -30,22 +31,7 @@ function User() {
   const [ select, setSelect ] = useState("transport");
   const [ user, setUser ] = useState(account?._id === id ? account : null);
   const [ posts, setPosts ] = useState([]);
-  const [ services, setServices ] = useState([
-    {
-      image: require("./images/avatar.jpeg"),
-      title: "Андрей",
-      description: "Срочный выкуп автомобилей",
-      price: "Цена договорная",
-      name: "Александр"
-    },
-    {
-      image: require("./images/avatar.jpeg"),
-      title: "Выкуп авто в любом состоянии",
-      description: "",
-      price: "100 000 ₽",
-      name: "Александр"
-    }
-  ]);
+  const [ services, setServices ] = useState([]);
   const [ servicesView, setServicesView ] = useState("grid");
   const [ transportView, setTransportView ] = useState("grid");
   const [ loading, setLoading ] = useState(true);
@@ -59,7 +45,7 @@ function User() {
 
   useEffect(() => {
     if (user) {
-      sendMessage(JSON.stringify(["posts", "filter", {user_id: user._id, status: 1, input1: "Автомобили"}]));
+      sendMessage(JSON.stringify(["posts", "filter", {user_id: user._id, status: 1}]));
       sendMessage(JSON.stringify(["stats", "get", {_id: id}]));
       sendMessage(JSON.stringify(["subscribe", "check", {_id: id}]));
     }
@@ -88,29 +74,53 @@ function User() {
       } else if (message[0] === 'posts') {
         if (message[1] === 'filter') {
           if (posts.length === 0) {
-            setPosts(prevState => [...prevState, ...message[2]]);
-            message[2].forEach(item => {
+            setPosts(prevState => [...prevState, ...message[2].filter((post) => post.input1 === "Автомобили")]);
+            message[2].filter((post) => post.input1 === "Автомобили").forEach(item => {
+              sendMessage(JSON.stringify(["images", "get", item._id, "main"]));
+            })
+          }
+          if (services.length === 0) {
+            setServices(prevState => [...prevState, ...message[2].filter((post) => post.input1 !== "Автомобили")]);
+            message[2].filter((post) => post.input1 !== "Автомобили").forEach(item => {
               sendMessage(JSON.stringify(["images", "get", item._id, "main"]));
             })
           }
         }
       } else if (message[0] === 'images') {
         if (message[1] === 'get') {
-          setPosts(prevState => {
-            // Создаем копию массива постов
-            const newPosts = [...prevState];
-
-            // Находим пост по его _id
-            const postIndex = newPosts.findIndex(post => post._id === message[3]);
-
-            // Если пост найден, обновляем его изображения
-            if (postIndex !== -1) {
-              newPosts[postIndex].images = message[2];
-            }
-
-            // Обновляем состояние постов
-            return newPosts;
-          });
+          if (posts.filter((post) => post._id === message[3]).length > 0) {
+            setPosts(prevState => {
+              // Создаем копию массива постов
+              const newPosts = [...prevState];
+  
+              // Находим пост по его _id
+              const postIndex = newPosts.findIndex(post => post._id === message[3]);
+  
+              // Если пост найден, обновляем его изображения
+              if (postIndex !== -1) {
+                newPosts[postIndex].images = message[2];
+              }
+  
+              // Обновляем состояние постов
+              return newPosts;
+            });
+          } else if (services.filter((post) => post._id === message[3]).length > 0) {
+            setServices(prevState => {
+              // Создаем копию массива постов
+              const newPosts = [...prevState];
+  
+              // Находим пост по его _id
+              const postIndex = newPosts.findIndex(post => post._id === message[3]);
+  
+              // Если пост найден, обновляем его изображения
+              if (postIndex !== -1) {
+                newPosts[postIndex].images = message[2];
+              }
+  
+              // Обновляем состояние постов
+              return newPosts;
+            });
+          }
         }
       } else if (message[0] === 'stats') {
         if (message[1] === 'get') {
@@ -212,17 +222,21 @@ function User() {
             {servicesView === "grid" &&
               <div className={styles2.line}>
                 {services.map((item, index) => (
-                <div className={styles2.cellMiddle} key={index}>
+                <div className={styles2.cellMiddle} key={index} onClick={() => navigate('/posts/' + item._id)}>
                   <div className={styles2.image}>
-                    <img src={item.image} alt="" />
+                    {item.images &&
+                      <LazyLoadImage
+                        alt="item"
+                        src={item.images[0].file || null}
+                        placeholderSrc={item.images[0].file_lazy || null}/>}
                   </div>
                   <div className={styles2.information}>
-                    <div className={styles2.title}>{item.title}</div>
-                    <div className={styles2.price}>{item.price}</div>
+                    <div className={styles2.title}>{item.input2}</div>
+                    <div className={styles2.price}>{item.input5}</div>
                   </div>
                 </div>))}
               </div>}
-          </>}
+          </>} 
       </div>
     </div>
   );

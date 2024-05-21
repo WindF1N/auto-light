@@ -14,13 +14,13 @@ function BlocksV2({ items }) {
             {item.images &&
               <LazyLoadImage
                 alt="item"
-                src={item.images[0].file}
-                placeholderSrc={item.images[0].file_lazy}/>}
+                src={item.images[0]?.file || null}
+                placeholderSrc={item.images[0]?.file_lazy || null}/>}
           </div>
           <div className={styles.information}>
             <div>{item.input2}</div>
             <div>
-              {item.input3}
+              {item.input3.length > 40 ? item.input3.slice(0, 40) + "..." : item.input3}
             </div>
             <div>
               {item.input5}

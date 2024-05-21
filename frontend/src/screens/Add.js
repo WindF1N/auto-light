@@ -60,6 +60,7 @@ const validationSchema = Yup.object().shape({
     .required("Обязательное поле"),
   "input2": Yup.string()
     .max(100, 'Макс. длина 100')
+    .matches(/^[a-zA-Z0-9._]*$/, 'Только латинские буквы, без пробелов, с большой буквы')
     .required("Обязательное поле"),
   "input5": Yup.string()
     .max(100, 'Макс. длина 100')
@@ -109,7 +110,9 @@ function Add() {
       isFocused: false,
       error: null,
       label: "Госномер",
-      type: "text"
+      type: "text",
+      mask: [/[a-zA-Z]/, /\d/, /\d/, /\d/, /[a-zA-Z]/, /[a-zA-Z]/, /\d/, /\d/, /\d/],
+      placeholderChar: " "
     },
     "input3_": {
       value: "Публичный госномер",
@@ -1811,7 +1814,7 @@ function Add() {
                 ))}
               </div>
             </div>}
-            <Button text="Добавить +" small={true} style={{marginTop: -10}} handleClick={() => setIsOpenDamage(true)} />
+            <Button text="Добавить +" small={true} style={{marginTop: -10, zIndex: 1}} handleClick={() => setIsOpenDamage(true)} />
             <div>
               <div className={styles.title}>Фотографии кузова</div>
               <MiniSlider images={images2}

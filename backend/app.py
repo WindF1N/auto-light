@@ -311,7 +311,7 @@ def handle_message(message):
                 if not user:
                     emit('message', json.dumps(["error", "Ошибка авторизации"]))
                     return
-                sub_user = mongo.db.users.find_one(message[2])
+                sub_user = mongo.db.users.find_one({"_id": ObjectId(message[2]["_id"])})
                 if sub_user:
                     subscribe = mongo.db.subscribe.find_one({"user_id": user["_id"], "sub_user_id": sub_user["_id"]})
                     if subscribe:

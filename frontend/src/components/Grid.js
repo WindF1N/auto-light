@@ -59,8 +59,8 @@ function Grid({ items: initialItems, navigate }) {
                 {item.images &&
                 <LazyLoadImage
                   alt="item"
-                  src={item.images[0].file}
-                  placeholderSrc={item.images[0].file_lazy}/>}
+                  src={item.images[0]?.file || null}
+                  placeholderSrc={item.images[0]?.file_lazy || null}/>}
                 {item.input1 === "Автомобили" && "input3_" in item &&
                 <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.35} />
@@ -80,8 +80,8 @@ function Grid({ items: initialItems, navigate }) {
                 {item.images &&
                 <LazyLoadImage
                   alt="item"
-                  src={item.images[0].file}
-                  placeholderSrc={item.images[0].file_lazy}/>}
+                  src={item.images[0]?.file || null}
+                  placeholderSrc={item.images[0]?.file_lazy || null}/>}
                 {item.input1 === "Автомобили" && "input3_" in item &&
                 <div style={{position: "absolute", bottom: "5%", right: "4%", zIndex: 999}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.7} />
@@ -101,8 +101,8 @@ function Grid({ items: initialItems, navigate }) {
                 {item.images &&
                 <LazyLoadImage
                   alt="item"
-                  src={item.images[0].file}
-                  placeholderSrc={item.images[0].file_lazy}/>}
+                  src={item.images[0]?.file || null}
+                  placeholderSrc={item.images[0]?.file_lazy || null}/>}
                 {item.input1 === "Автомобили" && "input3_" in item &&
                 <div style={{position: "absolute", bottom: 0, right: 0, zIndex: 1}}>
                   <GosNumber number={"м555мм"} region={"95"} size={.45} />

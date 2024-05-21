@@ -70,8 +70,9 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
                     <label htmlFor={key} className={value.isFocused ? styles.focused : null}>{value.label}</label>
                     {value.mask ?
                       <MaskedInput {...field} type="text"
-                                              inputMode='decimal'
+                                              inputMode={key === "input2" ? null : 'decimal'}
                                               mask={value.mask}
+                                              placeholderChar={value.placeholderChar || "_"}
                                               onFocus={() => !value.handleClick ? handleFocus(key) : null}
                                               onBlur={() => !value.handleClick ? handleBlur(key, field.value) : null}
                                               className={value.error || (errors[key] && touched[key]) ? styles.error : null}

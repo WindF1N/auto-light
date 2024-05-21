@@ -14,8 +14,8 @@ function Blocks({ items }) {
             {item.images &&
             <LazyLoadImage
               alt="item"
-              src={item.images[0].file}
-              placeholderSrc={item.images[0].file_lazy}/>}
+              src={item.images[0]?.file}
+              placeholderSrc={item.images[0]?.file_lazy}/>}
           </div>
           <div className={styles.information}>
             <div>{item.input5} {item.input6} {item.input7}</div>
