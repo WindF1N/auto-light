@@ -1,7 +1,6 @@
 import styles from './styles/Add.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import FixedButton from '../components/FixedButton';
 import Title from '../components/Title';
 import SearchInput from '../components/SearchInput';
 import FormLIGHT from '../components/FormLIGHT';
@@ -96,7 +95,6 @@ function Passwords() {
             </Formik>
           </div>
         </div>}
-      <FixedButton />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import styles from './styles/Add.module.css';
-import FixedButton from '../components/FixedButton';
 import SearchInput from '../components/SearchInput';
 import Title from '../components/Title';
 
@@ -15,7 +14,6 @@ function Messenger() {
         </div>
       </div>
       <SearchInput />
-      <FixedButton />
     </div>
   );
 }

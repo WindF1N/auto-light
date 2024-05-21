@@ -1,7 +1,6 @@
 import styles from './styles/Settings.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import FixedButton from '../components/FixedButton';
 import FormLIGHT from '../components/FormLIGHT';
 import Title from '../components/Title';
 import Avatar from '../components/Avatar';
@@ -124,7 +123,6 @@ function Settings() {
         </Form>
       )}
       </Formik>
-      <FixedButton />
     </div>
   );
 }

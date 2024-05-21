@@ -1,7 +1,6 @@
 import styles from './styles/Search.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import FixedButton from '../components/FixedButton';
 import SearchInput from '../components/SearchInput';
 import Title from '../components/Title';
 import BlocksV2 from '../components/BlocksV2';
@@ -36,38 +35,40 @@ function Serv() {
         sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Автомобили в рассрочку"}]));
       } else if (id === "12") {
         sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Подбор автомобиля"}]));
-      } else if (id === "12") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Обмен автомобиля"}]));
       } else if (id === "13") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Выкуп автомобиля"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Обмен автомобиля"}]));
       } else if (id === "14") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Помощь на дороге"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Выкуп автомобиля"}]));
       } else if (id === "15") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Оформление переоборудования автомобилей"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Помощь на дороге"}]));
       } else if (id === "16") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Аукцион автомобилей с пробегом"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Оформление переоборудования автомобилей"}]));
       } else if (id === "17") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Диагностическая карта онлайн"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Аукцион автомобилей с пробегом"}]));
       } else if (id === "18") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Автозапчасти"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Диагностическая карта онлайн"}]));
       } else if (id === "19") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Онлайн показ автомобиля"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Автозапчасти"}]));
       } else if (id === "20") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Лизинг авто с пробегом"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Онлайн показ автомобиля"}]));
       } else if (id === "21") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Продажа с гарантией и обеспечительным платежём"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Лизинг авто с пробегом"}]));
       } else if (id === "22") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Онлайн комиссия"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Продажа с гарантией и обеспечительным платежём"}]));
       } else if (id === "23") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "ДТП Онлайн"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Онлайн комиссия"}]));
       } else if (id === "24") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Комиссионная продажа"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "ДТП Онлайн"}]));
       } else if (id === "25") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Снятие запретов и ограничений"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Комиссионная продажа"}]));
       } else if (id === "26") {
-        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Помощь в покупке"}]));
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Снятие запретов и ограничений"}]));
       } else if (id === "27") {
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Помощь в покупке"}]));
+      } else if (id === "28") {
         sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Восстановление КБМ"}]));
+      } else if (id === "evakuator") {
+        sendMessage(JSON.stringify(["posts", "filter", {status: 1, input1: "Эвакуатор"}]));
       }
     }
   }, [items])
@@ -109,7 +110,58 @@ function Serv() {
   return (
     <div className={styles.view}>
       <SearchInput />
-      <Title text="Деньги под залог ПТС" allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />
+      {id === "4" &&
+        <Title text={"Деньги под залог ПТС"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "5" &&
+        <Title text={"Лизинг автомобилей"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "6" &&
+        <Title text={"Автоюрист бесплатная консультация"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "7" &&
+        <Title text={"Срочная продажа автомобиля"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "8" &&
+        <Title text={"Электронный полис е-ОСАГО"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "9" &&
+        <Title text={"Техническая гарантия на автомобили с пробегом"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "10" &&
+        <Title text={"Автокредит онлайн без первого взноса"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "11" &&
+        <Title text={"Автомобили в рассрочку"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "12" &&
+        <Title text={"Подбор автомобиля"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "13" &&
+        <Title text={"Обмен автомобиля"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "14" &&
+        <Title text={"Выкуп автомобиля"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "15" &&
+        <Title text={"Помощь на дороге"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "16" &&
+        <Title text={"Оформление переоборудования автомобилей"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "17" &&
+        <Title text={"Аукцион автомобилей с пробегом"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "18" &&
+        <Title text={"Диагностическая карта онлайн"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "19" &&
+        <Title text={"Автозапчасти"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "20" &&
+        <Title text={"Онлайн показ автомобиля"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "21" &&
+        <Title text={"Лизинг авто с пробегом"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "22" &&
+        <Title text={"Продажа с гарантией и обеспечительным платежём"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "23" &&
+        <Title text={"Онлайн комиссия"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "24" &&
+        <Title text={"ДТП Онлайн"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "25" &&
+        <Title text={"Комиссионная продажа"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "26" &&
+        <Title text={"Снятие запретов и ограничений"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "27" &&
+        <Title text={"Помощь в покупке"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "28" &&
+        <Title text={"Восстановление КБМ"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
+      {id === "evakuator" &&
+        <Title text={"Эвакуатор"} allowGrid={() => setView("grid")} allowBlocks={() => setView("list")} selected={view} />}
       {view === "list" &&
         <BlocksV2 items={items} />}
       {view === "grid" &&
@@ -129,7 +181,6 @@ function Serv() {
             </div>
           </div>))}
         </div>}
-      <FixedButton />
     </div>
   );
 }

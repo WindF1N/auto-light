@@ -2,7 +2,6 @@ import styles from './styles/User.module.css';
 import styles2 from './styles/Search.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import FixedButton from '../components/FixedButton';
 import Button from '../components/Button';
 import Title from '../components/Title';
 import Grid from '../components/Grid';
@@ -60,7 +59,7 @@ function User() {
 
   useEffect(() => {
     if (user) {
-      sendMessage(JSON.stringify(["posts", "filter", {user_id: user._id, status: 1}]));
+      sendMessage(JSON.stringify(["posts", "filter", {user_id: user._id, status: 1, input1: "Автомобили"}]));
       sendMessage(JSON.stringify(["stats", "get", {_id: id}]));
       sendMessage(JSON.stringify(["subscribe", "check", {_id: id}]));
     }
@@ -225,7 +224,6 @@ function User() {
               </div>}
           </>}
       </div>
-      <FixedButton />
     </div>
   );
 }

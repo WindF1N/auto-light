@@ -1,7 +1,6 @@
 import styles from './styles/Add.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import FixedButton from '../components/FixedButton';
 import Title from '../components/Title';
 import FormLIGHT from '../components/FormLIGHT';
 import Button from '../components/Button';
@@ -64,7 +63,6 @@ function Password() {
         )}
       </Formik>
       <Button text="Удалить пароль" style={{marginTop: 20}} />
-      <FixedButton />
     </div>
   );
 }

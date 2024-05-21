@@ -10,27 +10,14 @@ function Comments() {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const { accessToken, refreshToken, setMessage, message, sendMessage, account, setLoading, posts, setPosts } = useMainContext();
-
+  const { accessToken, refreshToken, setMessage, message, sendMessage, account, setLoading, posts, setPosts, canSend, setCanSend, text, setText, setNewCommentPostId } = useMainContext();
+  setNewCommentPostId(id);
   const imagesDivRef = useRef();
   const commentsWrapperRef = useRef();
 
   const [ activeImage, setActiveImage ] = useState(null);
-  const [ canSend, setCanSend ] = useState(false);
   const [ images, setImages ] = useState(posts.filter((post) => post._id === id)[0]?.images || []);
   const [ comments, setComments ] = useState([])
-  const [ text, setText ] = useState('');
-
-  const handleClick = (e) => {
-    setText('');
-    setCanSend(false);
-    sendMessage(JSON.stringify(["comments", "add", id, text]));
-  }
-
-  const handleDelete = () => {
-    setText('');
-    setCanSend(false);
-  }
 
   const handleChange = (event) => {
     setText(event.target.value);
@@ -157,7 +144,6 @@ function Comments() {
           </div>
         </div>
       </div>
-      <FixedButton send={canSend} onClick={handleClick} onDelete={handleDelete}/>
     </div>
   );
 }

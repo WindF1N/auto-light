@@ -28,7 +28,7 @@ const FixedButton = (props) => {
   const [ isProButtonVisible, setIsProButtonVisible ] = useState(false);
   const [ canGoBack, setCanGoBack ] = useState(false);
   const [ canScrollUp, setCanScrollUp ] = useState(false);
-  const { accessToken, refreshToken, account } = useMainContext();
+  const { accessToken, refreshToken, account, sendMessage, text, setText, canSend, setCanSend, newCommentPostId } = useMainContext();
 
   const scrollUp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -48,6 +48,7 @@ const FixedButton = (props) => {
   useEffect(() => {
     const updateCanGoBack = () => {
       setCanGoBack(window.location.pathname !== '/');
+      console.log(window.location.pathname);
     };
 
     const handleScroll = () => {
@@ -67,35 +68,48 @@ const FixedButton = (props) => {
       window.removeEventListener('popstate', updateCanGoBack);
       window.removeEventListener('scroll', handleScroll);
     }
-  }, [])
+  }, [isProButtonVisible])
+
+  const handleClick = (e) => {
+    setText('');
+    setCanSend(false);
+    sendMessage(JSON.stringify(["comments", "add", newCommentPostId, text]));
+  }
+
+  const handleDelete = () => {
+    setText('');
+    setCanSend(false);
+  }
 
   return (
-    <div className={props.upper && 'upper' || props.send && 'send'}>
+    <div className={props.upper && 'upper' || canSend && 'send'}>
       <div className={`fixed-button add ${isProButtonVisible ? 'visible' : ''}`} onClick={() => {
           if (accessToken && refreshToken) {
             navigate('/add');
+            setIsProButtonVisible(false);
           } else {
             navigate('/login');
+            setIsProButtonVisible(false);
           }
         }}>
         <img src={require("./images/plus.svg").default} className="" alt="plus" />
       </div>
-      <div className={`fixed-button search ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/search')}>
+      <div className={`fixed-button search ${isProButtonVisible ? 'visible' : ''}`} onClick={() => {navigate('/search');setIsProButtonVisible(false);}}>
         <img src={require("./images/menu-search-button.svg").default} className="" alt="menu-search" />
       </div>
-      <div className={`fixed-button like ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/activity')}>
+      <div className={`fixed-button like ${isProButtonVisible ? 'visible' : ''}`} onClick={() => {navigate('/activity');setIsProButtonVisible(false);}}>
         <img src={require("./images/like.svg").default} className="" alt="menu-activity" />
       </div>
-      <div className={`fixed-button messenger ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/messenger')}>
+      <div className={`fixed-button messenger ${isProButtonVisible ? 'visible' : ''}`} onClick={() => {navigate('/messenger');setIsProButtonVisible(false);}}>
         <img src={require("../screens/images/messenger.svg").default} className="" alt="menu-messenger" />
       </div>
-      <div className={`fixed-button home ${isProButtonVisible ? 'visible' : ''}`} onClick={() => navigate('/')}>
+      <div className={`fixed-button home ${isProButtonVisible ? 'visible' : ''}`} onClick={() => {navigate('/');setIsProButtonVisible(false);}}>
         <img src={require("../screens/images/home.svg").default} className="" alt="menu-home" />
       </div>
-      <div className={`fixed-button acc ${isProButtonVisible ? 'visible' : ''}`} onClick={(accessToken && refreshToken) ? () => navigate(`/users/${account?._id}`) : () => navigate('/login')}>
+      <div className={`fixed-button acc ${isProButtonVisible ? 'visible' : ''}`} onClick={(accessToken && refreshToken) ? () => {navigate(`/users/${account?._id}`);setIsProButtonVisible(false);} : () => {navigate('/login');setIsProButtonVisible(false);}}>
         <img src={account?.avatar || require("./images/non-avatar.svg").default} className="" alt="avatar" />
       </div>
-      <div className={`fixed-button ${isProButtonVisible ? 'visible' : ''}`} onClick={!props.send ? handleDoubleClick : props.onClick}>
+      <div className={`fixed-button ${isProButtonVisible ? 'visible' : ''}`} onClick={!canSend ? handleDoubleClick : handleClick}>
         <img src={require("./images/light-logo.svg").default} className="" alt="light logo" />
       </div>
       {canGoBack ?
@@ -108,9 +122,9 @@ const FixedButton = (props) => {
           <div></div>
           <div>Я тут, если что</div>
         </div>}
-      {(canScrollUp || props.send) &&
-      <div className={`fixed-button-up ${isProButtonVisible ? 'visible' : ''}`} onClick={!props.send ? scrollUp : props.onDelete}>
-        {!props.send ?
+      {(canScrollUp || canSend) &&
+      <div className={`fixed-button-up ${isProButtonVisible ? 'visible' : ''}`} onClick={!canSend ? scrollUp : handleDelete}>
+        {!canSend ?
           <img src={require("./images/arrow-right.svg").default} alt="arrow" />
           : <img src={require("./images/close.svg").default} alt="arrow" style={{width: "100%"}}/> }
       </div>}

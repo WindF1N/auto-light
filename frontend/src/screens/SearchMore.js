@@ -1,7 +1,6 @@
 import styles from './styles/SearchMore.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import FixedButton from '../components/FixedButton';
 import Title from '../components/Title';
 import FormLIGHT from '../components/FormLIGHT';
 import FlexVariables from '../components/FlexVariables';
@@ -404,7 +403,6 @@ function SearchMore() {
         </Form>
       )}
       </Formik>
-      <FixedButton />
     </div>
   );
 }

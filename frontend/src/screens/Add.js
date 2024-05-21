@@ -2,7 +2,6 @@ import styles from './styles/Add.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useMainContext } from '../context';
-import FixedButton from '../components/FixedButton';
 import Slider from '../components/Slider';
 import MiniSlider from '../components/MiniSlider';
 import Title from '../components/Title';
@@ -1498,6 +1497,95 @@ function Add() {
 
   }
 
+  const [ isOpenDamage, setIsOpenDamage ] = useState(false);
+  const [ inputs2, setInputs2 ] = useState({
+    "input111": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Повреждённая область",
+      type: "select",
+      choices: [
+        "Правое зеркало", 
+        "Левое зеркало", 
+        "Передняя правая фара", 
+        "Передняя левая фара", 
+        "Задняя правая фара", 
+        "Задняя левая фара", 
+        "Лобовое стекло", 
+        "Заднее стекло", 
+        "Передний бампер", 
+        "Задний бампер", 
+        "Капот", 
+        "Багажник", 
+        "Крыша", 
+        "Переднее правое крыло", 
+        "Переднее левое крыло", 
+        "Заднее правое крыло", 
+        "Заднее левое крыло", 
+        "Передняя правая дверь", 
+        "Передняя левая дверь", 
+        "Задняя правая дверь", 
+        "Задняя левая дверь"
+      ]
+    },
+    "input222": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Тип повреждения",
+      type: "select",
+      choices: [
+        "Трещина", 
+        "Вмятина", 
+        "Разбито или отсутствует", 
+        "Скол/царапина", 
+        "Коррозия/ржавчина", 
+        "Деталь окрашивалась", 
+        "Деталь менялась", 
+      ]
+    },
+    "input333": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Лакокрасочное покрытие, мкм",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' мкм',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: ' ',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 12, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      })
+    },
+    "input444": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Предполагаемый ремонт",
+      type: "select",
+      multiple: true,
+      choices: [
+        "Окраска", 
+        "Замена", 
+        "Полировка", 
+      ]
+    },
+    "input555": {
+      value: null,
+      isFocused: false,
+      error: null,
+      label: "Описание повреждения",
+      type: "textarea",
+    },
+  })
+
   return (
     <div className="view">
       <div className={styles.wrapper} style={{marginBottom: 20}}>
@@ -1723,7 +1811,7 @@ function Add() {
                 ))}
               </div>
             </div>}
-            <Button text="Добавить +" small={true} style={{marginTop: -10}} handleClick={() => navigate("/add-damage?type=Крыша&carId=123")} />
+            <Button text="Добавить +" small={true} style={{marginTop: -10}} handleClick={() => setIsOpenDamage(true)} />
             <div>
               <div className={styles.title}>Фотографии кузова</div>
               <MiniSlider images={images2}
@@ -1777,12 +1865,40 @@ function Add() {
                 </div>
               </div>
             </div>}
+            {isOpenDamage &&
+            <div className={styles.moreWrapper}>
+              <div className={styles.more} style={{minHeight: "100vh"}}>
+                <div className={styles.header}>
+                  <div onClick={() => setIsOpenDamage(false)}>Отменить</div>
+                  <div onClick={() => setIsOpenDamage(false)}>Готово</div>
+                </div>
+                <Title text={"Повреждение кузова"} />
+                <Formik
+                  initialValues={{
+                    "input111": "Не выбрано",
+                    "input222": "Не выбрано",
+                    "input333": "Не выбрано",
+                    "input444": "Не выбрано",
+                  }}
+                  onSubmit={(values) => console.log(JSON.stringify(values))}
+                >
+                  {({ errors, touched, handleSubmit, values }) => (
+                    <Form>
+                      <div className={styles.flex20gap}>
+                        <FormLIGHT inputs={Object.entries(inputs2).slice(0, 1)} setInputs={setInputs2} errors={errors} touched={touched} />
+                        <FormLIGHT inputs={Object.entries(inputs2).slice(1, 3)} setInputs={setInputs2} errors={errors} touched={touched} />
+                        <FormLIGHT inputs={Object.entries(inputs2).slice(3, 5)} setInputs={setInputs2} errors={errors} touched={touched} />
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              </div>
+            </div>}
           </div>
           <ScrollToError/>
         </Form>
       )}
       </Formik>
-      <FixedButton />
       {saving && <LoadingHover />}
     </div>
   );

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles/SignIn.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useMainContext } from '../context';
-import FixedButton from '../components/FixedButton';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import MaskedInput from 'react-input-mask';
@@ -59,7 +58,6 @@ function SignIn() {
             />
           </div>
       </div>
-      <FixedButton />
     </div>
   );
 }

@@ -2,7 +2,6 @@ import styles from './styles/Add.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useMainContext } from '../context';
-import FixedButton from '../components/FixedButton';
 import Slider from '../components/Slider';
 import MiniSlider from '../components/MiniSlider';
 import Title from '../components/Title';
@@ -118,16 +117,17 @@ function AddService() {
       ]
     },
     "input5-5": {
-      value: "Легковые авто",
+      value: "Не выбрано",
       error: null,
       label: "Что перевозите",
       type: "select",
+      multiple: true,
       choices: [
         "Легковые авто", "Грузовые авто", "Автобусы, микроавтобусы", "Мотоциклы, снегоходы квадроциклы"
       ]
     },
     "input6-6": {
-      value: "Да",
+      value: "Нет",
       error: null,
       label: "Работаете с юр.лицами",
       type: "select",
@@ -136,7 +136,7 @@ function AddService() {
       ]
     },
     "input7-7": {
-      value: "Да",
+      value: "Нет",
       error: null,
       label: "Работаете с НДС",
       type: "select",
@@ -216,12 +216,40 @@ function AddService() {
     },
     "input11-11": {
       value: null,
+      error: null,
+      isFocused: false,
+      label: "Стоимость, ₽",
+      type: "text",
+      mask: createNumberMask({
+        prefix: '',
+        suffix: ' ₽',
+        includeThousandsSeparator: true,
+        thousandsSeparatorSymbol: ' ',
+        allowDecimal: false,
+        decimalSymbol: null,
+        decimalLimit: 0, // количество знаков после запятой
+        integerLimit: 12, // максимальное количество цифр до запятой
+        allowNegative: false,
+        allowLeadingZeroes: false,
+      })
+    },
+    "input12-12": {
+      value: "за услугу",
+      error: null,
+      label: "Тип стоимости",
+      type: "select",
+      choices: [
+        "за услугу", "за час", "за км", "за метр", "за еденицу", "за день", "за кг", "за тонну", "за месяц"
+      ]
+    },
+    "input13-13": {
+      value: null,
       isFocused: false,
       error: null,
       label: "Введите название",
       type: "text"
     },
-    "input12-12": {
+    "input14-14": {
       value: null,
       error: null,
       isFocused: false,
@@ -240,7 +268,7 @@ function AddService() {
         allowLeadingZeroes: false,
       })
     },
-    "input13-13": {
+    "input15-15": {
       value: "за услугу",
       error: null,
       label: "Тип стоимости",
@@ -249,19 +277,46 @@ function AddService() {
         "за услугу", "за час", "за км", "за метр", "за еденицу", "за день", "за кг", "за тонну", "за месяц"
       ]
     },
-    "input14-14": {
+    "input16-16": {
       value: null,
       error: null,
       isFocused: false,
       label: "Контактное лицо",
       type: "text"
     },
-    "input15-15": {
+    "input17-17": {
       value: null,
       error: null,
       isFocused: false,
       label: "Телефон",
       type: "text"
+    },
+    "input18-18": {
+      value: "Нет",
+      error: null,
+      label: "Эвакуация машин бизнес-класса",
+      type: "select",
+      choices: [
+        "Да", "Нет"
+      ]
+    },
+    "input19-19": {
+      value: "Нет",
+      error: null,
+      label: "Фотоотчет о погрузке и разгрузке",
+      type: "select",
+      choices: [
+        "Да", "Нет"
+      ]
+    },
+    "input20-20": {
+      value: "Нет",
+      error: null,
+      label: "Выезд в труднодоступные места",
+      type: "select",
+      choices: [
+        "Да", "Нет"
+      ]
     },
   });
   const [ saving, setSaving ] = useState(false);
@@ -309,6 +364,10 @@ function AddService() {
     };
   }, [message]);
 
+  const [ showType1, setShowType1 ] = useState(false);
+  const [ showType2, setShowType2 ] = useState(false);
+  const [ showType3, setShowType3 ] = useState(false);
+
   return (
     <div className="view">
       <div className={styles.wrapper} style={{marginBottom: 20}}>
@@ -341,12 +400,16 @@ function AddService() {
           "input1-1": "По городу",
           "input2-2": "Лебедка",
           "input4-4": "до 1.5 т",
-          "input5-5": "Легковые авто",
-          "input6-6": "Да",
-          "input7-7": "Да",
+          "input5-5": "Не выбрано",
+          "input6-6": "Нет",
+          "input7-7": "Нет",
           "input8-8": "за услугу",
           "input10-10": "за услугу",
-          "input13-13": "за услугу",
+          "input12-12": "за услугу",
+          "input15-15": "за услугу",
+          "input18-18": "Нет",
+          "input19-19": "Нет",
+          "input20-20": "Нет",
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -363,37 +426,42 @@ function AddService() {
                   :
                     <FormLIGHT inputs={Object.entries(inputs).slice(6, 7)} setInputs={setInputs} errors={errors} touched={touched} />
                 }
+                <FormLIGHT inputs={Object.entries(inputs).slice(21, 24)} setInputs={setInputs} errors={errors} touched={touched} />
                 <FormLIGHT inputs={Object.entries(inputs).slice(8, 9)} setInputs={setInputs} errors={errors} touched={touched} />
                 <FormLIGHT inputs={Object.entries(inputs).slice(9, 11)} setInputs={setInputs} errors={errors} touched={touched} />
                 <FormLIGHT inputs={Object.entries(inputs).slice(11, 12)} setInputs={setInputs} errors={errors} touched={touched} />
                 <div style={{fontSize: 16, marginBottom: -5}}>Прайс лист</div>
                 <div style={{display: "flex", alignItems: "center", marginBottom: -15, marginTop: -5}}>
                   <div style={{fontSize: 14, fontWeight: 400}}>Срочная подача</div>
-                  <div style={{padding: "0 10px", display: "flex"}}>
-                    <img src={require("../components/images/plus.svg").default} alt="arrow" style={{transform: "rotate(90deg)"}} />
+                  <div style={{padding: "0 10px", display: "flex"}} onClick={() => setShowType1(!showType1)}>
+                    <img src={require("../components/images/plus.svg").default} alt="arrow" style={{transform: !showType1 ? "rotate(90deg)" : "rotate(135deg)", transition: ".2s"}} />
                   </div>
                 </div>
-                <FormLIGHT inputs={Object.entries(inputs).slice(12, 14)} setInputs={setInputs} errors={errors} touched={touched} />
-                <div style={{display: "flex", alignItems: "center", marginBottom: -15, marginTop: -5}}>
+                {showType1 &&
+                <FormLIGHT inputs={Object.entries(inputs).slice(12, 14)} setInputs={setInputs} errors={errors} touched={touched} />}
+                <div style={{display: "flex", alignItems: "center", marginBottom: -20, marginTop: -5}}>
                   <div style={{fontSize: 14, fontWeight: 400}}>Подача ко времени</div>
-                  <div style={{padding: "0 10px", display: "flex"}}>
-                    <img src={require("../components/images/plus.svg").default} alt="arrow" style={{transform: "rotate(90deg)"}} />
+                  <div style={{padding: "0 10px", display: "flex"}} onClick={() => setShowType2(!showType2)}>
+                    <img src={require("../components/images/plus.svg").default} alt="arrow" style={{transform: !showType2 ? "rotate(90deg)" : "rotate(135deg)", transition: ".2s"}} />
                   </div>
                 </div>
-                <div style={{display: "flex", alignItems: "center", marginBottom: -15}}>
+                {showType2 &&
+                <FormLIGHT inputs={Object.entries(inputs).slice(14, 16)} setInputs={setInputs} errors={errors} touched={touched} />}
+                <div style={{display: "flex", alignItems: "center", marginBottom: -5}}>
                   <div style={{fontSize: 14, fontWeight: 400}}>Своя услуга</div>
-                  <div style={{padding: "0 10px", display: "flex"}}>
-                    <img src={require("../components/images/plus.svg").default} alt="arrow" style={{transform: "rotate(90deg)"}} />
+                  <div style={{padding: "0 10px", display: "flex"}} onClick={() => setShowType3(!showType3)}>
+                    <img src={require("../components/images/plus.svg").default} alt="arrow" style={{transform: !showType3 ? "rotate(90deg)" : "rotate(135deg)", transition: ".2s"}} />
                   </div>
                 </div>
-                <FormLIGHT inputs={Object.entries(inputs).slice(14, 17)} setInputs={setInputs} errors={errors} touched={touched} />
+                {showType3 &&
+                <FormLIGHT inputs={Object.entries(inputs).slice(16, 19)} setInputs={setInputs} errors={errors} touched={touched} />}
                 <div style={{display: "flex", alignItems: "center", marginBottom: -10}}>
                   <div style={{fontSize: 14, fontWeight: 300}}>AutoLIGHT | Motor ComPANY</div>
                   <div style={{padding: "0 10px"}}>
                     <img src={require("../components/images/arrow-right.svg").default} alt="arrow" style={{transform: "rotate(90deg)"}} />
                   </div>
                 </div>
-                <FormLIGHT inputs={Object.entries(inputs).slice(17, 19)} setInputs={setInputs} errors={errors} touched={touched} />
+                <FormLIGHT inputs={Object.entries(inputs).slice(19, 21)} setInputs={setInputs} errors={errors} touched={touched} />
                 <Button text="Разместить" handleClick={handleSubmit} />
               </div>
             :
@@ -415,7 +483,6 @@ function AddService() {
         </Form>
       )}
       </Formik>
-      <FixedButton />
       {saving && <LoadingHover />}
     </div>
   );

@@ -2,7 +2,6 @@ import styles from './styles/Service.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import { useMainContext } from '../context';
-import FixedButton from '../components/FixedButton';
 import Title from '../components/Title';
 import FormLIGHT from '../components/FormLIGHT';
 import Button from '../components/Button';
@@ -3012,7 +3011,6 @@ function Service() {
         </Formik>
       </>
       }
-      <FixedButton />
       {saving && <LoadingHover />}
     </div>
   );

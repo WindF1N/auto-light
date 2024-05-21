@@ -1,7 +1,6 @@
 import styles from './styles/Page.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import FixedButton from '../components/FixedButton';
 import Title from '../components/Title';
 import { useMainContext } from '../context';
 
@@ -57,7 +56,6 @@ function Page() {
         </div>
       </div>
       }
-      <FixedButton />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import styles from './styles/Search.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import FixedButton from '../components/FixedButton';
 import SearchInput from '../components/SearchInput';
 import FlexVariables from '../components/FlexVariables';
 import Title from '../components/Title';
@@ -45,6 +44,11 @@ function Search() {
   ]);
   const [transport, setTransport] = useState(posts || []);
   const [services, setServices] = useState([
+    {
+      title: "Эвакуатор",
+      views_count: "3.3 млн просмотров",
+      link: "/serv/evakuator"
+    },
     {
       title: "Аренда/Прокат автомобилей",
       views_count: "3.3 млн просмотров",
@@ -420,7 +424,6 @@ function Search() {
           {services_View === "list" &&
             <DataItems items={services_} navigate={navigate} />}
         </>}
-      <FixedButton />
     </div>
   );
 }

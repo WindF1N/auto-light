@@ -1,5 +1,4 @@
 import './styles/AddDamage.css';
-import FixedButton from '../components/FixedButton';
 import FormLIGHT from '../components/FormLIGHT';
 import Button from '../components/Button';
 import MiniSlider from '../components/MiniSlider';
@@ -398,7 +397,6 @@ function AddDamage() {
         <div className="mini-images-error">{photosError}</div>
         <Button text="Сохранить" style={{marginTop: 10}} />
       </div>
-      <FixedButton/>
     </div>
   );
 }

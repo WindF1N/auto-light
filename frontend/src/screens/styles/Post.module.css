@@ -124,8 +124,8 @@
 }
 
 .lastComment > div:first-child {
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .lastComment > div:first-child span {

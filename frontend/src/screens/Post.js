@@ -1,7 +1,6 @@
 import styles from './styles/Post.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import FixedButton from '../components/FixedButton';
 import Slider from '../components/Slider';
 import MiniSlider from '../components/MiniSlider';
 import UserList from '../components/UserList';
@@ -167,7 +166,7 @@ function Post() {
       <div className={styles.price}>
         <div>{post?.input1 === "Автомобили" ? post?.input39 : post?.input5}</div>
         <div className={styles.actions}>
-          {post?.input1 === "Автомобили" &&
+          {(post?.input1 === "Автомобили" || post?.input1 === "Эвакуатор") &&
           <div className={styles.action} onClick={handleAction}>
             <img src={require("./images/compare.svg").default} alt="" />
             Сравнить
@@ -185,6 +184,9 @@ function Post() {
       <div className={styles.title}>{post?.input1 === "Автомобили" ? `${post?.input5} ${post?.input6}, ${post?.input7}, ${post?.input17}` : post?.input2 }</div>
       <div className={styles.address}>{post?.input1 === "Автомобили" ? post?.address : post?.input4}</div>
       <div className={styles.flex}>
+        <div className={styles.createdAt}>№172472</div>
+      </div>
+      <div className={styles.flex}>
         <div className={styles.createdAt}>{post?.created_at}</div>
         <div className={styles.viewCount}>{post?.view_count || 0} просмотров</div>
       </div>
@@ -193,9 +195,14 @@ function Post() {
           <UserList items={[
             {
               _id: user?._id,
-              username: user?.username ? user.username : user._id,
+              username: user?.username ? user.username : user?._id,
               name: user?.name,
-              avatar: user?.avatar || require("../components/images/non-avatar.svg").default
+              avatar: user?.avatar || require("../components/images/non-avatar.svg").default,
+              reviews: {
+                stars: require("../components/images/stars.svg").default,
+                count: 0,
+                price: "0,00"
+              }
             }
           ]} navigate={navigate}/>
           <div className={styles.buttons}>
@@ -204,6 +211,25 @@ function Post() {
           </div>
         </div>
       </div>
+      {post?.input1 === "Эвакуатор" &&
+      <div style={{marginTop: 20}}>
+        <div style={{marginBottom: 10, fontSize: 15}}>Прайс-лист</div>
+        <Items items={[
+          {
+            label: "Срочная подача",
+            value: "input9-9" in post && post["input9-9"] + " " + post["input10-10"]
+          },
+          {
+            label: "Подача ко времени",
+            value: "input11-11" in post && post["input11-11"] + " " + post["input12-12"]
+          },
+          "input13-13" in post &&
+          {
+            label: "input13-13" in post && post["input13-13"],
+            value: "input14-14" in post && post["input14-14"] + " " + post["input15-15"]
+          },
+        ]} />
+      </div>}
       {post?.input1 === "Автомобили" &&
       <div style={{marginTop: 20}}>
         <Items items={[
@@ -219,12 +245,36 @@ function Post() {
       </div>}
       {post?.input1 !== "Автомобили" &&
       <div style={{marginTop: 20}}>
+        {post?.input1 === "Эвакуатор" ?
+        <Items items={[
+          {
+            label: "Категория услуги",
+            value: post?.input1
+          },
+          {
+            label: "Выезд",
+            value: "input1-1" in post && post["input1-1"]
+          },
+          {
+            label: "Способ погрузки",
+            value: "input2-2" in post && post["input2-2"]
+          },
+          {
+            label: "Грузоподъемность",
+            value: "input4-4" in post && post["input4-4"]
+          },
+          {
+            label: "Исполнитель перевозит",
+            value: "input5-5" in post && post["input5-5"]
+          }
+        ]} />
+        :
         <Items items={[
           {
             label: "Категория",
             value: post?.input1
           }
-        ]} />
+        ]} />}
       </div>}
       {post?.input1 === "Автомобили" &&
       <div style={{marginTop: 10}}>
@@ -454,29 +504,59 @@ function Post() {
         </div>
         <Button text="Перейти к анкете" small={true} style={{marginTop: 20}} />
       </div>}
-      {post?.input1 !== "Автомобили" &&
-      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
-        <div>
-          {post?.input3}
-        </div>
+      {post?.input1 === "Эвакуатор" &&
+      <div style={{marginTop: 20}}>
+        <Items items={[
+          {
+            label: "Эвакуация машин бизнес-класса",
+            value: "input18-18" in post && post["input18-18"]
+          },
+          {
+            label: "Фотоотчет о погрузке и разгрузке",
+            value: "input19-19" in post && post["input19-19"]
+          },
+          {
+            label: "Выезд в труднодоступные места",
+            value: "input20-20" in post && post["input20-20"]
+          },
+          {
+            label: "Работа с юр. лицами и ИП",
+            value: "input6-6" in post && post["input6-6"]
+          },
+          {
+            label: "Работа с НДС",
+            value: "input7-7" in post && post["input7-7"]
+          }
+        ]} />
       </div>}
-      <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
-        <div>
-          Краснодар, Краснодарский край
+      {post?.input1 !== "Автомобили" &&
+      <>
+        <div style={{marginTop: 20, marginBottom: 10, fontSize: 15}}>Описание</div>
+        <div style={{padding: 12, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+          <div>
+            {post?.input3}
+          </div>
         </div>
-        <div style={{marginTop: 10}}>
-          Размещено 07.12.2023, 16:23
-        </div>
-        <div style={{marginTop: 10}}>
-          Объявление: № 00772665353
-        </div>
-        <div style={{marginTop: 10}}>
-          Просмотров 699 (0 сегодня)
-        </div>
-        <div style={{marginTop: 10}}>
-          В избраном: 29
-        </div>
-      </div>
+      </>}
+      {post?.input1 !== "Эвакуатор" &&
+        <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8}}>
+          <div>
+            Краснодар, Краснодарский край
+          </div>
+          <div style={{marginTop: 10}}>
+            Размещено 07.12.2023, 16:23
+          </div>
+          <div style={{marginTop: 10}}>
+            Объявление: № 00772665353
+          </div>
+          <div style={{marginTop: 10}}>
+            Просмотров 699 (0 сегодня)
+          </div>
+          <div style={{marginTop: 10}}>
+            В избраном: 29
+          </div>
+        </div>}
+      {post?.input1 !== "Эвакуатор" &&
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "space-between"}}>
         <div style={{display: "flex", flexFlow: "column"}}>
           <div style={{fontSize: 16}}>
@@ -492,7 +572,8 @@ function Post() {
         <div>
           <img src={user?.avatar || require("../components/images/non-avatar.svg").default} alt="" style={{display: "block", borderRadius: 8, width: "10vw", height: "17.5vw", objectFit: "cover"}} />
         </div>
-      </div>
+      </div>}
+      {post?.input1 !== "Эвакуатор" &&
       <div style={{marginTop: 20, padding: 20, fontWeight: 300, fontSize: 14, background: "#18181A", borderRadius: 8, display: "flex", justifyContent: "space-between"}}>
         <div style={{display: "flex", flexFlow: "column"}}>
           <div style={{fontSize: 16}}>
@@ -521,12 +602,24 @@ function Post() {
         <div>
           <img src={user?.avatar || require("../components/images/non-avatar.svg").default} alt="" style={{display: "block", borderRadius: 8, width: "10vw", height: "17.5vw", objectFit: "cover"}} />
         </div>
-      </div>
+      </div>}
+      {post?.input1 === "Эвакуатор" &&
+      <>
+        <div style={{marginTop: 20, marginBottom: 10, fontSize: 14}}>{post?.input4}</div>
+        <div style={{fontWeight: 400, fontSize: 13, marginTop: -10, color: "#0884FE"}}>
+          показать на карте
+        </div>
+      </>}
       <div className={styles.wrapper}>
         {post?.description &&
         <div className={styles.descriptionBlock}>
           <Title text="Описание" />
           <div className={styles.description}>{post?.description}</div>
+        </div>}
+        {post?.input1 === "Эвакуатор" &&
+        <div className={styles.flex} style={{padding: 10, borderTop: ".5px solid #191919", marginTop: 20, marginBottom: -20}}>
+          <div>Отзывы</div>
+          <iframe src={"https://yandex.ru/sprav/widget/rating-badge/101836494062?type=rating"} width={150} height={50} frameBorder={0}></iframe>  
         </div>}
         <div className={styles.lastComment} onClick={() => navigate(`/posts/${post._id}/comments`)}>
           <div>Комментарии <span>{post?.comments_count || 0}</span></div>
@@ -545,7 +638,7 @@ function Post() {
             {post?.input1 === "Автомобили" &&
             <div>Другие автомобили компании</div>}
             {post?.input1 !== "Автомобили" &&
-            <div>Другие услуги компании</div>}
+            <div>Похожие объявления</div>}
             <div>
               <span>Показать все</span>
               <img src={require("../components/images/arrow-right.svg").default} alt="" />
@@ -624,7 +717,6 @@ function Post() {
       <div className={styles.wrapper}>
         <Banner navigate={navigate} />
       </div>
-      <FixedButton />
     </div>
   );
 }

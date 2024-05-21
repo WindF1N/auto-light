@@ -2,7 +2,6 @@ import styles from './styles/Main.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Post from '../components/Post';
-import FixedButton from '../components/FixedButton';
 import { useMainContext } from '../context';
 
 
@@ -260,7 +259,6 @@ function Main() {
             </div>
           </div>
         </div>}
-      <FixedButton />
     </div>
   );
 }

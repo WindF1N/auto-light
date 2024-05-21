@@ -118,10 +118,11 @@ function FormLIGHT({ title, inputs, setInputs, errors, touched }) {
                 }}>
                   <label htmlFor={key}>{value.label}</label>
                   <div className={field.value === "Не выбрано" ? styles.valueGray : styles.value} style={{whiteSpace: "nowrap"}}>
-                    {field.value}
+                    {typeof field.value === 'string' && field.value}
+                    <span style={value.multiple ? {whiteSpace: "nowrap", maxWidth: "50vw", overflow: "hidden", textOverflow: "ellipsis"} : {whiteSpace: "nowrap"}}>{Array.isArray(field.value) && field.value.join(', ')}</span>
                     <img src={require("./images/arrow-right.svg").default} alt="" />
                   </div>
-                  <select {...field} id={`select${key}`}>
+                  <select {...field} multiple={value.multiple ? value.multiple : false} id={`select${key}`}>
                     {value.choices?.map((val, index) => (
                       <option value={val} key={`select${key}${index}`}>{val}</option>
                     ))}

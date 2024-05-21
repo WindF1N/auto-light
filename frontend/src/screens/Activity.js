@@ -1,6 +1,5 @@
 import styles from './styles/Activity.module.css';
 import { useState } from 'react';
-import FixedButton from '../components/FixedButton';
 import FlexVariables from '../components/FlexVariables';
 import Button from '../components/Button';
 import Title from '../components/Title';
@@ -250,7 +249,6 @@ function Activity() {
           </div>
         </div>
       </div>}
-      <FixedButton />
     </>
   );
 }

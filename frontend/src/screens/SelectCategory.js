@@ -2,7 +2,6 @@ import styles from './styles/SignIn.module.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMainContext } from '../context';
-import FixedButton from '../components/FixedButton';
 import Button from '../components/Button';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -17,7 +16,7 @@ function SelectCategory() {
           <div style={{padding: "12px 15px", borderBottom: ".5px solid #212121", display: "flex", justifyContent: "space-between", alignItems: "center"}}
                onClick={() => navigate("/add/car")}>
             <div style={{fontSize: 16, fontWeight: 300}}>
-              Автомобиль
+              Транспорт
             </div>
             <div style={{display: "flex"}}>
               <img src={require("../components/images/arrow-right.svg").default} alt="" />
@@ -26,7 +25,7 @@ function SelectCategory() {
           <div style={{padding: "12px 15px", display: "flex", justifyContent: "space-between", alignItems: "center"}}
                onClick={() => navigate("/add/service")}>
             <div style={{fontSize: 16, fontWeight: 300}}>
-              Услуга
+              Автоуслуга
             </div>
             <div style={{display: "flex"}}>
               <img src={require("../components/images/arrow-right.svg").default} alt="" />
@@ -34,7 +33,6 @@ function SelectCategory() {
           </div>
         </div>
       </div>
-      <FixedButton />
     </div>
   );
 }

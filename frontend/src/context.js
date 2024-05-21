@@ -37,6 +37,10 @@ const SocketProvider = ({ children }) => {
   const [ services_View, setServices_View ] = useState("grid");
   const [ dealersView, setDealersView ] = useState("grid");
 
+  const [ newCommentPostId, setNewCommentPostId ] = useState(null);
+  const [ canSend, setCanSend ] = useState(false);
+  const [ text, setText ] = useState('');
+
   const login = async (data, navigate) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_SERVER_ENDPOINT}/login`, data);
@@ -156,7 +160,7 @@ const SocketProvider = ({ children }) => {
           }
           const timeoutId = setTimeout(() => {
             setLoading(false);
-          }, 3000);
+          }, 1200);
           setIsFirstLogin(false);
           localStorage.setItem('isFirstLogin', false);  
           return () => clearTimeout(timeoutId);
@@ -283,6 +287,10 @@ const SocketProvider = ({ children }) => {
 
                                      error,
                                      setError,
+                                     
+                                     newCommentPostId, setNewCommentPostId,
+                                     canSend, setCanSend,
+                                     text, setText,
 
                                      login,
                                      verify,
