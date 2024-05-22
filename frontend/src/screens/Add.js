@@ -82,7 +82,9 @@ function Add() {
   const [ more, setMore ] = useState(false);
   const imagesDivRef = useRef();
   const [ images, setImages ] = useState([]);
+  const [ photos, setPhotos ] = useState([]);
   const [ activeImage, setActiveImage ] = useState(0);
+  const [ activePhoto, setActivePhoto ] = useState(0);
   const [ photosError, setPhotosError ] = useState(null);
   const [ images2, setImages2 ] = useState([]);
   const [ activeImage2, setActiveImage2 ] = useState(null);
@@ -1891,6 +1893,18 @@ function Add() {
                         <FormLIGHT inputs={Object.entries(inputs2).slice(0, 1)} setInputs={setInputs2} errors={errors} touched={touched} />
                         <FormLIGHT inputs={Object.entries(inputs2).slice(1, 3)} setInputs={setInputs2} errors={errors} touched={touched} />
                         <FormLIGHT inputs={Object.entries(inputs2).slice(3, 5)} setInputs={setInputs2} errors={errors} touched={touched} />
+                        <div>
+                          <div className={styles.title}>Фотографии детали</div>
+                          <MiniSlider images={photos}
+                                      activeImage={activePhoto}
+                                      setActiveImage={setActivePhoto}
+                                      canAdd={true}
+                                      setImages={setPhotos}
+                                      maxImagesCount={30}
+                                      canDelete={true}
+                                      style={{backgroundColor: "#000", padding: "5px 0 20px 0"}}
+                                      />
+                        </div>
                       </div>
                     </Form>
                   )}

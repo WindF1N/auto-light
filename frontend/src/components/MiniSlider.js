@@ -1,9 +1,11 @@
 import styles from './styles/MiniSlider.module.css';
 import { useRef, useEffect, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { v4 as uuidv4 } from 'uuid';
 
 function MiniSlider({ images, imagesDivRef, activeImage, setActiveImage, canAdd, setImages, maxImagesCount, canDelete, style }) {
 
+  const [uniqueKey, setUniqueKey] = useState(uuidv4());
   const activeImageRef = useRef();
   const sliderRef = useRef();
 
@@ -87,10 +89,10 @@ function MiniSlider({ images, imagesDivRef, activeImage, setActiveImage, canAdd,
       <div className={styles.hack}>
         <div ref={sliderRef} style={style}>
           {(canAdd && images.length < 10) &&
-            <div className={styles.addImage} onClick={() => document.getElementById('photo-input2').click()}>
+            <div className={styles.addImage} onClick={() => document.getElementById(`photo-${uniqueKey}`).click()}>
               <img src={require("./images/plus2.svg").default} alt="car"/>
               <input
-                id="photo-input2"
+                id={`photo-${uniqueKey}`}
                 type="file"
                 accept="image/*"
                 multiple
