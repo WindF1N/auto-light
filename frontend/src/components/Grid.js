@@ -44,7 +44,9 @@ function Grid({ items: initialItems, navigate }) {
   
         return combinedList; // Обновляем состояние posts
       });
-    }
+    } else if (items.length > 0 && initialItems.length === 0) {
+      setItems([]);
+    };
   }, [initialItems, items]);
 
   return (

@@ -52,6 +52,14 @@ function User() {
   }, [ user ])
 
   useEffect(() => {
+    setSelect("transport");
+    setPosts([]);
+    setServices([]);
+    setUser(null);
+    sendMessage(JSON.stringify(["user", "get", {_id: id}]));
+  }, [id])
+
+  useEffect(() => {
     if (loading) {
       var l = 0;
       posts.forEach(post => {
