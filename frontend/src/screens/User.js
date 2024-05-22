@@ -154,6 +154,25 @@ function User() {
     setSubscribeState(!subscribeState);
   }
 
+  function formatDateString(dateString) {
+    // Создаем объект Date из строки
+    const date = new Date(dateString);
+  
+    // Массив месяцев для русского языка
+    const months = [
+      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ];
+  
+    // Получаем день, месяц и год
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+  
+    // Формируем итоговую строку
+    return `в AutoLIGHT c ${day} ${month} ${year}`;
+  }
+
   return (
     <div className="view">
       <div className={styles.wrapper}>
@@ -161,6 +180,7 @@ function User() {
           <div>
             <span>{user?.username ? user?.username : user?._id}</span>
             {account?._id === user?._id && <img src={require("../components/images/arrow-right.svg").default} alt="arrow" />}
+            
           </div>
           <div onClick={() => navigate('/settings')}>{account?._id === user?._id && "Править"}</div>
         </div>
@@ -176,6 +196,7 @@ function User() {
             <div className={styles.name}>{user?.name}</div>
             <div className={styles.city}>{user?.city}</div>
             <div className={styles.site}>{user?.site}</div>
+            <div style={{fontSize: 12, fontWeight: 300, color: "#aaa", marginTop: 3}}>{formatDateString(user?.created_at)}</div>
             <div className={styles.stats}>
               <div className={styles.stat}>
                 <div className={styles.value}>{stats[0]}</div>
