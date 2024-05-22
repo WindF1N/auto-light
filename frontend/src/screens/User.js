@@ -124,6 +124,7 @@ function User() {
         }
       } else if (message[0] === 'stats') {
         if (message[1] === 'get') {
+          console.log(message[2])
           setStats(message[2])
         }
       } else if (message[0] === 'subscribe') {

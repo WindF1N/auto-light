@@ -398,7 +398,7 @@ def handle_message(message):
                         emit('message', json.dumps(["favorite_comments", "check", True, message[2]]))
     elif message[0] == 'stats':
         if message[1] == 'get':
-            user = mongo.db.users.find_one(message[2])
+            user = mongo.db.users.find_one({"_id": ObjectId(message[2]["_id"])})
             if user:
                 count_posts = mongo.db.posts.count_documents({"user_id": user["_id"], "status": 1})
                 count_subscribes = mongo.db.subscribe.count_documents({"user_id": user["_id"]})
