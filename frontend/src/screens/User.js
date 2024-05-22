@@ -182,7 +182,7 @@ function User() {
             {account?._id === user?._id && <img src={require("../components/images/arrow-right.svg").default} alt="arrow" />}
             
           </div>
-          <div onClick={() => navigate('/settings')}>{account?._id === user?._id && "Править"}</div>
+          <div onClick={() => navigate('/settings')}>{id === user?._id && "Править"}</div>
         </div>
         <div className={styles.main}>
           <div>
