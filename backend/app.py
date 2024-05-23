@@ -281,7 +281,10 @@ def handle_message(message):
                 }).inserted_id
                 new_comment = mongo.db.comments.find_one({"_id": new_comment_id})
                 if new_comment:
-                    print(new_comment)
+                    comment_user = mongo.db.users.find_one({"_id": new_comment["user_id"]})
+                    if "avatar" in comment_user:
+                        new_comment["avatar"] = comment_user["avatar"]
+                    new_comment["username"] = comment_user["username"]
                     emit('message', json.dumps(["comments", "add", prepare_data(new_comment)]))
         elif message[1] == 'get':
             comment = mongo.db.comments.find_one(message[2])
@@ -299,6 +302,17 @@ def handle_message(message):
                 emit('message', json.dumps(["comments", "last", prepare_data(last_comment), message[2]["post_id"]]))
         elif message[1] == 'list':
             comments = list(mongo.db.comments.find({"post_id": ObjectId(message[2])}).limit(25))
+            for comment in comments:
+                if "avatar" not in comment:
+                    comment_user = mongo.db.users.find_one({"_id": comment["user_id"]})
+                    # Если пользователь найден и у него есть 'avatar', добавляем его в комментарий
+                    if comment_user and "avatar" in comment_user:
+                        comment["avatar"] = comment_user["avatar"]
+                if "username" not in comment:
+                    comment_user = mongo.db.users.find_one({"_id": comment["user_id"]})
+                    # Если пользователь найден и у него есть 'avatar', добавляем его в комментарий
+                    if comment_user and "username" in comment_user:
+                        comment["username"] = comment_user["username"]
             emit('message', json.dumps(["comments", "list", prepare_data(comments), message[2]]))
         elif message[1] == 'count':
             count = mongo.db.comments.count_documents(reverse_prepare_data(message[2]))

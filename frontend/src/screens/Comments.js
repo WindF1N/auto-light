@@ -85,16 +85,6 @@ function Comments() {
             commentsWrapperRef?.current.scrollTo({ top: commentsWrapperRef.current.scrollHeight, behavior: 'smooth' });
           }, 100)
         }
-      } else if (message[0] === 'user') {
-        if (message[1] == 'get') {
-          setComments(prevState =>
-            prevState.map(comment => ({
-              ...comment,
-              avatar: message[2]._id === comment.user_id ? message[2].avatar : comment.avatar,
-              username: message[2]._id === comment.user_id ? (message[2].username ? message[2].username : message[2]._id) : comment.username
-            }))
-          );
-        }
       }
       setMessage(null);
     };

@@ -21,6 +21,7 @@
   position: relative;
   width: 45px;
   height: 45px;
+  transition: .3s;
 }
 
 .avatar img {
